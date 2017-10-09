@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyauto.mapper.AttendeesMapper">
+  <resultMap id="BaseResultMap" type="com.xyauto.pojo.Attendees">
+    <result column="sr_id" jdbcType="CHAR" property="srId" />
+    <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+    <result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xyauto.pojo.Attendees">
+    insert into attendees (sr_id, employee_id, employee_name, 
+      is_delete, create_time, create_user, 
+      update_time, update_user)
+    values (#{srId,jdbcType=CHAR}, #{employeeId,jdbcType=VARCHAR}, #{employeeName,jdbcType=NVARCHAR}, 
+      #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select sr_id, employee_id, employee_name, is_delete, create_time, create_user, update_time, 
+    update_user
+    from attendees
+  </select>
+</mapper>

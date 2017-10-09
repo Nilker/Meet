@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xyauto.pojo.OfficeLocation;
+
 @RestController
 public class HelloController {
 
@@ -21,4 +23,9 @@ public class HelloController {
 	String index(@PathVariable String myName) {
 		return "Hello " + myName + "!!!Sboot";
 	}
+	
+//	@RequestMapping("/office/{id}")
+//	OfficeLocation office(@PathVariable Integer id) {
+//		return officeLocationService.selectOneById(id);
+//	}
 }
