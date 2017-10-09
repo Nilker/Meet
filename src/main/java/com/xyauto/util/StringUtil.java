@@ -2,6 +2,12 @@ package com.xyauto.util;
 
 import java.util.Random;
 
+/**
+ * 字符串工具类
+ * 
+ * @author qiaom@xingyuanauto.com
+ * @version 创建时间：2017年10月9日 下午2:28:31
+ */
 public class StringUtil {
 
 	public static boolean isEmpty(String str) {
@@ -13,7 +19,7 @@ public class StringUtil {
 	}
 
 	public static String getRandomString(int length) {
-//		String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+		// String base = "abcdefghijklmnopqrstuvwxyz0123456789";
 		String base = "0123456789";
 		Random random = new Random();
 		StringBuffer sb = new StringBuffer();
@@ -34,5 +40,4 @@ public class StringUtil {
 			return null;
 		}
 	}
-
 }
