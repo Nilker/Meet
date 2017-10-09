@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyauto.mapper.BoardroomInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xyauto.pojo.BoardroomInfo">
+    <id column="br_id" jdbcType="CHAR" property="brId" />
+    <result column="office_id" jdbcType="INTEGER" property="officeId" />
+    <result column="br_name" jdbcType="NVARCHAR" property="brName" />
+    <result column="br_floor" jdbcType="NVARCHAR" property="brFloor" />
+    <result column="br_capacity" jdbcType="INTEGER" property="brCapacity" />
+    <result column="equipment" jdbcType="TINYINT" property="equipment" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from boardroom_info
+    where br_id = #{brId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xyauto.pojo.BoardroomInfo">
+    insert into boardroom_info (br_id, office_id, br_name, 
+      br_floor, br_capacity, equipment, 
+      status, is_delete, create_time, 
+      create_user, update_time, update_user
+      )
+    values (#{brId,jdbcType=CHAR}, #{officeId,jdbcType=INTEGER}, #{brName,jdbcType=NVARCHAR}, 
+      #{brFloor,jdbcType=NVARCHAR}, #{brCapacity,jdbcType=INTEGER}, #{equipment,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.BoardroomInfo">
+    update boardroom_info
+    set office_id = #{officeId,jdbcType=INTEGER},
+      br_name = #{brName,jdbcType=NVARCHAR},
+      br_floor = #{brFloor,jdbcType=NVARCHAR},
+      br_capacity = #{brCapacity,jdbcType=INTEGER},
+      equipment = #{equipment,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where br_id = #{brId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select br_id, office_id, br_name, br_floor, br_capacity, equipment, status, is_delete, 
+    create_time, create_user, update_time, update_user
+    from boardroom_info
+    where br_id = #{brId,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select br_id, office_id, br_name, br_floor, br_capacity, equipment, status, is_delete, 
+    create_time, create_user, update_time, update_user
+    from boardroom_info
+  </select>
+</mapper>
