@@ -1,24 +1,18 @@
 package com.xyauto.service;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.xml.ws.Holder;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.xyauto.oa.ArrayOfDepartment;
 import com.xyauto.oa.ArrayOfEmployee;
 import com.xyauto.oa.Department;
 import com.xyauto.oa.Employee;
 import com.xyauto.oa.EmployeeService;
 import com.xyauto.oa.EmployeeServiceSoap;
-import com.xyauto.pojo.DeptTreeNode;
 import com.xyauto.util.Constants;
 
 import lombok.extern.slf4j.Slf4j;

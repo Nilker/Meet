@@ -14,6 +14,8 @@ public interface Constants {
 	 * 		已删除：1、未删除：0
 	 * 三.会议室状态（status）
 	 * 		启用：1、停用：0
+	 * 四.接口返回code
+	 * 		正常：0、异常：99
 	 */
 
 	//Login
@@ -23,4 +25,9 @@ public interface Constants {
 	public static final String SESSION_USER = "user";
 	//Cache
 	public static final String CACHE_OA = "OACache";
+	
+	//error message 
+	public static final String INSTER_Error = "插入失败";
+	public static final String UPDATE_Error = "更新失败";
+	public static final String DELETE_Error = "删除失败";
 }

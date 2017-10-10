@@ -10,16 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.xyauto.pojo.OfficeLocation;
-import com.xyauto.service.OfficeLocationService;
+import com.xyauto.pojo.OfficeAreaAuthority;
+import com.xyauto.service.OfficeAreaAuthorityService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DBTest {
-	
+
 	@Autowired
-	OfficeLocationService officeLocationService;
-	
+	OfficeAreaAuthorityService officeAreaAuthorityService;
+
 	@Before
 	public void before() {
 		System.out.println(">>  测试开始  <<");
@@ -27,9 +27,9 @@ public class DBTest {
 
 	@Test
 	public void test() {
-		List<OfficeLocation> list = officeLocationService.selectAll();
-		for (OfficeLocation officeLocation : list) {
-			System.out.println(officeLocation);
+		List<OfficeAreaAuthority> list = officeAreaAuthorityService.all();
+		for (OfficeAreaAuthority officeAreaAuthority : list) {
+			System.out.println(officeAreaAuthority);
 		}
 	}
 
