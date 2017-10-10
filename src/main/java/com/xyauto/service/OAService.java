@@ -1,18 +1,24 @@
 package com.xyauto.service;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.ws.Holder;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.xyauto.oa.ArrayOfDepartment;
 import com.xyauto.oa.ArrayOfEmployee;
 import com.xyauto.oa.Department;
 import com.xyauto.oa.Employee;
 import com.xyauto.oa.EmployeeService;
 import com.xyauto.oa.EmployeeServiceSoap;
+import com.xyauto.pojo.DeptTreeNode;
 import com.xyauto.util.Constants;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,24 +44,22 @@ public class OAService {
 		List<Department> departmentList = querySubDept.getDepartment();
 		log.debug(">> 部门列表_未命中缓存 <<");
 		return departmentList;
-		// 根据 上级ID 分组 除了顶级部门
-		// Map<Integer, List<Department>> parentIdList =
-		// departmentList.stream().filter(o -> o.getParentId() !=
-		// 1).collect(Collectors.groupingBy(Department::getParentId));
-		// List<DeptTreeNode> listNodes = Lists.newArrayList();//构造 tree
-
-		// 所有顶级部门
-		// List<Department> topDepts = departmentList.stream().filter(o ->
-		// o.getParentId() == 1).collect(Collectors.toList());
-
-		// topDepts.forEach(o -> {//循环顶级部门
-		// DeptTreeNode node = new DeptTreeNode();
-		// node.setDepartmentId(o.getDepartmentId());
-		// node.setName(o.getName());
-		// listNodes.add(node);
-		// LoadTreeNode(parentIdList, parentIdList.get(o.getDepartmentId()),
-		// node);
-		// });//构造 tree完毕
+//		// 根据 上级ID 分组 除了顶级部门
+//		Map<Integer, List<Department>> parentIdList = departmentList.stream().filter(o -> o.getParentId() != 1)
+//				.collect(Collectors.groupingBy(Department::getParentId));
+//		List<DeptTreeNode> listNodes = Lists.newArrayList();// 构造 tree
+//
+//		// 所有顶级部门
+//		List<Department> topDepts = departmentList.stream().filter(o -> o.getParentId() == 1)
+//				.collect(Collectors.toList());
+//
+//		topDepts.forEach(o -> {// 循环顶级部门
+//			DeptTreeNode node = new DeptTreeNode();
+//			node.setDepartmentId(o.getDepartmentId());
+//			node.setName(o.getName());
+//			listNodes.add(node);
+//			LoadTreeNode(parentIdList, parentIdList.get(o.getDepartmentId()), node);
+//		});// 构造 tree完毕
 
 		// List<Department> data = Lists.newArrayList();
 		// 展开 tree 制表符分割层级
@@ -69,6 +73,20 @@ public class OAService {
 
 		// return data;
 	}
+
+	// 组织tree
+//	private void LoadTreeNode(Map<Integer, List<Department>> group, List<Department> departments,
+//			DeptTreeNode node) {
+//		if (departments != null) {
+//			departments.forEach(o -> {
+//				DeptTreeNode n = new DeptTreeNode();
+//				n.setDepartmentId(o.getDepartmentId());
+//				n.setName(o.getName());
+//				node.getNode().add(n);
+//				LoadTreeNode(group, group.get(o.getDepartmentId()), n);
+//			});
+//		}
+//	}
 
 	// 展开tree
 	// private static void spreadTreeNode(List<Department> data,
@@ -84,20 +102,6 @@ public class OAService {
 	// data.add(department);
 	// spreadTreeNode(data, o.getNode(), v + 1);
 	// });
-	// }
-
-	// 组织tree
-	// private static void LoadTreeNode(Map<Integer, List<Department>> group,
-	// List<Department> departments, DeptTreeNode node) {
-	// if (departments != null) {
-	// departments.forEach(o -> {
-	// DeptTreeNode n = new DeptTreeNode();
-	// n.setDepartmentId(o.getDepartmentId());
-	// n.setName(o.getName());
-	// node.getNode().add(n);
-	// LoadTreeNode(group, group.get(o.getDepartmentId()), n);
-	// });
-	// }
 	// }
 
 	@Cacheable(value = Constants.CACHE_OA, key = "'department_'+#id")
