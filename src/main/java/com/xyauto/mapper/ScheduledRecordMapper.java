@@ -20,4 +20,5 @@ public interface ScheduledRecordMapper {
     ScheduledRecord selectByPrimaryKey(String srId);
     List<ScheduledRecord> selectAll();
     Date selectMaxStartTimeBybiId(String biId);
+    Date selectMaxEndTimeBybiId(String biId);
 }
