@@ -17,14 +17,12 @@ import org.apache.ibatis.annotations.Param;
 public interface OfficeAreaAuthorityMapper {
     
 	Integer insert(OfficeAreaAuthority record);
-	Integer deleteByPrimaryKey(String oaaId);
 	Integer updateByPrimaryKey(OfficeAreaAuthority record);
-    OfficeAreaAuthority selectByPrimaryKey(String oaaId);
     Integer countByNotDel();
     Integer existsByEmployeeId(@Param("employeeId") String employeeId);
     List<OfficeAreaAuthority> selectByCondition(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,
-    		@Param("office_id") String office_id,
-    		@Param("employee_name") String employee_name);
+    		@Param("officeId") String officeId,
+    		@Param("employeeName") String employeeName);
 }

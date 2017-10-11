@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xyauto.mapper.ScheduledRecordMapper">
-  <resultMap id="BaseResultMap" type="com.xyauto.pojo.ScheduledRecord">
-    <id column="sr_id" jdbcType="CHAR" property="srId" />
-    <result column="bi_id" jdbcType="CHAR" property="biId" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="meeting_theme" jdbcType="NVARCHAR" property="meetingTheme" />
-    <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
-    <result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
-    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
-    <result column="department_name" jdbcType="NVARCHAR" property="departmentName" />
-    <result column="phone" jdbcType="CHAR" property="phone" />
-    <result column="office_id" jdbcType="INTEGER" property="officeId" />
-    <result column="is_delete" jdbcType="BIT" property="isDelete" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from scheduled_record
-    where sr_id = #{srId,jdbcType=CHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xyauto.pojo.ScheduledRecord">
-    insert into scheduled_record (sr_id, bi_id, start_time, 
-      end_time, meeting_theme, employee_id, 
-      employee_name, department_id, department_name, 
-      phone, office_id, is_delete, 
-      create_time, create_user, update_time, 
-      update_user)
-    values (#{srId,jdbcType=CHAR}, #{biId,jdbcType=CHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{meetingTheme,jdbcType=NVARCHAR}, #{employeeId,jdbcType=VARCHAR}, 
-      #{employeeName,jdbcType=NVARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{departmentName,jdbcType=NVARCHAR}, 
-      #{phone,jdbcType=CHAR}, #{officeId,jdbcType=INTEGER}, #{isDelete,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUser,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.ScheduledRecord">
-    update scheduled_record
-    set bi_id = #{biId,jdbcType=CHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      meeting_theme = #{meetingTheme,jdbcType=NVARCHAR},
-      employee_id = #{employeeId,jdbcType=VARCHAR},
-      employee_name = #{employeeName,jdbcType=NVARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR},
-      department_name = #{departmentName,jdbcType=NVARCHAR},
-      phone = #{phone,jdbcType=CHAR},
-      office_id = #{officeId,jdbcType=INTEGER},
-      is_delete = #{isDelete,jdbcType=BIT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user = #{updateUser,jdbcType=VARCHAR}
-    where sr_id = #{srId,jdbcType=CHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
-    department_id, department_name, phone, office_id, is_delete, create_time, create_user, 
-    update_time, update_user
-    from scheduled_record
-    where sr_id = #{srId,jdbcType=CHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
-    department_id, department_name, phone, office_id, is_delete, create_time, create_user, 
-    update_time, update_user
-    from scheduled_record
-  </select>
+	<resultMap id="BaseResultMap" type="com.xyauto.pojo.ScheduledRecord">
+		<id column="sr_id" jdbcType="CHAR" property="srId" />
+		<result column="bi_id" jdbcType="CHAR" property="biId" />
+		<result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+		<result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+		<result column="meeting_theme" jdbcType="NVARCHAR" property="meetingTheme" />
+		<result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+		<result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
+		<result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+		<result column="department_name" jdbcType="NVARCHAR" property="departmentName" />
+		<result column="phone" jdbcType="CHAR" property="phone" />
+		<result column="office_id" jdbcType="INTEGER" property="officeId" />
+		<result column="is_delete" jdbcType="BIT" property="isDelete" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+	</resultMap>
+	<insert id="insert" parameterType="com.xyauto.pojo.ScheduledRecord">
+		insert into scheduled_record (sr_id, bi_id, start_time,
+		end_time, meeting_theme, employee_id,
+		employee_name, department_id, department_name,
+		phone, office_id, is_delete,
+		create_time, create_user, update_time,
+		update_user)
+		values (#{srId,jdbcType=CHAR}, #{biId,jdbcType=CHAR},
+		#{startTime,jdbcType=TIMESTAMP},
+		#{endTime,jdbcType=TIMESTAMP}, #{meetingTheme,jdbcType=NVARCHAR}, #{employeeId,jdbcType=VARCHAR},
+		#{employeeName,jdbcType=NVARCHAR}, #{departmentId,jdbcType=VARCHAR},
+		#{departmentName,jdbcType=NVARCHAR},
+		#{phone,jdbcType=CHAR}, #{officeId,jdbcType=INTEGER}, #{isDelete,jdbcType=BIT},
+		#{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.ScheduledRecord">
+		update scheduled_record
+		set bi_id = #{biId,jdbcType=CHAR},
+		start_time = #{startTime,jdbcType=TIMESTAMP},
+		end_time = #{endTime,jdbcType=TIMESTAMP},
+		meeting_theme = #{meetingTheme,jdbcType=NVARCHAR},
+		employee_id = #{employeeId,jdbcType=VARCHAR},
+		employee_name = #{employeeName,jdbcType=NVARCHAR},
+		department_id = #{departmentId,jdbcType=VARCHAR},
+		department_name = #{departmentName,jdbcType=NVARCHAR},
+		phone = #{phone,jdbcType=CHAR},
+		office_id = #{officeId,jdbcType=INTEGER},
+		is_delete = #{isDelete,jdbcType=BIT},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		create_user = #{createUser,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		update_user = #{updateUser,jdbcType=VARCHAR}
+		where sr_id = #{srId,jdbcType=CHAR}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id,
+		employee_name,
+		department_id, department_name, phone, office_id, is_delete, create_time,
+		create_user,
+		update_time, update_user
+		from scheduled_record
+		where sr_id = #{srId,jdbcType=CHAR}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id,
+		employee_name,
+		department_id, department_name, phone, office_id, is_delete, create_time,
+		create_user,
+		update_time, update_user
+		from scheduled_record
+	</select>
+	<select id="selectMaxStartTimeBybiId">
+		select top 1 start_time from scheduled_record where bi_id = #{biId} order by start_time desc
+	</select>
 </mapper>

@@ -27,7 +27,7 @@ public interface Constants {
 	public static final String CACHE_OA = "OACache";
 	
 	//error message 
-	public static final String INSTER_Error = "插入失败";
-	public static final String UPDATE_Error = "更新失败";
-	public static final String DELETE_Error = "删除失败";
+	public static final String INSTER_ERROR = "插入失败";
+	public static final String UPDATE_ERROR = "更新失败";
+	public static final String DELETE_ERROR = "删除失败";
 }

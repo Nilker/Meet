@@ -81,21 +81,22 @@
 		where
 		oaa_id = #{oaaId,jdbcType=CHAR}
 	</update>
-	<select id="selectByPrimaryKey" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		select oaa_id, office_ids, employee_id, employee_name, department_id,
-		department_name,
-		founder_id, founder_name, adddate, is_delete, create_time, create_user,
-		update_time,
-		update_user
-		from office_area_authority
-		where oaa_id = #{oaaId,jdbcType=CHAR}
-	</select>
 	<select id="countByNotDel" resultType="java.lang.Integer">
-		select count(1) from office_area_authority where is_delete = 0
+		select 
+			count(1) 
+		from 
+			office_area_authority 
+		where 
+			is_delete = 0
 	</select>
 	<select id="existsByEmployeeId" parameterType="java.lang.String" resultType="java.lang.Integer">
-		select count(1) from office_area_authority where is_delete = 0 and employee_id = #{employeeId}
+		select 
+			count(1) 
+		from 
+			office_area_authority 
+		where 
+			is_delete = 0 and 
+			employee_id = #{employeeId}
 	</select>
 	<select id="selectByCondition" parameterType="map" resultMap="BaseResultMap">
 		select
@@ -107,17 +108,16 @@
 			department_name,
 			founder_id,
 			founder_name,
-			adddate,
-			is_delete
+			adddate
 		from
 			office_area_authority
 		where 
 			is_delete = 0 
 			<if test="office_id != null and office_id != ''">
-				and office_ids like #{ office_id } 
+				and office_ids like #{ officeId } 
 			</if>
 			<if test="employee_name != null and employee_name != ''">
-				and employee_name = #{ employee_name }
+				and employee_name = #{ employeeName }
 			</if>
 		order by adddate desc
 		OFFSET #{ pageNo } ROW

@@ -1,6 +1,8 @@
 package com.xyauto.mapper;
 
 import com.xyauto.pojo.ScheduledRecord;
+
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -17,4 +19,5 @@ public interface ScheduledRecordMapper {
     int updateByPrimaryKey(ScheduledRecord record);
     ScheduledRecord selectByPrimaryKey(String srId);
     List<ScheduledRecord> selectAll();
+    Date selectMaxStartTimeBybiId(String biId);
 }
