@@ -19,33 +19,33 @@
 	</resultMap>
 	<insert id="insert" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
 		insert into office_area_authority (
-		oaa_id,
-		office_ids,
-		employee_id,
-		employee_name,
-		department_id,
-		department_name,
-		founder_id,
-		founder_name,
-		adddate,
-		is_delete,
-		create_user,
-		update_time,
-		update_user)
+			oaa_id,
+			office_ids,
+			employee_id,
+			employee_name,
+			department_id,
+			department_name,
+			founder_id,
+			founder_name,
+			adddate,
+			is_delete,
+			create_user,
+			update_time,
+			update_user)
 		values (
-		#{oaaId,jdbcType=CHAR},
-		#{officeIds,jdbcType=NVARCHAR},
-		#{employeeId,jdbcType=VARCHAR},
-		#{employeeName,jdbcType=NVARCHAR},
-		#{departmentId,jdbcType=VARCHAR},
-		#{departmentName,jdbcType=NVARCHAR},
-		#{founderId,jdbcType=VARCHAR},
-		#{founderName,jdbcType=NVARCHAR},
-		#{adddate,jdbcType=TIMESTAMP},
-		#{isDelete,jdbcType=BIT},
-		#{createUser,jdbcType=VARCHAR},
-		#{updateTime,jdbcType=TIMESTAMP},
-		#{updateUser,jdbcType=VARCHAR})
+			#{oaaId,jdbcType=CHAR},
+			#{officeIds,jdbcType=NVARCHAR},
+			#{employeeId,jdbcType=VARCHAR},
+			#{employeeName,jdbcType=NVARCHAR},
+			#{departmentId,jdbcType=VARCHAR},
+			#{departmentName,jdbcType=NVARCHAR},
+			#{founderId,jdbcType=VARCHAR},
+			#{founderName,jdbcType=NVARCHAR},
+			#{adddate,jdbcType=TIMESTAMP},
+			#{isDelete,jdbcType=BIT},
+			#{createUser,jdbcType=VARCHAR},
+			CURRENT_TIMESTAMP ,
+			#{updateUser,jdbcType=VARCHAR})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
 		update office_area_authority set
@@ -76,10 +76,10 @@
 		<if test="isDelete != null and isDelete != ''">
 			is_delete = #{isDelete,jdbcType=BIT},
 		</if>
-		update_time = #{updateTime,jdbcType=TIMESTAMP},
-		update_user = #{updateUser,jdbcType=VARCHAR}
+			update_time = CURRENT_TIMESTAMP ,
+			update_user = #{updateUser,jdbcType=VARCHAR}
 		where
-		oaa_id = #{oaaId,jdbcType=CHAR}
+			oaa_id = #{oaaId,jdbcType=CHAR}
 	</update>
 	<select id="countByNotDel" resultType="java.lang.Integer">
 		select 
