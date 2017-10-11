@@ -3,7 +3,7 @@
 <mapper namespace="com.xyauto.mapper.ScheduledRecordMapper">
   <resultMap id="BaseResultMap" type="com.xyauto.pojo.ScheduledRecord">
     <id column="sr_id" jdbcType="CHAR" property="srId" />
-    <result column="br_id" jdbcType="CHAR" property="brId" />
+    <result column="bi_id" jdbcType="CHAR" property="biId" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="meeting_theme" jdbcType="NVARCHAR" property="meetingTheme" />
@@ -24,13 +24,13 @@
     where sr_id = #{srId,jdbcType=CHAR}
   </delete>
   <insert id="insert" parameterType="com.xyauto.pojo.ScheduledRecord">
-    insert into scheduled_record (sr_id, br_id, start_time, 
+    insert into scheduled_record (sr_id, bi_id, start_time, 
       end_time, meeting_theme, employee_id, 
       employee_name, department_id, department_name, 
       phone, office_id, is_delete, 
       create_time, create_user, update_time, 
       update_user)
-    values (#{srId,jdbcType=CHAR}, #{brId,jdbcType=CHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+    values (#{srId,jdbcType=CHAR}, #{biId,jdbcType=CHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{meetingTheme,jdbcType=NVARCHAR}, #{employeeId,jdbcType=VARCHAR}, 
       #{employeeName,jdbcType=NVARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{departmentName,jdbcType=NVARCHAR}, 
       #{phone,jdbcType=CHAR}, #{officeId,jdbcType=INTEGER}, #{isDelete,jdbcType=BIT}, 
@@ -39,7 +39,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.ScheduledRecord">
     update scheduled_record
-    set br_id = #{brId,jdbcType=CHAR},
+    set bi_id = #{biId,jdbcType=CHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       meeting_theme = #{meetingTheme,jdbcType=NVARCHAR},
@@ -57,14 +57,14 @@
     where sr_id = #{srId,jdbcType=CHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select sr_id, br_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
+    select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
     department_id, department_name, phone, office_id, is_delete, create_time, create_user, 
     update_time, update_user
     from scheduled_record
     where sr_id = #{srId,jdbcType=CHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select sr_id, br_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
+    select sr_id, bi_id, start_time, end_time, meeting_theme, employee_id, employee_name, 
     department_id, department_name, phone, office_id, is_delete, create_time, create_user, 
     update_time, update_user
     from scheduled_record

@@ -13,8 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BoardroomInfoMapper {
 
     int insert(BoardroomInfo record);
-    int deleteByPrimaryKey(String brId);
+    int deleteByPrimaryKey(String biId);
     int updateByPrimaryKey(BoardroomInfo record);
-    BoardroomInfo selectByPrimaryKey(String brId);
+    BoardroomInfo selectByPrimaryKey(String biId);
     List<BoardroomInfo> selectAll();
 }
