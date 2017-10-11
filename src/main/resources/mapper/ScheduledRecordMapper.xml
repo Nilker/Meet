@@ -19,7 +19,8 @@
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
 	</resultMap>
-	<insert id="insert" parameterType="com.xyauto.pojo.ScheduledRecord">
+	<insert id="insert" useGeneratedKeys="true"
+		keyProperty="sr_id"  parameterType="com.xyauto.pojo.ScheduledRecord">
 		insert into scheduled_record(
 			sr_id, 
 			bi_id, 
