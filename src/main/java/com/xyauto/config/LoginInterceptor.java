@@ -37,6 +37,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		String url = request.getRequestURL().toString();
+		log.debug(url);
+		if (url.endsWith("/***/***")) {
+			return true;
+		}
 		HttpSession session = request.getSession();
 		long preTime = System.currentTimeMillis();
 		User user = getLoginUser(request);
