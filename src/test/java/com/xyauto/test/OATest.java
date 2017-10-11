@@ -28,20 +28,9 @@ public class OATest {
 
 	@Test
 	public void test() {
-//		List<Department> queryDepartment = oas.queryDepartment();
-//		queryDepartment = oas.queryDepartment();
-//		for (Department department : queryDepartment) {
-//			System.out.println(department.getName());
-//		}
-//		System.out.println("~~~~~~~~~~~~~~~~");
-		List<Employee> queryEmployeeByDept = oas.queryEmployeeByDept(11137);
-		queryEmployeeByDept = oas.queryEmployeeByDeptIncludeChildren(11128);
-		queryEmployeeByDept = oas.queryEmployeeByDept(11137);
-		queryEmployeeByDept = oas.queryEmployeeByDeptIncludeChildren(11128);
-//		for (Employee employee : queryEmployeeByDept) {
-//			System.out.println(employee.getCnName());
-//		}
-//		 oas.queryEmployeeByDept(11137)
+		Employee e = oas.queryEmployeeById("0287");
+		e = oas.queryEmployeeById("0287");
+		System.out.println(e.getCnName());
 	}
 
 	@After

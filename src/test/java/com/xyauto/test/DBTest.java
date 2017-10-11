@@ -27,10 +27,6 @@ public class DBTest {
 
 	@Test
 	public void test() {
-		List<OfficeAreaAuthority> list = officeAreaAuthorityService.all();
-		for (OfficeAreaAuthority officeAreaAuthority : list) {
-			System.out.println(officeAreaAuthority);
-		}
 	}
 
 	@After

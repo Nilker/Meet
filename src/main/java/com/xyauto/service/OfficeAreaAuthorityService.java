@@ -20,7 +20,7 @@ public class OfficeAreaAuthorityService {
 
 	@Autowired
 	private OfficeAreaAuthorityMapper officeAreaAuthorityMapper;
-	
+
 	public Integer insert(OfficeAreaAuthority oaa) {
 		return officeAreaAuthorityMapper.insert(oaa);
 	}
@@ -28,8 +28,17 @@ public class OfficeAreaAuthorityService {
 	public Integer update(OfficeAreaAuthority oaa) {
 		return officeAreaAuthorityMapper.updateByPrimaryKey(oaa);
 	}
+	
+	public Integer countByNotDel() {
+		return officeAreaAuthorityMapper.countByNotDel();
+	}
+	
+	public Integer existsByEmployeeId(String employeeId) {
+		return officeAreaAuthorityMapper.existsByEmployeeId(employeeId);
+	}
 
-	public List<OfficeAreaAuthority> all() {
-		return officeAreaAuthorityMapper.selectAll();
+	public List<OfficeAreaAuthority> selectByCondition(Integer pageNo, Integer pageSize, String office_id,
+			String employee_name) {
+		return officeAreaAuthorityMapper.selectByCondition(pageNo, pageSize, office_id, employee_name);
 	}
 }

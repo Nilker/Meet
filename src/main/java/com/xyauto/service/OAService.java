@@ -118,4 +118,13 @@ public class OAService {
 		log.debug(">> 人员列表_未命中缓存 <<");
 		return queryEmployeeByDeptResult.value.getEmployee();
 	}
+	
+	@Cacheable(value = Constants.CACHE_OA, key = "'employee_'+#id")
+	public Employee queryEmployeeById(String id) {
+		EmployeeService employeeService = new EmployeeService();
+		EmployeeServiceSoap employeeServiceSoap = employeeService.getEmployeeServiceSoap();
+		Employee employee = employeeServiceSoap.getEmployeeByEmployeeNumber(id);
+		log.debug(">> 人员信息_未命中缓存 <<");
+		return employee;
+	}
 }
