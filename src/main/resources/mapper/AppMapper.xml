@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyauto.mapper.AppMapper">
+	<resultMap id="BoardResultMap" type="com.xyauto.pojo.BoardroomInfo">
+		<id column="bi_id" jdbcType="CHAR" property="biId" />
+		<result column="office_id" jdbcType="INTEGER" property="officeId" />
+		<result column="bi_name" jdbcType="NVARCHAR" property="biName" />
+		<result column="bi_floor" jdbcType="NVARCHAR" property="biFloor" />
+		<result column="bi_capacity" jdbcType="INTEGER" property="biCapacity" />
+		<result column="equipment" jdbcType="TINYINT" property="equipment" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="is_delete" jdbcType="BIT" property="isDelete" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+	</resultMap>
+	<resultMap id="SchedResultMap" type="com.xyauto.pojo.ScheduledRecord">
+		<id column="sr_id" jdbcType="CHAR" property="srId" />
+		<result column="bi_id" jdbcType="CHAR" property="biId" />
+		<result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+		<result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+		<result column="meeting_theme" jdbcType="NVARCHAR" property="meetingTheme" />
+		<result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+		<result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
+		<result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+		<result column="department_name" jdbcType="NVARCHAR" property="departmentName" />
+		<result column="phone" jdbcType="CHAR" property="phone" />
+		<result column="office_id" jdbcType="INTEGER" property="officeId" />
+		<result column="is_delete" jdbcType="BIT" property="isDelete" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+	</resultMap>
+	<select id="findBoardInfoByOfficeId" parameterType="java.lang.Integer"
+		resultMap="BoardResultMap">
+		select
+		A.bi_id,A.office_id,A.bi_name,A.bi_floor,A.bi_capacity
+		from
+		boardroom_info as A
+		where
+		A.office_id=#{officeId,jdbcType=INTEGER}
+		and
+		A.is_delete=0
+		and A.status=1
+	</select>
+	<select id="findScheInfoByReq" parameterType="map" resultMap="SchedResultMap">
+		select
+		A.sr_id,A.bi_id,A.start_time,A.end_time
+		from
+		scheduled_record as A
+		where
+		A.is_delete=0
+		and
+		convert(char(10),A.start_time,120)=#{startTime,jdbcType=VARCHAR}
+		and
+		A.office_id=#{officeId,jdbcType=INTEGER}
+	</select>
+	<select id="findInfoByBiId" parameterType="map" resultMap="SchedResultMap">
+		select
+		A.sr_id,A.start_time,A.end_time
+		from
+		scheduled_record A
+		where
+		and
+		A.is_delete=0
+		CONVERT(char(10),A.start_time,120)=#{startTime,jdbcType=VARCHAR}
+		and
+		A.bi_id=#{biId,jdbcType=VARCHAR}
+	</select>
+</mapper>
