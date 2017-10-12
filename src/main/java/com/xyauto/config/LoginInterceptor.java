@@ -2,6 +2,7 @@ package com.xyauto.config;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -14,10 +15,12 @@ import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xyauto.pojo.User;
+import com.xyauto.service.LoginInfoService;
 import com.xyauto.util.Constants;
 import com.xyauto.util.CookieUtil;
 import com.xyauto.util.HttpUtil;
@@ -33,6 +36,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
+
+	@Autowired
+	private LoginInfoService loginInfoService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -89,7 +95,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		user.setDepartmentName((String) dataMap.get("DepartmentName"));
 		user.setIcon((String) dataMap.get("Icon"));
 		user.setIsLogin(true);
-
+		
+		List<String> usreRole = loginInfoService.getUserRole(user.getUserId());
+		user.setRoleList(usreRole);
+		
 		return user;
 	}
 }

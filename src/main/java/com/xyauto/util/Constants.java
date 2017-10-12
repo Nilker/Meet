@@ -20,13 +20,17 @@ public interface Constants {
 
 	//Login
 	public static final String COOKIE_KEY = "mmp-3244xx32234sdf";
-	public static final String GET_OA_USER = "http://oa.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
-	public static final String OA_LOGIN_URL = "http://oa.xingyuanauto.com/login.aspx";
+	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
+	public static final String OA_LOGIN_URL = "http://oa1.xingyuanauto.com/login.aspx";
 	public static final String SESSION_USER = "user";
+	//Role
+	public static final String SYSTEM_ID = "SYS023";
+	public static final String MEETING_MANAGER = "SYS023MOD0001";
+	public static final String SCHEDULED_PREVIEW = "SYS023MOD0002";
+	public static final String AUTHORIZE_MANAGER = "SYS023MOD0003";
 	//Cache
 	public static final String CACHE_OA = "OACache";
-	
-	//error message 
+	//Error Message 
 	public static final String INSTER_ERROR = "插入失败";
 	public static final String UPDATE_ERROR = "更新失败";
 	public static final String DELETE_ERROR = "删除失败";

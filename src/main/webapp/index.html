@@ -1,10 +1,513 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="汽车,行圆汽车 ,汽车网,汽车报价,汽车图片,评测,汽车导购,汽车降价">
+    <meta name="description" content="行圆汽车,汽车网站,汽车,汽车频道">
+    <title>会议室系统</title>
+    <script type="text/javascript" src='js/jquery.1.11.3.min.js'></script>
+    <script type="text/javascript">
+        document.writeln('<link rel="stylesheet" type="text/css" href="css/reset.css?r='+Math.random()+'"/>');
+        document.writeln('<link rel="stylesheet" type="text/css" href=css/style.css?r='+Math.random()+'"/>');
+    </script>
 </head>
 <body>
-	<h1>hello html</h1>
+<div class="box">
+    <!--左侧菜单开始-->
+    <div class="box_left">
+        <div class="logo"><a href="#"></a></div>
+        <div>
+            <ul class="menu">
+                <li class="">
+                    <a href="javascript:void(0)">
+                        <div class="distance1"></div>
+                        <div>会议室管理</div>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="javascript:void(0)">
+                        <div class="distance2"></div>
+                        <div>预定浏览</div>
+                    </a>
+                </li>
+                <li class="current">
+                    <a href="javascript:void(0)">
+                        <div class="distance3">
+                            <em>2</em>
+                        </div>
+                        <div>权限管理</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <!--左侧菜单结束-->
+
+    <!--右侧菜单开始-->
+    <div class="box_right">
+        <!--头部开始-->
+        <div class="header">
+            <div class="header_nr">
+                <div class="top_welcome">会议管理系统欢迎您</div>
+                <div class="top_info">
+                    <ul>
+                        <li><a href="#"><span class="portrait"><img src="images/pic01.jpg"></span>艺然飘逸</a></li>
+                        <li><a href="#"><span class="color01">返回OA系统</span></a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!--头部结束-->
+        <!--处理中间内容开始-->
+        <div class="content">
+            <div class="type">
+                <ul>
+                    <li>
+                        <div class="fl">办公区:</div>
+                        <div class="type-select" name="type-select">
+                            <i>&nbsp;</i>
+                            <input type="text" value="" placeholder="请选择办公区">
+                            <ul>
+                                <li data-value="1">分析对象</li>
+                                <li data-value="2">分析对象</li>
+                                <li data-value="3">分析对象</li>
+                                <li data-value="4">分析对象</li>
+                                <li data-value="5">分析对象</li>
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div class="fl">状态:</div>
+                        <div class="type-select" name="type-select">
+                            <i>&nbsp;</i>
+                            <input type="text" value=""  placeholder="请选择状态">
+                            <ul>
+                                <li data-value="1">分析对象</li>
+                                <li data-value="2">分析对象</li>
+                                <li data-value="3">分析对象</li>
+                                <li data-value="4">分析对象</li>
+                                <li data-value="5">分析对象</li>
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="but_submit" style="width:75px">查询</li>
+                    <div class="clear"></div>
+                </ul>
+                <div class="addPeople">
+                    <img src="images/icon4.png">
+                    <span>&nbsp;&nbsp;添加会议室</span>
+                </div>
+                <div class="subject-table">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" >
+                        <tr>
+                            <th width="20%" style='padding-left: 30px;'>会议室名称</th>
+                            <th width="13%">所在楼层</th>
+                            <th width="13%">容纳人数</th>
+                            <th width="20%">办公区</th>
+                            <th width="20%">设备</th>
+                            <th width="7%">状态</th>
+                            <th width="7%">操作</th>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down">
+                                    <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='padding-left: 30px;'>巴拉巴拉小魔仙会议室01</td>
+                            <td>5楼</td>
+                            <td>33</td>
+                            <td>北京中关村资本大厦</td>
+                            <td>投影仪、投影幕、电视机、八爪鱼</td>
+                            <td>启用</td>
+                            <td class="pr">
+                                <div class="type-ellipse">&nbsp;</div>
+                                <ul class="drop-down" style='display: none;'>
+                                   <li class="li-hover">二维码</li>
+                                    <li>编辑</li>
+                                    <li>停用</li>
+                                </ul>
+                            </td>
+                        </tr>
+                       
+                    </table>
+                </div>
+                <div class="count" style='text-align: center;color:#a1a1a1;display: block;'>显示&nbsp;<span class='num'></span>&nbsp;/&nbsp;<span class='count_num'></span>&nbsp;个结果</div>
+        <div class="load_more" style='display: block;'>显示更多</div>
+            </div>
+        </div>
+
+        <!--处理中间内容结束-->
+
+
+
+        <!--底部开始-->
+        <div class="footer">
+            <div class="footer_nr">
+              <p>CopyRight © 2000-2017 XYAuto,All Rights Reserved 版权所有 北京行圆汽车信息技术有限公司</p>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+
+<!--
+<div class='model'>
+    <div class="layer">
+    <div class="title">
+        增加会议室
+        <div class="close">&nbsp;</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="layer_con">
+        <div class="select_ndustry">
+                <ul>
+                    <li>
+                        <div class="fl">办公区:</div>
+                        <div class="type-select" name="type-select">
+                            <i>&nbsp;</i>
+                            <input type="text" value="" placeholder="请选择办公区">
+                            <ul>
+                                <li data-value="1">分析对象</li>
+                                <li data-value="2">分析对象</li>
+                                <li data-value="3">分析对象</li>
+                                <li data-value="4">分析对象</li>
+                                <li data-value="5">分析对象</li>
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div class="fl">状态:</div>
+                        <div class="type-select" name="type-select">
+                            <input type="text" value=""  placeholder="请选择状态" style="width: 260px;">
+                            <span class='fr' style='line-height:36px; margin-right: 10px;'>层</span>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div class="fl">会议室名称:</div>
+                        <div class="type-select" name="type-select">
+                            <input type="text" value=""  placeholder="请选择状态">
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div class="fl">容纳人数:</div>
+                        <div class="type-select" name="type-select">
+                            <input type="text" value=""  placeholder="请选择状态" style="width: 260px;">
+                            <span class='fr' style='line-height:36px; margin-right: 10px;'>人</span>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li >
+                        <div class="fl">可用设备:</div>
+                        <div class='fr' style='height:28px;line-height: 20px;margin-top: 8px;'>
+                            <div class="fl check_con">
+                                <input class="magic-checkbox" type="checkbox" name="layout" id="c1" checked>
+                                <label for="c1"><span>投影仪</span></label>
+                            </div>
+                            <div class="fl check_con">
+                                <input class="magic-checkbox" type="checkbox" name="layout" id="c2" checked>
+                                <label for="c2"><span>投影幕</span></label>
+                            </div>
+                           <div class="fl check_con">
+                                <input class="magic-checkbox" type="checkbox" name="layout" id="c3" checked>
+                               <label for="c3"><span>电视</span></label>
+                           </div>
+                           <div class="fl check_con">
+                                <input class="magic-checkbox" type="checkbox" name="layout" id="c4" checked>
+                               <label for="c4"><span>八爪鱼</span></label>
+                           </div>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+        </div>
+        <div class="keep" style="text-align: center">
+            <span class="but_submit" style="width:100px">确定</span>
+        </div>
+    </div>
+</div>
+</div>-->
+<script type="text/javascript">
+    // 下拉框
+    $('.type-select').on('click',function(e){
+        e.stopPropagation();
+        $('.type-select ul').hide();
+        $(this).find('ul').show();
+
+    });
+    $('.type-select ul li').hover(function(e){
+        e.stopPropagation();
+        $(this).toggleClass('on');
+    });
+    $('.type-select ul li').on('click',function(e){
+        e.stopPropagation();
+        $(this).parent('ul').siblings('input').val($(this).text());
+        $(this).parent('ul').hide();
+    });
+    $(document).on('click',function(){
+        $('.type-select ul').hide();
+    });
+</script>
 </body>
 </html>

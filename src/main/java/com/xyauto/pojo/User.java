@@ -1,5 +1,7 @@
 package com.xyauto.pojo;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -19,4 +21,5 @@ public class User {
 	private String departmentName;
 	private String icon;
 	private Boolean isLogin;
+	private List<String> roleList;
 }
