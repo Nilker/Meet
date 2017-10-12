@@ -44,7 +44,7 @@
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.BoardroomInfo">
 		update boardroom_info set
-		<if test="officeId != null and officeId != ''">
+		<if test="officeId != null">
 			office_id = #{officeId,jdbcType=INTEGER},
 		</if>
 		<if test="biName != null and biName != ''">
@@ -53,16 +53,16 @@
 		<if test="biFloor != null and biFloor != ''">
 			bi_floor = #{biFloor,jdbcType=NVARCHAR},
 		</if>
-		<if test="biCapacity != null and biCapacity != ''">
+		<if test="biCapacity != null">
 			bi_capacity = #{biCapacity,jdbcType=INTEGER},
 		</if>
-		<if test="equipment != null and equipment != ''">
+		<if test="equipment != null">
 			equipment = #{equipment,jdbcType=TINYINT},
 		</if>
-		<if test="status != null and status != ''">
+		<if test="status != null">
 			status = #{status,jdbcType=TINYINT},
 		</if>
-		<if test="isDelete != null and isDelete != ''">
+		<if test="isDelete != null">
 			is_delete = #{isDelete,jdbcType=BIT},
 		</if>
 			update_time = CURRENT_TIMESTAMP,
@@ -104,7 +104,18 @@
 			office_id = #{officeId} and
 			bi_name = #{biName}
 	</select>
-	<select id="selectByCondition" parameterType="map" resultMap="BaseResultMap">
+	<select id="selectByOfficeId" parameterType="map" resultType="java.lang.String">
+		select
+			bi_name
+		from
+			boardroom_info
+		where
+			is_delete = 0
+		<if test="officeId != null">
+			and office_id = #{ officeId }
+		</if>
+	</select>
+	<select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
 		select
 			bi_id,
 			office_id,
@@ -117,10 +128,10 @@
 			boardroom_info
 		where
 			is_delete = 0
-		<if test="office_id != null and office_id != ''">
+		<if test="officeId != null">
 			and office_id = #{ officeId }
 		</if>
-		<if test="status != null and status != ''">
+		<if test="status != null">
 			and status = #{ status }
 		</if>
 		order by status desc,update_time desc

@@ -20,7 +20,9 @@ public interface BoardroomInfoMapper {
     Integer existsByOfficeIdAndbiName(
     		@Param("officeId") Integer officeId,
     		@Param("biName") String biName);
-    List<BoardroomInfo> selectByCondition(
+    List<String> selectByOfficeId(
+    		@Param("officeId") Integer officeId);
+    List<BoardroomInfo> selectByPage(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,
     		@Param("officeId") Integer officeId,

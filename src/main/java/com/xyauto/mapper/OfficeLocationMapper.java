@@ -12,9 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OfficeLocationMapper {
 
-    int insert(OfficeLocation record);
-    int deleteByPrimaryKey(Integer officeId);
-    int updateByPrimaryKey(OfficeLocation record);
     OfficeLocation selectByPrimaryKey(Integer officeId);
     List<OfficeLocation> selectAll();
 }

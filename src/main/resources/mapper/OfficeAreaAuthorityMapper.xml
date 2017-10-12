@@ -70,10 +70,10 @@
 		<if test="founderName != null and founderName != ''">
 			founder_name = #{founderName,jdbcType=NVARCHAR},
 		</if>
-		<if test="adddate != null and adddate != ''">
+		<if test="adddate != null">
 			adddate = #{adddate,jdbcType=TIMESTAMP},
 		</if>
-		<if test="isDelete != null and isDelete != ''">
+		<if test="isDelete != null">
 			is_delete = #{isDelete,jdbcType=BIT},
 		</if>
 			update_time = CURRENT_TIMESTAMP ,
@@ -98,7 +98,7 @@
 			is_delete = 0 and 
 			employee_id = #{employeeId}
 	</select>
-	<select id="selectByCondition" parameterType="map" resultMap="BaseResultMap">
+	<select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
 		select
 			oaa_id,
 			office_ids,
@@ -113,10 +113,10 @@
 			office_area_authority
 		where 
 			is_delete = 0 
-			<if test="office_id != null and office_id != ''">
+			<if test="officeId != null">
 				and office_ids like #{ officeId } 
 			</if>
-			<if test="employee_name != null and employee_name != ''">
+			<if test="employeeName != null and employeeName != ''">
 				and employee_name = #{ employeeName }
 			</if>
 		order by adddate desc

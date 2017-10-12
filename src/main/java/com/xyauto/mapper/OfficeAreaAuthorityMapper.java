@@ -20,7 +20,7 @@ public interface OfficeAreaAuthorityMapper {
 	Integer updateByPrimaryKey(OfficeAreaAuthority record);
     Integer countByNotDel();
     Integer existsByEmployeeId(@Param("employeeId") String employeeId);
-    List<OfficeAreaAuthority> selectByCondition(
+    List<OfficeAreaAuthority> selectByPage(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,
     		@Param("officeId") String officeId,

@@ -11,14 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.xyauto.pojo.OfficeAreaAuthority;
-import com.xyauto.service.OfficeAreaAuthorityService;
+import com.xyauto.service.AuthorizeManagerService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DBTest {
 
 	@Autowired
-	OfficeAreaAuthorityService officeAreaAuthorityService;
+	AuthorizeManagerService officeAreaAuthorityService;
 
 	@Before
 	public void before() {
