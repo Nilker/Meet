@@ -57,7 +57,7 @@
 		and
 		A.office_id=#{officeId,jdbcType=INTEGER}
 	</select>
-	<select id="findScheInfoByReq" parameterType="map" resultMap="SchedResultMap">
+	<select id="findInfoByBiId" parameterType="map" resultMap="SchedResultMap">
 		select
 		A.sr_id,A.start_time,A.end_time
 		from
