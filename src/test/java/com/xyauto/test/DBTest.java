@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.xyauto.pojo.OfficeAreaAuthority;
-import com.xyauto.service.AuthorizeManagerService;
+import com.xyauto.mapper.RolePermissionsMapper;
+import com.xyauto.service.LoginInfoService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DBTest {
 
 	@Autowired
-	AuthorizeManagerService officeAreaAuthorityService;
+	private LoginInfoService loginInfoService;
 
 	@Before
 	public void before() {
@@ -27,6 +27,10 @@ public class DBTest {
 
 	@Test
 	public void test() {
+		List<String> list = loginInfoService.getUserRole(5418);
+		for (String string : list) {
+			System.out.println(string);
+		}
 	}
 
 	@After
