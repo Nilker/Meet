@@ -1,12 +1,12 @@
 package com.xyauto.mapper;
 
+import java.util.Date;
 import java.util.List;
-
-import javax.websocket.server.PathParam;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.xyauto.pojo.Attendees;
 import com.xyauto.pojo.BoardroomInfo;
 import com.xyauto.pojo.ScheduledRecord;
 
@@ -22,5 +22,10 @@ public interface AppMapper {
 	List<ScheduledRecord> findScheInfoByReq(@Param("officeId") Integer officeId, @Param("startTime") String startTime);
 
 	List<ScheduledRecord> findScheInfoByBiId(@Param("biId") String biId, @Param("startTime") String startTime);
+
+	Integer checkMeetTime(@Param("biId") String biId, @Param("startTime") Date startTime,
+			@Param("endTime") Date endTime);
+
+	void insertByBatch(List<Attendees> attendees);
 
 }

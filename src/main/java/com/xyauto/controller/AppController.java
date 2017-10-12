@@ -38,7 +38,7 @@ public class AppController {
 		// Map<String, Object> scheduledInfoMap = appService.getInfoByOfficeId(officeId,
 		// startTime);
 		System.out.println("test");
-		return "";
+		return "app/boardroom";
 	}
 
 }
