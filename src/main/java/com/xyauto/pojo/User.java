@@ -21,5 +21,5 @@ public class User {
 	private String departmentName;
 	private String icon;
 	private Boolean isLogin;
-	private List<String> roleList;
+	private List<UserRole> roleList;
 }

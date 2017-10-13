@@ -20,6 +20,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xyauto.pojo.User;
+import com.xyauto.pojo.UserRole;
 import com.xyauto.service.LoginInfoService;
 import com.xyauto.util.Constants;
 import com.xyauto.util.CookieUtil;
@@ -80,7 +81,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpResponse httpResponse = future.get();
 		String res = EntityUtils.toString(httpResponse.getEntity());
 		log.debug(res);
-
+		System.out.println(res.indexOf("{\"Flag\":1"));
+		if (res.indexOf("{\"Flag\":1") == -1) {
+			return null;
+		}
 		ObjectMapper objectMapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		HashMap<String, HashMap<String, Object>> resMap = objectMapper.readValue(res, HashMap.class);
@@ -96,7 +100,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		user.setIcon((String) dataMap.get("Icon"));
 		user.setIsLogin(true);
 		
-		List<String> usreRole = loginInfoService.getUserRole(user.getUserId());
+		List<UserRole> usreRole = loginInfoService.getUserRole(user.getUserId());
 		user.setRoleList(usreRole);
 		
 		return user;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xyauto.mapper.RolePermissionsMapper;
+import com.xyauto.pojo.UserRole;
 
 /**
  * 用户登录信息服务类
@@ -19,7 +20,7 @@ public class LoginInfoService {
 	@Autowired
 	private RolePermissionsMapper rolePermissionsMapper;
 
-	public List<String> getUserRole(Integer empId) {
+	public List<UserRole> getUserRole(Integer empId) {
 		return rolePermissionsMapper.getUserRole(empId);
 	}
 }

@@ -2,7 +2,10 @@ package com.xyauto.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.xyauto.pojo.User;
+import com.xyauto.util.Constants;
 import com.xyauto.util.ResultUtil;
 
 import io.swagger.annotations.Api;
@@ -20,8 +23,11 @@ public class LoginInfoController {
 
 	@GetMapping("/getLoginInfo")
 	@ApiOperation(value = "查询", notes = "获取用户登录信息")
-	ResultUtil getLoginInfo() {
-		// TODO return session user
-		return ResultUtil.success(null);
+	ResultUtil getLoginInfo(@SessionAttribute(Constants.SESSION_USER) User user) {
+
+		if (null == user) {
+			return ResultUtil.error("请登录");
+		}
+		return ResultUtil.success(user);
 	}
 }

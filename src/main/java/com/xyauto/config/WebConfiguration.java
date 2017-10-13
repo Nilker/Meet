@@ -19,8 +19,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return new LoginInterceptor();
     }
 	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(localInterceptor());
-//	}
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localInterceptor());
+	}
 }
