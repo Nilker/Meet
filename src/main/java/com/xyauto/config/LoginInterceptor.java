@@ -74,18 +74,32 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return null;
 		}
 		log.debug("cookie:" + cookieValue);
-		HttpGet httpGet = new HttpGet(Constants.GET_OA_USER);
-		httpGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
+		
+		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
+		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		CloseableHttpAsyncClient client = HttpUtil.getClient();
-		Future<HttpResponse> future = client.execute(httpGet, null);
+		Future<HttpResponse> future = client.execute(httpCheckGet, null);
 		HttpResponse httpResponse = future.get();
+		
 		String res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug(res);
-		System.out.println(res.indexOf("{\"Flag\":1"));
-		if (res.indexOf("{\"Flag\":1") == -1) {
-			return null;
-		}
+		log.debug("check:" + res);
 		ObjectMapper objectMapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> checkMap = objectMapper.readValue(res, HashMap.class);
+		Boolean isLogin = (boolean)checkMap.get("Result");
+		if(!isLogin)
+			return null;
+		
+		HttpGet httpUserGet = new HttpGet(Constants.GET_OA_USER);
+		httpUserGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
+		client = HttpUtil.getClient();
+		future = client.execute(httpUserGet, null);
+		httpResponse = future.get();
+		
+		res = EntityUtils.toString(httpResponse.getEntity());
+		log.debug("user:" + res);
+		if (res.indexOf("{\"Status\":401") == 0)
+			return null;
 		@SuppressWarnings("unchecked")
 		HashMap<String, HashMap<String, Object>> resMap = objectMapper.readValue(res, HashMap.class);
 		HashMap<String, Object> dataMap = resMap.get("Data");
