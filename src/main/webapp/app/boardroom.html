@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:50px">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <script type="text/javascript" src='../js/jquery.1.11.3.min.js'></script>
+    <script type="text/javascript">
+        //根据屏幕大小改变根元素字体大小
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (clientWidth >= 750) {
+                    docEl.style.fontSize = '100px';
+                } else {
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                }
+            };
+            if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script type="text/javascript">
+        document.writeln('<link rel="stylesheet" type="text/css" href="../app/css/style.css?r='+Math.random()+'"/>');
+        document.writeln("<s" + "cript type='text/javascript' src='../js/common.js?r=" + Math.random() + "'></scr" + "ipt>");
+        document.writeln("<s" + "cript type='text/javascript' src='../app/js/boardroom.js?r=" + Math.random() + "'></scr" + "ipt>");
+        document.writeln("<s" + "cript type='text/javascript' src='../app/js/urlObj.js?r=" + Math.random() + "'></scr" + "ipt>");
+    </script>
+</head>
+<body>
+    <!-- 时间轴 -->
+    <div class="time_box">
+        <img src="../app/images/time.png" alt="">
+    </div>
+    <!-- 表格 -->
+    <div class="table_box"></div>
+    <!-- 弹层不可预定 -->
+    <div class="layer layer_booked">
+       
+    </div>
+    <!-- 弹层预定 -->
+    <div class="layer layer_toBook">
+        <p class='info fl'>7层-会议室4  &nbsp;&nbsp;（12座）
+            <br><br>
+        投影仪、触摸电视、八爪鱼</p>
+        <div class="button">预定</div>
+    </div>
+</body>
+</html>

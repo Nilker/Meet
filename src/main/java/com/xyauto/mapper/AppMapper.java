@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.xyauto.extend.ScheduledRecordExt;
 import com.xyauto.pojo.Attendees;
 import com.xyauto.pojo.BoardroomInfo;
 import com.xyauto.pojo.ScheduledRecord;
@@ -17,9 +18,7 @@ import com.xyauto.pojo.ScheduledRecord;
 @Mapper
 public interface AppMapper {
 
-	List<BoardroomInfo> findBoardInfoByOfficeId(int officeId);
-
-	List<ScheduledRecord> findScheInfoByReq(@Param("officeId") Integer officeId, @Param("startTime") String startTime);
+	List<ScheduledRecordExt> findBoradSchedInfoByReq(@Param("officeId") Integer officeId, @Param("startTime") String startTime);
 
 	List<ScheduledRecord> findScheInfoByBiId(@Param("biId") String biId, @Param("startTime") String startTime);
 
@@ -28,4 +27,9 @@ public interface AppMapper {
 
 	void insertByBatch(List<Attendees> attendees);
 
+	List<ScheduledRecordExt> findAllMeetOfSelf(@Param("employeeId") String employeeId);
+
+	List<ScheduledRecordExt> findSingleMeetBySrId(String srId);
+
+	Object findInfoByBiId(@Param("biId") String biId, @Param("startTime") String startTime);
 }

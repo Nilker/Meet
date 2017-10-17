@@ -1,6 +1,7 @@
 package com.xyauto.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.xyauto.oa.Employee;
 import com.xyauto.pojo.Attendees;
 import com.xyauto.pojo.BoardroomInfo;
 import com.xyauto.pojo.ScheduledRecord;
+import com.xyauto.util.DateUtils;
 import com.xyauto.util.IdUtil;
 import com.xyauto.util.StringUtil;
 
@@ -30,15 +32,14 @@ public class AppService {
 	@Autowired
 	private AppMapper appMapper;
 	@Autowired
-	private AttendeesMapper attendeesMapper;
-	@Autowired
 	private OAService oAService;
 
-	public Map<String, Object> findInfoByOfficeId(Integer officeId, String startTime) {
-		Map<String, Object> scheduleMap = new HashMap<>();
-		scheduleMap.put("boardroomList", appMapper.findBoardInfoByOfficeId(officeId));
-		scheduleMap.put("scheduleList", appMapper.findScheInfoByReq(officeId, startTime));
-		return scheduleMap;
+	public List<ScheduledRecordExt> findInfoByOfficeId(Integer officeId, String startTime) {
+		List<ScheduledRecordExt> findBoradSchedInfoByReq = appMapper.findBoradSchedInfoByReq(officeId, startTime);
+		for (ScheduledRecordExt scheduledRecord : findBoradSchedInfoByReq) {
+			scheduledRecord.setStartEndTimeArr(StringUtil.convertStrToArray(scheduledRecord.getStartEndTime()));
+		}
+		return findBoradSchedInfoByReq;
 	}
 
 	public BoardroomInfo findBoardByPrimaryKey(String biId) {
@@ -52,8 +53,31 @@ public class AppService {
 	public Map<String, Object> findInfoByBiId(String biId, String startTime) {
 		Map<String, Object> scheduleMap = new HashMap<>();
 		scheduleMap.put("boardroomList", boardroomInfoMapper.selectByPrimaryKey(biId));
+		scheduleMap.put("scheduleList", appMapper.findInfoByBiId(biId, startTime));
+		return scheduleMap;
+	}
+
+	/**
+	 * 预定会议室-单个会议室详情
+	 * 
+	 * @param biId
+	 * @param startTime
+	 *            yyyy-MM-dd
+	 * @return
+	 */
+	public Map<String, Object> findSingleInfoByBiId(String biId, String startTime) {
+		Map<String, Object> scheduleMap = new HashMap<>();
+		scheduleMap.put("boardroomList",  boardroomInfoMapper.selectByPrimaryKey(biId));
 		scheduleMap.put("scheduleList", appMapper.findScheInfoByBiId(biId, startTime));
 		return scheduleMap;
+	}
+
+	public List<ScheduledRecordExt> findAllMeetOfSelf(String employeeId) {
+		return appMapper.findAllMeetOfSelf(employeeId);
+	}
+
+	public List<ScheduledRecordExt> findSingleMeetBySrId(String srId) {
+		return appMapper.findSingleMeetBySrId(srId);
 	}
 
 	// 加事务
@@ -76,7 +100,7 @@ public class AppService {
 		record.setUpdateUser(record.getEmployeeId());
 		scheduledRecordMapper.insert(record);
 		// 插入与会人
-		List<Attendees> attendeesList=new ArrayList<>();
+		List<Attendees> attendeesList = new ArrayList<>();
 		for (String eid : record.getEmployee_ids()) {
 			Attendees attendees = new Attendees();
 			attendees.setSrId(srId);
@@ -88,9 +112,9 @@ public class AppService {
 			attendeesList.add(attendees);
 		}
 		appMapper.insertByBatch(attendeesList);
-		//通知与会人
-		
+		// 通知与会人
+
 		return 0;
 	}
-	
+
 }
