@@ -24,6 +24,8 @@ public interface Constants {
 	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
 	public static final String OA_LOGIN_URL = "http://oa1.xingyuanauto.com/login.aspx";
 	public static final String SESSION_USER = "user";
+	public static final String SESSION_APPUSER = "appUser";
+	public static final String APP_COOKIE_KEY="";
 	//Role
 	public static final String SYSTEM_ID = "SYS023";
 	public static final String MEETING_MANAGER = "SYS023MOD0001";
