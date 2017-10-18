@@ -71,27 +71,8 @@ $(function () {
     	return newArr3;
     }
     //十进制转换二进制
-    XY.convert = function (num) {
-        var temp = num;
-        var arr = new Array();
-        for (var i = 0; 1; i++) {
-            if (num / 2 >= 1) {
-                arr[i] = num % 2;
-                num = parseInt(num / 2);
-            } else {
-                arr[i] = 1;
-                break;
-            }
-        }
-        for (i = arr.length; i > 0; i--) {
-           arr[i-1];
-        }
-        if(arr.length<4){
-        	var len=arr.length;
-        	for(var j=0;j<(4-len);j++){
-        		arr.unshift(0);
-        	}
-        }
-        return arr;
+    XY.dec2bin = function (num){
+        if(isNaN(num))return;
+        return (Array(4).join(0) + parseInt(num,10).toString(2)).slice(-4);
     }
 });
