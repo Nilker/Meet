@@ -21,7 +21,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xyauto.pojo.User;
 import com.xyauto.pojo.UserRole;
-import com.xyauto.service.LoginInfoService;
+import com.xyauto.service.UtilsService;
 import com.xyauto.util.Constants;
 import com.xyauto.util.CookieUtil;
 import com.xyauto.util.HttpUtil;
@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired
-	private LoginInfoService loginInfoService;
+	private UtilsService loginInfoService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -54,7 +54,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		User user = getLoginUser(request);
 		if (null == user) {
 			session.invalidate();
-			response.sendRedirect(Constants.OA_LOGIN_URL);
+			response.sendRedirect("/");
 			return false;
 		} else {
 			session.setAttribute(Constants.SESSION_USER, user);

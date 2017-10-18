@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xyauto.mapper.OfficeAreaAuthorityMapper;
+import com.xyauto.oa.Employee;
 import com.xyauto.pojo.OfficeAreaAuthority;
 import com.xyauto.util.PageData;
 
@@ -29,13 +30,17 @@ public class AuthorizeManagerService {
 	public Integer update(OfficeAreaAuthority oaa) {
 		return officeAreaAuthorityMapper.updateByPrimaryKey(oaa);
 	}
+	
+	public OfficeAreaAuthority one(String oaaId) {
+		return officeAreaAuthorityMapper.selectByPrimaryKey(oaaId);
+	}
 
 	// TODO transaction
 	public PageData selectByCondition(Integer pageNo, Integer pageSize, String officeId, String employeeName) {
 		PageData data = new PageData();
 		data.setPageNo(pageNo);
 		data.setPageSize(pageSize);
-		data.setTotal(officeAreaAuthorityMapper.countByNotDel());
+		data.setTotal(officeAreaAuthorityMapper.countByPage(officeId, employeeName));
 		data.setData(officeAreaAuthorityMapper.selectByPage(pageNo, pageSize, officeId, employeeName));
 		return data;
 	}

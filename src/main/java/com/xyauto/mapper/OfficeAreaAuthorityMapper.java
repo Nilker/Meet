@@ -18,7 +18,10 @@ public interface OfficeAreaAuthorityMapper {
     
 	Integer insert(OfficeAreaAuthority record);
 	Integer updateByPrimaryKey(OfficeAreaAuthority record);
-    Integer countByNotDel();
+	OfficeAreaAuthority selectByPrimaryKey(String oaaId);
+    Integer countByPage(
+    		@Param("officeId") String officeId,
+    		@Param("employeeName") String employeeName);
     Integer existsByEmployeeId(@Param("employeeId") String employeeId);
     List<OfficeAreaAuthority> selectByPage(
     		@Param("pageNo") Integer pageNo, 

@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.xyauto.service.LoginInfoService;
+import com.xyauto.service.UtilsService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DBTest {
 
 	@Autowired
-	private LoginInfoService loginInfoService;
+	private UtilsService loginInfoService;
 
 	@Before
 	public void before() {

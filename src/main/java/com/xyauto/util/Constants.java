@@ -32,7 +32,10 @@ public interface Constants {
 	//Cache
 	public static final String CACHE_OA = "OACache";
 	//Error Message 
-	public static final String INSTER_ERROR = "插入失败";
+	public static final String INSTER_ERROR = "添加失败";
 	public static final String UPDATE_ERROR = "更新失败";
 	public static final String DELETE_ERROR = "删除失败";
+	public static final String SELECT_ERROR = "查询失败";
+	public static final String ROLE_ERROR = "没有访问权限";
+	public static final String EXCEPTION = "发生异常";
 }

@@ -5,7 +5,8 @@
     <meta name="keywords" content="汽车,行圆汽车 ,汽车网,汽车报价,汽车图片,评测,汽车导购,汽车降价">
     <meta name="description" content="行圆汽车,汽车网站,汽车,汽车频道">
     <title>会议室系统</title>
-    <script type="text/javascript" src='js/jquery.1.11.3.min.js'></script>
+	<script type="text/javascript" src='js/jquery.1.11.3.min.js'></script>
+	<!-- <script type="text/javascript" src="http://api.oa.xingyuanauto.com/Check.ashx?NotCheckModule=true"></script> -->
     <script type="text/javascript">
         document.writeln('<l' + 'ink rel="stylesheet" type="text/css" href="css/reset.css?r='+Math.random()+'"/>');
         document.writeln('<l' + 'ink rel="stylesheet" type="text/css" href=css/style.css?r='+Math.random()+'"/>');
@@ -19,19 +20,19 @@
 	        <div class="logo"><a href="#"></a></div>
 	        <div>
 	            <ul id="menu" class="menu">
-	                <li class="" onclick="skipPages(this)">
+	                <li id="SYS023MOD0001" style="display: none;" onclick="skipPages('SYS023MOD0001')">
 	                    <a href="javascript:void(0)">
 	                        <div class="distance1"></div>
 	                        <div>会议室管理</div>
 	                    </a>
 	                </li>
-	                <li class="" onclick="skipPages(this)">
+	                <li id="SYS023MOD0002" style="display: none;" onclick="skipPages('SYS023MOD0002')">
 	                    <a href="javascript:void(0)">
 	                        <div class="distance2"></div>
 	                        <div>预定浏览</div>
 	                    </a>
 	                </li>
-	                <li class="" onclick="skipPages(this)">
+	                <li id="SYS023MOD0003" style="display: none;" onclick="skipPages('SYS023MOD0003')">
 	                    <a href="javascript:void(0)">
 	                        <div class="distance3"></div>
 	                        <div>权限管理</div>
@@ -50,8 +51,8 @@
 	                <div class="top_welcome">会议管理系统欢迎您</div>
 	                <div class="top_info">
 	                    <ul>
-	                        <li><a href="#"><span class="portrait"><img src="images/pic01.jpg"></span>艺然飘逸</a></li>
-	                        <li><a href="#"><span class="color01">返回OA系统</span></a></li>
+	                        <li id="user_info"></li>
+	                        <li><a href="http://oa.xingyuanauto.com"><span class="color01">返回OA系统</span></a></li>
 	                        <div class="clear"></div>
 	                    </ul>
 	                </div>

@@ -1,26 +1,90 @@
+/**
+ * @author qiaom@xingyuanauto.com
+ * @version 创建时间：2017年10月10日 下午2:40:49
+ */
+var OA_URL = 'http://oa1.xingyuanauto.com';
+var SUB_URL_MAP = {};
+var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
+var INSTER_OK = "添加成功";
+var UPDATE_OK = "更新成功";
+var DELETE_OK = "删除成功";
+// 加载
 $(function(){
-    $('.box_left .menu li').hover(function(){
-        $(this).toggleClass('hover');
+    // 下拉框效果
+    $('.content').on('click','.type-select',function(e){
+        e.stopPropagation();
+        $('.type-select ul').hide();
+        $(this).find('ul').show();
+
+    });
+    $('.content').on('mouseenter','.type-select ul li',function(e){
+        e.stopPropagation();
+        $(this).addClass('on');
+    }).on('mouseleave','.type-select ul li',function(e){
+        e.stopPropagation();
+        $(this).removeClass('on');
+    });
+    $('.content').on('click','.type-select ul li',function(e){
+        e.stopPropagation();
+        $(this).parent('ul').siblings('input').val($(this).text());
+        $(this).parent('ul').siblings('input').attr("key",$(this).attr("data-value"));
+        $(this).parent('ul').hide();
+    });
+    $(document).on('click',function(){
+        $('.type-select ul').hide();
+    });
+    // $('.box_left .menu li').hover(function(){
+    //     $(this).toggleClass('hover');
+    // });
+
+    // 请求登录信息
+    $.get("/getLoginInfo", function(rec){
+        if(rec.code == 0){
+            var data = rec.data;
+            // 用户头像与名称
+            $("#user_info").html('<a href="javascript:void(0)"><span class="portrait"><img src="' + 
+                OA_URL + 
+                data.icon + '"></span>' + 
+                data.employeeName + '</a>');
+            // 菜单权限
+            $.each(data.roleList,function(i,item){
+                SUB_URL_MAP[item.moduleId] = item.url;
+                if(i == 2){
+                    $("#" + item.moduleId).attr("class","current");
+                    skipPages(item.moduleId);
+                }
+    　　　　    $("#" + item.moduleId).show();
+            });
+        }else{
+            if(null == rec.msg || undefined == rec.msg){
+                alert(ERROR_MSG);
+                // TODO TEST 验证登录
+                alert("跳转到测试环境");
+                window.location.href=OA_URL;
+            }else
+                alert(rec.msg);
+        }
     });
 });
-//页面跳转
-function skipPages(obj) {
-    var index = $(obj).index();
-    $(obj).addClass("current").siblings().removeClass("current");
-    switch (index)
+
+//菜单加载
+function skipPages(id) {
+    $('#' + id).addClass("current").siblings().removeClass("current");
+    switch (id)
     {
-        case 0:
-            $(".box_right .content").load('template/meeting_manager.html?r='+Math.random(),function(){
+        case "SYS023MOD0001":
+            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0001'] + '.html?r='+Math.random(),function(){
+                // $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0001'] + '.js" type="text/javascript"></script>');
             });
             break;
-        case 1:
-            $(".box_right .content").load('template/authorize_manager.html?r='+Math.random(),function(){
-                // $(".box_right .content").append('<script language="javascript" src="../js/documents.js" type="text/javascript"></script>');
+        case "SYS023MOD0002":
+            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0002'] + '.html?r='+Math.random(),function(){
+                // $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
             });
             break;
-        case 2:
-            $(".box_right .content").load('template/scheduled_preview.html?r'+Math.random(),function(){
-                // $(".box_right .content").append('<script language="javascript" src="../js/pendings.js" type="text/javascript"></script>');
+        case "SYS023MOD0003":
+            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0003'] + '.html?r'+Math.random(),function(){
+                $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0003'] + '.js" type="text/javascript"></script>');
             });
             break;
     }

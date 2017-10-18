@@ -1,14 +1,18 @@
 package com.xyauto.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.xyauto.oa.Employee;
 import com.xyauto.pojo.OfficeAreaAuthority;
+import com.xyauto.pojo.User;
+import com.xyauto.pojo.UserRole;
 import com.xyauto.service.AuthorizeManagerService;
 import com.xyauto.service.OAService;
 import com.xyauto.util.Constants;
@@ -37,31 +41,32 @@ public class AuthorizeManagerController {
 
 	@GetMapping("/insert")
 	@ApiOperation(value = "新增", notes = "新增一条权限记录")
-	ResultUtil insert(OfficeAreaAuthority oaa) {
-
-		// TODO session role
-
+	ResultUtil insert(OfficeAreaAuthority oaa, @SessionAttribute(Constants.SESSION_USER) User user) {
+		// role
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		// check
 		String employeeId = oaa.getEmployeeId();
 		if (null == employeeId || StringUtil.isEmpty(employeeId))
-			return ResultUtil.error("员工ID不能为空");
+			return ResultUtil.error("员工编号不能为空");
 		if (!employeeId.matches("^\\d{4}$"))
-			return ResultUtil.error("员工ID格式不正确");
+			return ResultUtil.error("员工编号格式不正确");
 
 		Employee e = oas.queryEmployeeById(employeeId);
+		if (null == e)
+			return ResultUtil.error("没有查到员工信息，请重新输入");
 		oaa.setOaaId(IdUtil.getUUID());
 		oaa.setEmployeeName(e.getCnName());
 		oaa.setDepartmentId(Integer.toString(e.getDepartment().getDepartmentId()));
 		oaa.setDepartmentName(e.getDepartment().getFullPath().replaceAll("行圆汽车-", ""));
-		// TODO
-		oaa.setFounderId("test");
-		// TODO
-		oaa.setFounderName("测试");
+		oaa.setFounderId(user.getEmployeeId());
+		oaa.setFounderName(user.getEmployeeName());
 		oaa.setAdddate(new Date());
 		oaa.setIsDelete(false);
-		// TODO
-		oaa.setCreateUser("测试");
-		// TODO
-		oaa.setUpdateUser("测试");
+		oaa.setCreateUser(user.getEmployeeId());
+		oaa.setUpdateUser(user.getEmployeeId());
 
 		Integer result = officeAreaAuthorityService.insert(oaa);
 		if (1 == result)
@@ -73,51 +78,85 @@ public class AuthorizeManagerController {
 
 	@GetMapping("/update")
 	@ApiOperation(value = "修改", notes = "通过ID修改一条权限记录")
-	ResultUtil update(OfficeAreaAuthority oaa) {
+	ResultUtil update(OfficeAreaAuthority oaa, @SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// TODO session role
-
+		// role
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		// check
 		if (StringUtil.isEmpty(oaa.getOaaId()))
-			return ResultUtil.error("数据错误");
-		if (StringUtil.isEmpty(oaa.getOfficeIds())) 
+			return ResultUtil.error(Constants.EXCEPTION);
+		if (StringUtil.isEmpty(oaa.getOfficeIds()))
 			return ResultUtil.error("请至少选择一个办公区");
 
 		OfficeAreaAuthority update = new OfficeAreaAuthority();
 		update.setOaaId(oaa.getOaaId());
 		update.setOfficeIds(oaa.getOfficeIds());
-		// TODO
-		update.setUpdateUser("测试");
+		update.setUpdateUser(user.getEmployeeId());
 		Integer result = officeAreaAuthorityService.update(update);
-		if (result == 1) {
+		if (1 == result)
 			return ResultUtil.success();
-		}
 		return ResultUtil.error(Constants.UPDATE_ERROR);
 	}
 
 	@GetMapping("/delete")
 	@ApiOperation(value = "删除", notes = "通过ID删除一条权限记录")
-	ResultUtil delete(String oaaId) {
+	ResultUtil delete(String oaaId, @SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// TODO session role
+		// role
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
 
 		OfficeAreaAuthority delete = new OfficeAreaAuthority();
 		delete.setOaaId(oaaId);
 		delete.setIsDelete(true);
-		// TODO
-		delete.setUpdateUser("测试");
+		delete.setUpdateUser(user.getEmployeeId());
 		Integer result = officeAreaAuthorityService.update(delete);
-		if (result == 1) {
+		if (1 == result)
 			return ResultUtil.success();
-		}
 		return ResultUtil.error(Constants.DELETE_ERROR);
+	}
+
+	@GetMapping("/one")
+	@ApiOperation(value = "查询", notes = "通过ID查询一条权限记录")
+	ResultUtil one(String oaaId, @SessionAttribute(Constants.SESSION_USER) User user) {
+
+		// role
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		// check
+		if (null == oaaId || StringUtil.isEmpty(oaaId))
+			return ResultUtil.error("请选择一条权限");
+
+		OfficeAreaAuthority one = officeAreaAuthorityService.one(oaaId);
+		if (null == one)
+			return ResultUtil.error(Constants.SELECT_ERROR);
+		return ResultUtil.success(one);
 	}
 
 	@GetMapping("/select")
 	@ApiOperation(value = "查询", notes = "通过条件查询权限记录")
-	ResultUtil select(Integer pageNo, Integer pageSize) {
+	ResultUtil select(Integer pageNo, Integer pageSize, String officeId, String employeeName,
+			@SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// TODO session role
-
-		return ResultUtil.success(officeAreaAuthorityService.selectByCondition(pageNo, pageSize, null, null));
+		// role
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		// FETCH NEXT = 0 EXCEPTION
+		if (0 == pageSize)
+			return ResultUtil.error(Constants.EXCEPTION);
+		// 是否查询所有
+		if ("-2".equals(officeId))
+			officeId = null;
+		return ResultUtil
+				.success(officeAreaAuthorityService.selectByCondition(pageNo, pageSize, officeId, employeeName));
 	}
 }

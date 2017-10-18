@@ -81,15 +81,36 @@
 		where
 			oaa_id = #{oaaId,jdbcType=CHAR}
 	</update>
-	<select id="countByNotDel" resultType="java.lang.Integer">
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	    	office_ids, 
+	    	employee_id
+	    from 
+	    	office_area_authority
+	    where 
+	    	is_delete = 0 and
+	    	oaa_id = #{oaaId,jdbcType=CHAR}
+  	</select>
+	<select id="countByPage" resultType="java.lang.Integer">
 		select 
 			count(1) 
 		from 
-			office_area_authority 
+			office_area_authority t1
 		where 
-			is_delete = 0
+			<if test="officeId != null">
+				exists (select 
+							1 
+						from 
+							f_split2(t1.office_ids,',') t2 
+						where 
+							t2.t_str = #{officeId}) and
+			</if>
+			t1.is_delete = 0 
+			<if test="employeeName != null and employeeName != ''">
+				and t1.employee_name like '%${ employeeName }%'
+			</if>
 	</select>
-	<select id="existsByEmployeeId" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="existsByEmployeeId" parameterType="map" resultType="java.lang.Integer">
 		select 
 			count(1) 
 		from 
@@ -100,26 +121,43 @@
 	</select>
 	<select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
 		select
-			oaa_id,
+			t1.oaa_id,
+			(SELECT STUFF((
+				select 
+					distinct '、'+t2.office_name 
+				FROM 
+					office_location t2 
+				where 
+					CAST(t2.office_id as VARCHAR) in ( 
+						SELECT 
+							t_str 
+						FROM 
+							f_split2(t1.office_ids,',')) 
+						FOR XML PATH('')),1,1,'')) 
 			office_ids,
-			employee_id,
-			employee_name,
-			department_id,
-			department_name,
-			founder_id,
-			founder_name,
-			adddate
+			t1.employee_id,
+			t1.employee_name,
+			t1.department_id,
+			t1.department_name,
+			t1.founder_id,
+			t1.founder_name,
+			t1.adddate
 		from
-			office_area_authority
+			office_area_authority t1
 		where 
-			is_delete = 0 
 			<if test="officeId != null">
-				and office_ids like #{ officeId } 
+				exists (select 
+							1 
+						from 
+							f_split2(t1.office_ids,',') t2 
+						where 
+							t2.t_str = #{officeId}) and
 			</if>
+			t1.is_delete = 0 
 			<if test="employeeName != null and employeeName != ''">
-				and employee_name = #{ employeeName }
+				and t1.employee_name like '%${ employeeName }%'
 			</if>
-		order by adddate desc
+		order by t1.adddate desc
 		OFFSET #{ pageNo } ROW
 		FETCH NEXT #{ pageSize } ROW ONLY
 	</select>
