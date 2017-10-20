@@ -28,6 +28,10 @@ public class UtilsService {
 		return rolePermissionsMapper.getUserRole(empId);
 	}
 	
+	public List<OfficeLocation> getOfficeInfoByRole(String employeeId) {
+		return officeLocationMapper.selectByRole(employeeId);
+	}
+	
 	public List<OfficeLocation> getOfficeInfoAll() {
 		return officeLocationMapper.selectAll();
 	}

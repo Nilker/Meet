@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OfficeLocationMapper {
 
     OfficeLocation selectByPrimaryKey(Integer officeId);
+    List<OfficeLocation> selectByRole(String employeeId);
     List<OfficeLocation> selectAll();
 }

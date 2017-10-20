@@ -108,13 +108,25 @@
 		from 
 			scheduled_record
 	</select>
-	<select id="selectMaxStartTimeBybiId">
-		select top 1 start_time from scheduled_record where
-		bi_id = #{biId} order by start_time desc
+	<select id="selectMaxStartTimeBybiId" resultType="java.util.Date">
+		select top 1 
+			start_time 
+		from 
+			scheduled_record 
+		where
+			is_delete = 0 and
+			bi_id = #{biId} 
+		order by start_time desc
 	</select>
-	<select id="selectMaxEndTimeBybiId">
-		select top 1 end_time from scheduled_record where
-		bi_id = #{biId} order by end_time desc
+	<select id="selectMaxEndTimeBybiId" resultType="java.util.Date">
+		select top 1 
+			end_time 
+		from 
+			scheduled_record 
+		where
+			is_delete = 0 and
+			bi_id = #{biId} 
+		order by end_time desc
 	</select>
 	<select id="selectByPage" resultMap="BaseResultMap">
 		select 

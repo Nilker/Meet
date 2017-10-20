@@ -22,10 +22,11 @@ public interface OfficeAreaAuthorityMapper {
     Integer countByPage(
     		@Param("officeId") String officeId,
     		@Param("employeeName") String employeeName);
-    Integer existsByEmployeeId(@Param("employeeId") String employeeId);
+    Integer existsByEmployeeId(String employeeId);
     List<OfficeAreaAuthority> selectByPage(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,
     		@Param("officeId") String officeId,
     		@Param("employeeName") String employeeName);
+    List<Integer> selectRoleByEmpId(String employeeId);
 }

@@ -9,7 +9,6 @@
             </div>
             <div class="clear"></div>
         </li>
-        
         <li style="margin-top:-3px">
             <div class="fl">员工姓名:</div>
             <div class="type-select" name="type-select" >
@@ -25,54 +24,31 @@
         <span>&nbsp;&nbsp;&nbsp;添加权限</span>
     </div>
     <div class="subject-table">
-        <table id="am_list" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" >
-            <tr>
-                <th width="15%" style='padding-left: 30px;'>员工姓名</th>
-                <th width="25%">所属部门</th>
-                <th width="35%">授权办公区</th>
-                <th width="10%">添加日期</th>
-                <th width="10%">创建人</th>
-                <th width="5%">操作</th>
-            </tr>
-            <tr>
-                <td style='padding-left: 30px;'>常钰 0080</td>
-                <td>IT系统中心--产品部</td>
-                <td>北京中关村资本大厦、广州****大厦、上海****大厦</td>
-                <td>2017-01-01 8：00：00</td>
-                <td>常钰</td>
-                <td class="pr">
-                    <div class="type-ellipse">&nbsp;</div>
-                    <ul class="drop-down" style='display: block;'>
-                        <li class='li-hover'>编辑</li>
-                        <li>删除</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td style='padding-left: 30px;'>常钰 0080</td>
-                <td>IT系统中心--产品部</td>
-                <td>北京中关村资本大厦、广州****大厦、上海****大厦</td>
-                <td>2017-01-01 8：00：00</td>
-                <td>常钰</td>
-                <td class="pr">
-                    <div class="type-ellipse">&nbsp;</div>
-                    <ul class="drop-down" style='display: none;'>
-                        <li>编辑</li>
-                        <li>删除</li>
-                    </ul>
-                </td>
-            </tr>
-        </table>
+        <table id="am_list" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" ></table>
     </div>
     <div class="count" style='text-align: center;color:#a1a1a1;display: block;'>显示&nbsp;<span id="num" class='num'></span>&nbsp;/&nbsp;<span id="count_num" class='count_num'></span>&nbsp;个结果</div>
-    <div id="load_more" class="load_more" style='display: block;' onclick="load()">显示更多</div>
+    <div id="load_more" class="load_more" onclick="load()">显示更多</div>
 </div>
-
+<!-- 添加编辑弹层 -->
 <div id="layer" class='model' style="display: none;">
     <div class="layer">
     <div id="layer_title" class="title"></div>
     <div class="layer_con">
-        <div class="select_ndustry"><ul id="layer_ul"></ul></div>
+        <div class="select_ndustry">
+            <ul>
+                <li>
+                    <div class="fl">员工编号:</div>
+                    <div class="type-select" name="type-select">
+                        <input id="layer_emp_num" type="text" placeholder="请输入员工编号">
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="fl">授权办公区:</div>
+                    <div id="layer_office_list" class="fr" style="height:28px;line-height: 20px;margin-top: 8px;"></div>
+                </li><div class="clear"></div>
+            </ul>
+        </div>
         <div class="keep" style="text-align: center">
             <span  id="submit" class="but_submit" style="width:100px">确定</span>
         </div>

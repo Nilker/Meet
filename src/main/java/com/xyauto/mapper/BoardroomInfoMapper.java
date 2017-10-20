@@ -16,15 +16,18 @@ public interface BoardroomInfoMapper {
     int insert(BoardroomInfo record);
     int updateByPrimaryKey(BoardroomInfo record);
     BoardroomInfo selectByPrimaryKey(String biId);
-    Integer countByNotDel();
+    Integer countByPage(
+    		@Param("officeId") String officeId,
+    		@Param("status") String status,
+    		@Param("employeeId") String employeeId);
     Integer existsByOfficeIdAndbiName(
     		@Param("officeId") Integer officeId,
     		@Param("biName") String biName);
-    List<String> selectByOfficeId(
-    		@Param("officeId") Integer officeId);
+    List<String> selectByOfficeId(Integer officeId);
     List<BoardroomInfo> selectByPage(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,
-    		@Param("officeId") Integer officeId,
-    		@Param("status") Byte status);
+    		@Param("officeId") String officeId,
+    		@Param("status") String status,
+    		@Param("employeeId") String employeeId);
 }

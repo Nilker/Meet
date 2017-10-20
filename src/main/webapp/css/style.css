@@ -872,7 +872,7 @@
     margin:22px auto 0;
     padding-right: 10px;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
 }
 .select_ndustry li .fl{
@@ -1634,4 +1634,16 @@ input[type=checkbox] {
     position: fixed;
     bottom:180px;
     right:95px;
+}
+
+.td_con{
+    max-width:325px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+@media screen and (max-width:1366px){
+    .td_con{
+        max-width: 218px;
+    }
 }

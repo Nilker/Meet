@@ -73,26 +73,47 @@
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select 
-			bi_id, 
 			office_id, 
 			bi_name, 
 			bi_floor, 
 			bi_capacity, 
-			equipment, 
-			status,
-			is_delete
+			equipment,
+			status
 		from 
 			boardroom_info
 		where 
+			is_delete = 0 and
 			bi_id = #{biId,jdbcType=CHAR}
 	</select>
-	<select id="countByNotDel" resultType="java.lang.Integer">
+	<select id="countByPage" parameterType="map" resultType="java.lang.Integer">
 		select
 			count(1)
 		from
 			boardroom_info
 		where
 			is_delete = 0
+		<if test="officeId != null">
+			and office_id = #{ officeId }
+		</if>
+		<if test="officeId == null">
+			and office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+		</if>
+		<if test="status != null">
+			and status = #{ status }
+		</if>
 	</select>
 	<select id="existsByOfficeIdAndbiName" resultType="java.lang.Integer">
 		select
@@ -104,7 +125,7 @@
 			office_id = #{officeId} and
 			bi_name = #{biName}
 	</select>
-	<select id="selectByOfficeId" parameterType="map" resultType="java.lang.String">
+	<select id="selectByOfficeId" parameterType="java.lang.String" resultType="java.lang.String">
 		select
 			bi_name
 		from
@@ -130,6 +151,22 @@
 			is_delete = 0
 		<if test="officeId != null">
 			and office_id = #{ officeId }
+		</if>
+		<if test="officeId == null">
+			and office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
 		</if>
 		<if test="status != null">
 			and status = #{ status }

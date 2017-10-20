@@ -42,7 +42,7 @@ public class AuthorizeManagerController {
 	@GetMapping("/insert")
 	@ApiOperation(value = "新增", notes = "新增一条权限记录")
 	ResultUtil insert(OfficeAreaAuthority oaa, @SessionAttribute(Constants.SESSION_USER) User user) {
-		// role
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
@@ -80,7 +80,7 @@ public class AuthorizeManagerController {
 	@ApiOperation(value = "修改", notes = "通过ID修改一条权限记录")
 	ResultUtil update(OfficeAreaAuthority oaa, @SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// role
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
@@ -105,7 +105,7 @@ public class AuthorizeManagerController {
 	@ApiOperation(value = "删除", notes = "通过ID删除一条权限记录")
 	ResultUtil delete(String oaaId, @SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// role
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
@@ -125,7 +125,7 @@ public class AuthorizeManagerController {
 	@ApiOperation(value = "查询", notes = "通过ID查询一条权限记录")
 	ResultUtil one(String oaaId, @SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// role
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
@@ -145,7 +145,7 @@ public class AuthorizeManagerController {
 	ResultUtil select(Integer pageNo, Integer pageSize, String officeId, String employeeName,
 			@SessionAttribute(Constants.SESSION_USER) User user) {
 
-		// role
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))

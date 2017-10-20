@@ -1,13 +1,16 @@
 package com.xyauto.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xyauto.mapper.BoardroomInfoMapper;
+import com.xyauto.mapper.OfficeAreaAuthorityMapper;
 import com.xyauto.mapper.ScheduledRecordMapper;
 import com.xyauto.pojo.BoardroomInfo;
+import com.xyauto.pojo.User;
 import com.xyauto.util.PageData;
 
 /**
@@ -20,29 +23,46 @@ import com.xyauto.util.PageData;
 public class MeetingManagerService {
 
 	@Autowired
+	private OfficeAreaAuthorityMapper officeAreaAuthorityMapper;
+	@Autowired
 	private BoardroomInfoMapper boardroomInfoMapper;
 	@Autowired
 	private ScheduledRecordMapper scheduledRecordMapper;
 
 	// TODO transaction
-	public Integer insert(BoardroomInfo bi) {
-		if (0 < boardroomInfoMapper.existsByOfficeIdAndbiName(bi.getOfficeId(), bi.getBiName()))
+	public Integer insert(BoardroomInfo bi, User user) {
+		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
+		if(!roleList.contains(bi.getOfficeId())){
 			return -1;
+		}
+		if (0 < boardroomInfoMapper.existsByOfficeIdAndbiName(bi.getOfficeId(), bi.getBiName()))
+			return -2;
 		return boardroomInfoMapper.insert(bi);
+		
 	}
 
 	// TODO transaction
-	public Integer update(BoardroomInfo bi) {
+	public Integer update(BoardroomInfo bi, User user) {
 		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
+		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
+		if((!roleList.contains(old.getOfficeId())) || (!roleList.contains(bi.getOfficeId()))){
+			return -1;
+		}
+		
 		if (bi.getOfficeId().equals(old.getOfficeId()) && bi.getBiName().equals(old.getBiName()))
 			return boardroomInfoMapper.updateByPrimaryKey(bi);
 		if (0 < boardroomInfoMapper.existsByOfficeIdAndbiName(bi.getOfficeId(), bi.getBiName()))
-			return -1;
+			return -2;
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}
 
 	// TODO transaction
-	public Integer status(BoardroomInfo bi) {
+	public Integer status(BoardroomInfo bi, User user) {
+		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
+		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
+		if(!roleList.contains(old.getOfficeId())){
+			return -1;
+		}
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}
 
@@ -52,19 +72,31 @@ public class MeetingManagerService {
 		if (0 != old.getStatus())
 			return -1;
 		Date maxTime = scheduledRecordMapper.selectMaxEndTimeBybiId(bi.getBiId());
-		Date nowTime = new Date();
-		if(null != maxTime && nowTime.getTime() < maxTime.getTime())
-			return -2;
+		if(null != maxTime){
+			Date nowTime = new Date();
+			if(null != maxTime && nowTime.getTime() < maxTime.getTime())
+				return -2;
+		}
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
+	}
+	
+	// TODO transaction
+	public BoardroomInfo one(String oaaId, User user) {
+		BoardroomInfo bi = boardroomInfoMapper.selectByPrimaryKey(oaaId);
+		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
+		if(!roleList.contains(bi.getOfficeId())){
+			return null;
+		}
+		return boardroomInfoMapper.selectByPrimaryKey(oaaId);
 	}
 
 	// TODO transaction
-	public PageData selectByCondition(Integer pageNo, Integer pageSize, Integer officeId, Byte status) {
+	public PageData selectByCondition(Integer pageNo, Integer pageSize, String officeId, String status, String employeeId) {
 		PageData data = new PageData();
 		data.setPageNo(pageNo);
 		data.setPageSize(pageSize);
-		data.setTotal(boardroomInfoMapper.countByNotDel());
-		data.setData(boardroomInfoMapper.selectByPage(pageNo, pageSize, officeId, status));
+		data.setTotal(boardroomInfoMapper.countByPage(officeId, status, employeeId));
+		data.setData(boardroomInfoMapper.selectByPage(pageNo, pageSize, officeId, status, employeeId));
 		return data;
 	}
 }

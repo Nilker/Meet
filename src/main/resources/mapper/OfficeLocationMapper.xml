@@ -11,6 +11,28 @@
 		from office_location
 		where office_id = #{officeId,jdbcType=INTEGER}
 	</select>
+	<select id="selectByRole" parameterType="java.lang.String" resultMap="BaseResultMap">
+		 select 
+			office_id, 
+			office_name 
+		 from 
+			office_location
+		 where 
+			office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select office_id, office_name
 		from office_location

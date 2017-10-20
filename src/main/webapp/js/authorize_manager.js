@@ -15,7 +15,6 @@ $(function(){
 
 // 办公室下拉框列表
 function dropDdownList(){
-
     $.ajax({
         type: "get",
         url: "/getOfficeInfoAll",
@@ -73,8 +72,8 @@ function select(pageInti){
                 $('#am_list').append('<tr>'+
                     '<td style="padding-left: 30px;">'+ item.employeeName +'</td>'+
                     '<td>'+ item.departmentName +'</td>'+
-                    '<td>'+ item.officeIds +'</td>'+
-                    '<td>'+ item.adddate +'</td>'+
+                    '<td class="td_con" title="'+ item.officeIds +'">'+ item.officeIds +'</td>'+
+                    '<td>'+ dateConvert(item.adddate) +'</td>'+
                     '<td>'+ item.founderName +'</td>'+
                     '<td class="pr" onmouseover="tdIn('+ "'" + item.oaaId + "'" +')" onmouseout="tdOut('+ "'" + item.oaaId + "'" +')">'+
                         '<div class="type-ellipse" >&nbsp;</div>'+
@@ -106,7 +105,6 @@ function select(pageInti){
 }
 
 function deleteById(oaaId){
-	
 	$.get("/am/delete",{ "oaaId": oaaId }, function(rec){
         if(rec.code == 0){
             alert(UPDATE_OK);
@@ -126,49 +124,35 @@ function load(){
 	PAGE_SIZE_TEMP += STEP_VAlUE;
 	select(false);
 }
-
+// 显示操作弹层
 function tdIn(oaaId){
 	$.each(AM_LIST_ID,function(i,item){
 		$('#' + item).hide();
 	});
 	$('#' + oaaId).show();
 }
-
+// 隐藏操作弹层
 function tdOut(oaaId){
 	$('#' + oaaId).hide();
 }
 
 function openLayer(flag,oaaId){
-   
     // 判断办公区列表是否加载完毕
     if(0 == OFFICE_INFO_LIST.length)
         dropDdownList();
 
-    var offcitHTML = '';
+    var offcieHTML = '';
     $.each(OFFICE_INFO_LIST,function(index, el) {
-        offcitHTML += '<div class="fl check_con">';
-        offcitHTML += '<input class="magic-checkbox" type="checkbox" name="layout" id="'+ el.officeId +'">';
-        offcitHTML += '<label for="'+ el.officeId +'"><span>'+ el.officeName +'</span></label></div>';
+        offcieHTML += '<div class="fl check_con">';
+        offcieHTML += '<input class="magic-checkbox" type="checkbox" name="layout" id="'+ el.officeId +'">';
+        offcieHTML += '<label for="'+ el.officeId +'"><span>'+ el.officeName +'</span></label></div>';
     });
     if("insert" == flag){
         $("#layer_title").empty();
         $("#layer_title").html('添加权限'+
             '<div class="close" onclick="closeLayer()">&nbsp;</div>'+
             '<div class="clear"></div>');
-
-        $("#layer_ul").empty();
-        $("#layer_ul").html('<li>'+
-                                '<div class="fl">员工编号:</div>'+
-                                '<div class="type-select" name="type-select">'+
-                                    '<input id="layer_emp_num" type="text" placeholder="请输入员工编号">'+
-                                '</div>'+
-                                '<div class="clear"></div>'+
-                            '</li>'+
-                            '<li>'+
-                                '<div class="fl">授权办公区:</div>'+
-                                '<div id="layer_office_list" class="fr" style="height:28px;line-height: 20px;margin-top: 8px;"></div>'+
-                            '</li><div class="clear"></div>');
-        $("#layer_office_list").html(offcitHTML);
+        $("#layer_office_list").html(offcieHTML);
 
         $("#submit").unbind("click");
         $("#submit").click(function(event) {
@@ -209,7 +193,6 @@ function openLayer(flag,oaaId){
             });
         });
     }else if("update" == flag){
-
         $.get("/am/one",{ "oaaId": oaaId }, function(rec){
             if(rec.code == 0){
                 var oaa = rec.data;
@@ -217,17 +200,11 @@ function openLayer(flag,oaaId){
                 $("#layer_title").html('编辑权限'+
                     '<div class="close" onclick="closeLayer()">&nbsp;</div>'+
                     '<div class="clear"></div>');
-                $("#layer_ul").empty();
-                $("#layer_ul").html('<li>'+
-                                        '<div class="fl">员工编号:</div>'+
-                                        '<div class="type-select" name="type-select">'+oaa.employeeId + '</div>'+
-                                        '<div class="clear"></div>'+
-                                    '</li>'+
-                                    '<li>'+
-                                        '<div class="fl">授权办公区:</div>'+
-                                        '<div id="layer_office_list" class="fr" style="height:28px;line-height: 20px;margin-top: 8px;"></div>'+
-                                    '</li><div class="clear"></div>');
-                $("#layer_office_list").html(offcitHTML);
+                $("#layer_office_list").html(offcieHTML);
+
+                $("#layer_emp_num").val(oaa.employeeId);
+                $('#layer_emp_num').attr("readonly",true);
+
                 var oidList = oaa.officeIds.split(",");
                 $.each(oidList,function (i,item) {
                     $("#" + item).prop("checked",true);

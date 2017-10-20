@@ -38,13 +38,18 @@ public class UtilsController {
 	@GetMapping("/getOfficeInfoByRole")
 	@ApiOperation(value = "办公区下拉框查询", notes = "通过角色权限获取办公区信息")
 	ResultUtil getOfficeInfoByRole(@SessionAttribute(Constants.SESSION_USER) User user) {
-		return null;
+		// role 会议室管理
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		if (userRole.contains(roleCheck))
+			return ResultUtil.success(utilsService.getOfficeInfoByRole(user.getEmployeeId()));
+		return ResultUtil.error(Constants.ROLE_ERROR);
 	}
 
 	@GetMapping("/getOfficeInfoAll")
 	@ApiOperation(value = "办公区下拉框查询", notes = "获取办公区信息")
 	ResultUtil getOfficeInfoAll(@SessionAttribute(Constants.SESSION_USER) User user) {
-		// 权限
+		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
 		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
 		if (userRole.contains(roleCheck))

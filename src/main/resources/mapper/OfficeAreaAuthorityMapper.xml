@@ -110,7 +110,7 @@
 				and t1.employee_name like '%${ employeeName }%'
 			</if>
 	</select>
-	<select id="existsByEmployeeId" parameterType="map" resultType="java.lang.Integer">
+	<select id="existsByEmployeeId" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select 
 			count(1) 
 		from 
@@ -128,7 +128,7 @@
 				FROM 
 					office_location t2 
 				where 
-					CAST(t2.office_id as VARCHAR) in ( 
+					t2.office_id in ( 
 						SELECT 
 							t_str 
 						FROM 
@@ -160,5 +160,19 @@
 		order by t1.adddate desc
 		OFFSET #{ pageNo } ROW
 		FETCH NEXT #{ pageSize } ROW ONLY
+	</select>
+	<select id="selectRoleByEmpId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select 
+			t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
 	</select>
 </mapper>
