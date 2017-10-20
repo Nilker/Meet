@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xyauto.mapper.OfficeAreaAuthorityMapper;
-import com.xyauto.oa.Employee;
 import com.xyauto.pojo.OfficeAreaAuthority;
 import com.xyauto.util.PageData;
 

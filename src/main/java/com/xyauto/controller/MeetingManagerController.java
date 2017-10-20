@@ -56,6 +56,8 @@ public class MeetingManagerController {
 			return ResultUtil.error("所在楼层超出最大限制");
 		if (bi.getBiCapacity() > 9999 || bi.getBiCapacity() < 1)
 			return ResultUtil.error("人数过小或者过大");
+		if (null == bi.getEquipment() && (bi.getEquipment() < 0 || bi.getEquipment() > 15))
+			return ResultUtil.error("设备选择异常");
 
 		bi.setBiId(IdUtil.getUUID());
 		bi.setStatus((byte) 1);
@@ -97,6 +99,8 @@ public class MeetingManagerController {
 			return ResultUtil.error("所在楼层超出最大限制");
 		if (bi.getBiCapacity() > 9999 || bi.getBiCapacity() < 1)
 			return ResultUtil.error("人数过小或者过大");
+		if (null == bi.getEquipment() && (bi.getEquipment() < 0 || bi.getEquipment() > 15))
+			return ResultUtil.error("设备选择异常");
 
 		BoardroomInfo update = new BoardroomInfo();
 		update.setBiId(bi.getBiId());
@@ -104,7 +108,6 @@ public class MeetingManagerController {
 		update.setBiName(bi.getBiName());
 		update.setBiFloor(bi.getBiFloor());
 		update.setBiCapacity(bi.getBiCapacity());
-		// TODO byte 测试默认值是否为0
 		update.setEquipment(bi.getEquipment());
 		update.setUpdateUser(user.getEmployeeId());
 

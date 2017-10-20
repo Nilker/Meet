@@ -2,7 +2,6 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var MM_LIST_ID = [];
 var PAGE_SIZE_INIT = 3;//初始化条数
 var PAGE_SIZE_TEMP = PAGE_SIZE_INIT;//当前显示条数
 var STEP_VAlUE = 3;//分页步进值
@@ -32,9 +31,7 @@ function dropDdownList(){
                 });
                 $('#office_input').val("全部");
                 $('#office_input').attr("key",-2);
-                $('#status_input').val("全部");
-                $('#status_input').attr("key",-2);
-                select(true);
+                // select(true);
             }else{
                 if(null == rec.msg || undefined == rec.msg)
                     alert(ERROR_MSG);
@@ -60,7 +57,6 @@ function select(pageInti){
 
 	$.get("/mm/select",parameter, function(rec){ 
         if(rec.code == 0){
-            MM_LIST_ID = [];
             $('#mm_list').empty();
             $('#mm_list').append('<tr>'+
                                     '<th width="20%" style="padding-left: 30px;">会议室名称</th>'+
@@ -72,7 +68,6 @@ function select(pageInti){
                                     '<th width="7%">操作</th>'+
                                 '</tr>');
             $.each(rec.data.data,function(i,item){
-                MM_LIST_ID.push(item.biId);
                 var tempEquipment = equipmentConvert(item.equipment);
                 $('#mm_list').append('<tr>'+
                     '<td class="td_con" style="padding-left: 30px;" title="'+ item.biName +'">'+ item.biName +'</td>'+
@@ -144,17 +139,6 @@ function load(){
 		return;
 	PAGE_SIZE_TEMP += STEP_VAlUE;
 	select(false);
-}
-// 显示操作弹层
-function tdIn(biId){
-	$.each(MM_LIST_ID,function(i,item){
-		$('#' + item).hide();
-	});
-	$('#' + biId).show();
-}
-// 隐藏操作弹层
-function tdOut(biId){
-	$('#' + biId).hide();
 }
 
 function openLayer(flag,biId){

@@ -35,13 +35,27 @@ public class UtilsController {
 		return ResultUtil.success(user);
 	}
 
+	@GetMapping("/getMeetingByOfficeId")
+	@ApiOperation(value = "会议室下拉框查询", notes = "通过办公区ID获取会议室信息")
+	ResultUtil getMeetingByOfficeId(Integer oid, @SessionAttribute(Constants.SESSION_USER) User user) {
+		// role 会议室管理
+		List<UserRole> userRole = user.getRoleList();
+		UserRole scheduledPreviewRole = new UserRole(Constants.SCHEDULED_PREVIEW);
+		if (!userRole.contains(scheduledPreviewRole))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		if (-2 == oid)
+			oid = null;
+		return ResultUtil.success(utilsService.getMeetingByOfficeId(oid, user));
+	}
+
 	@GetMapping("/getOfficeInfoByRole")
 	@ApiOperation(value = "办公区下拉框查询", notes = "通过角色权限获取办公区信息")
 	ResultUtil getOfficeInfoByRole(@SessionAttribute(Constants.SESSION_USER) User user) {
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
-		if (userRole.contains(roleCheck))
+		UserRole meetingManagerRole = new UserRole(Constants.MEETING_MANAGER);
+		UserRole scheduledPreviewRole = new UserRole(Constants.SCHEDULED_PREVIEW);
+		if (userRole.contains(meetingManagerRole) || userRole.contains(scheduledPreviewRole))
 			return ResultUtil.success(utilsService.getOfficeInfoByRole(user.getEmployeeId()));
 		return ResultUtil.error(Constants.ROLE_ERROR);
 	}

@@ -23,7 +23,9 @@ public interface BoardroomInfoMapper {
     Integer existsByOfficeIdAndbiName(
     		@Param("officeId") Integer officeId,
     		@Param("biName") String biName);
-    List<String> selectByOfficeId(Integer officeId);
+    List<BoardroomInfo> selectByOfficeId(
+    		@Param("officeId") Integer officeId,
+    		@Param("employeeId") String employeeId);
     List<BoardroomInfo> selectByPage(
     		@Param("pageNo") Integer pageNo, 
     		@Param("pageSize") Integer pageSize,

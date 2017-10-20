@@ -24,26 +24,6 @@ public class ScheduledPreviewController {
 
 	@Autowired
 	private ScheduledPreviewService scheduledPreviewService;
-
-	@GetMapping("/selectOfficeAll")
-	@ApiOperation(value = "查询条件列表", notes = "查询办公区信息")
-	ResultUtil selectOfficeAll() {
-
-		// TODO session role
-
-		return ResultUtil.success(scheduledPreviewService.selectOfficeAll());
-	}
-
-	@GetMapping("/selectBoardroomInfoByOfficeId")
-	@ApiOperation(value = "查询条件列表", notes = "通过办公区ID查询会议室信息")
-	ResultUtil selectBoardroomInfoByOfficeId(Integer id) {
-
-		// TODO session role
-		
-		// TODO oa role
-
-		return ResultUtil.success(scheduledPreviewService.selectBoardroomInfoByOfficeId(id == -2 ? null : id));
-	}
 	
 	@GetMapping("/selectByPage")
 	@ApiOperation(value = "查询", notes = "通过条件查询会议室预定信息")

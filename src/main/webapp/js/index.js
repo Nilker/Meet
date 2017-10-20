@@ -57,7 +57,7 @@ $(function(){
             // 菜单权限
             $.each(data.roleList,function(i,item){
                 SUB_URL_MAP[item.moduleId] = item.url;
-                if(i == 0){
+                if(i == 1){
                     $("#" + item.moduleId).attr("class","current");
                     skipPages(item.moduleId);
                 }
@@ -87,7 +87,7 @@ function skipPages(id) {
             break;
         case "SYS023MOD0002":
             $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0002'] + '.html?r='+Math.random(),function(){
-                // $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
+                $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
             });
             break;
         case "SYS023MOD0003":

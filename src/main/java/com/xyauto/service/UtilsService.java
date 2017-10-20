@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xyauto.mapper.BoardroomInfoMapper;
 import com.xyauto.mapper.OfficeLocationMapper;
 import com.xyauto.mapper.RolePermissionsMapper;
+import com.xyauto.pojo.BoardroomInfo;
 import com.xyauto.pojo.OfficeLocation;
+import com.xyauto.pojo.User;
 import com.xyauto.pojo.UserRole;
 
 /**
@@ -23,9 +26,15 @@ public class UtilsService {
 	private RolePermissionsMapper rolePermissionsMapper;
 	@Autowired
 	private OfficeLocationMapper officeLocationMapper; 
+	@Autowired
+	private BoardroomInfoMapper boardroomInfoMapper;
 
 	public List<UserRole> getUserRole(Integer empId) {
 		return rolePermissionsMapper.getUserRole(empId);
+	}
+	
+	public List<BoardroomInfo> getMeetingByOfficeId(Integer oid, User user) {
+		return boardroomInfoMapper.selectByOfficeId(oid, user.getEmployeeId());
 	}
 	
 	public List<OfficeLocation> getOfficeInfoByRole(String employeeId) {

@@ -125,13 +125,28 @@
 			office_id = #{officeId} and
 			bi_name = #{biName}
 	</select>
-	<select id="selectByOfficeId" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="selectByOfficeId" parameterType="map" resultType="BaseResultMap">
 		select
+			bi_id,
 			bi_name
 		from
 			boardroom_info
 		where
-			is_delete = 0
+			is_delete = 0 and
+			office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
 		<if test="officeId != null">
 			and office_id = #{ officeId }
 		</if>
@@ -148,12 +163,8 @@
 		from
 			boardroom_info
 		where
-			is_delete = 0
-		<if test="officeId != null">
-			and office_id = #{ officeId }
-		</if>
-		<if test="officeId == null">
-			and office_id in (
+			is_delete = 0 and
+			office_id in (
 				select 
 					t_str as office_role
 				from 
@@ -167,6 +178,8 @@
 							r.employee_id = #{employeeId}
 					),',')
 			)
+		<if test="officeId != null">
+			and office_id = #{ officeId }
 		</if>
 		<if test="status != null">
 			and status = #{ status }

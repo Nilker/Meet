@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xyauto.mapper.BoardroomInfoMapper;
-import com.xyauto.mapper.OfficeLocationMapper;
 import com.xyauto.mapper.ScheduledRecordMapper;
-import com.xyauto.pojo.OfficeLocation;
 import com.xyauto.pojo.ScheduledRecord;
 
 /**
@@ -21,19 +18,7 @@ import com.xyauto.pojo.ScheduledRecord;
 public class ScheduledPreviewService {
 
 	@Autowired
-	private OfficeLocationMapper officeLocationMapper;
-	@Autowired
-	private BoardroomInfoMapper boardroomInfoMapper;
-	@Autowired
 	private ScheduledRecordMapper scheduledRecordMapper;
-
-	public List<OfficeLocation> selectOfficeAll() {
-		return officeLocationMapper.selectAll();
-	}
-
-	public List<String> selectBoardroomInfoByOfficeId(Integer id) {
-		return boardroomInfoMapper.selectByOfficeId(id);
-	}
 
 	public List<ScheduledRecord> selectByPage(Integer pageSize, Integer officeId, String biId, Integer conferenceStatus,
 			String departmentName) {
