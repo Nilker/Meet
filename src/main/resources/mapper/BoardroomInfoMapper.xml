@@ -125,7 +125,7 @@
 			office_id = #{officeId} and
 			bi_name = #{biName}
 	</select>
-	<select id="selectByOfficeId" parameterType="map" resultType="BaseResultMap">
+	<select id="selectByOfficeId" parameterType="map" resultMap="BaseResultMap">
 		select
 			bi_id,
 			bi_name
