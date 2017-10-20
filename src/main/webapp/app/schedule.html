@@ -36,6 +36,9 @@
 			+ "cript type='text/javascript' src='../js/common.js?r="
 			+ Math.random() + "'></scr" + "ipt>");
 	document.writeln("<s"
+			+ "cript type='text/javascript' src='../app/js/globalObj.js?r="
+			+ Math.random() + "'></scr" + "ipt>");
+	document.writeln("<s"
 			+ "cript type='text/javascript' src='../app/js/schedule.js?r="
 			+ Math.random() + "'></scr" + "ipt>");
 	document.writeln("<s"
@@ -44,6 +47,7 @@
 </script>
 </head>
 <body>
+
 	<!-- 头部 -->
 	<!--     <div class="title"> -->
 	<!--         <h2> 7层-会议室4 </h2> -->
@@ -58,69 +62,58 @@
 	<!--     </div> -->
 	<!-- 内容 -->
 	<div class="list">
-		<ul>
-			<li class='list_name'>会议主题</li>
-			<li class="list_text"><input type="text" style="border: none;"></li>
-		</ul>
-		<ul>
-			<li class='list_name'>会议日期</li>
-			<li class="list_text">2017-09-09</li>
-			<div class="clear"></div>
-			<li class='table'>
-				<ol>
-					<li id="0" value="0900">09</li>
-					<li id="1" value="0930"></li>
-					<li id="2" value="1000">10</li>
-					<li id="3" value="1030"></li>
-					<li id="4" value="1100">11</li>
-					<li id="5" value="1130"></li>
-					<li id="6" value="1200">12</li>
-					<li id="7" value="1230"></li>
-					<li id="8" value="1300">13</li>
-					<li id="9" value="1330" style='border-right: 0 none;'></li>
-					<div class="clear"></div>
-				</ol>
-				<ol>
-					<li id="10" value="1400">14</li>
-					<li id="11" value="1430"></li>
-					<li id="12" value="1500">15</li>
-					<li id="13" value="1530"></li>
-					<li id="14" value="1600">16</li>
-					<li id="15" value="1630"></li>
-					<li id="16" value="1700">17</li>
-					<li id="17" value="1730"></li>
-					<li id="18" value="1800">18</li>
-					<li id="19" value="1830" style='border-right: 0 none;'></li>
-					<div class="clear"></div>
-				</ol>
-			</li>
-		</ul>
-		<ul>
-			<li class='list_name'>会议时间</li>
-			<li class="list_text">11:30 - 13:00</li>
-		</ul>
-		<ul class='add_people'>
-			<li class="list_name">与会人</li>
-			<li class="peoples"><span>李孟然</span>、</li>
-			<li class="peoples"><span>常钰</span>、</li>
-			<li class="peoples active"><span>涟漪辰</span>、</li>
-			<li class="peoples "><span>李孟然</span>、</li>
-			<li class="peoples"><span>李孟然</span>、</li>
-			<li class="peoples"><span>常钰</span>、</li>
-			<li class="peoples"><span>涟漪辰</span>、</li>
-			<div class="clear"></div>
-			<li class="add"></li>
-		</ul>
-	</div>
+<!-- 		<ul> -->
+<!-- 			<li class='list_name'>会议主题</li> -->
+<!-- 			<li class="list_text"><input type="text" style="border: none;"></li> -->
+<!-- 		</ul> -->
+<!-- 		<ul> -->
+<!-- 			<li class='list_name'>会议日期</li> -->
+<!-- 			<li class="list_text">2017-09-09</li> -->
+<!-- 			<div class="clear"></div> -->
+<!-- 			<li class='table'> -->
+<!-- 				<ol> -->
+<!-- 					<li id="0" value="0900">09</li> -->
+<!-- 					<li id="1" value="0930"></li> -->
+<!-- 					<li id="2" value="1000">10</li> -->
+<!-- 					<li id="3" value="1030"></li> -->
+<!-- 					<li id="4" value="1100">11</li> -->
+<!-- 					<li id="5" value="1130"></li> -->
+<!-- 					<li id="6" value="1200">12</li> -->
+<!-- 					<li id="7" value="1230"></li> -->
+<!-- 					<li id="8" value="1300">13</li> -->
+<!-- 					<li id="9" value="1330" style='border-right: 0 none;'></li> -->
+<!-- 					<div class="clear"></div> -->
+<!-- 				</ol> -->
+<!-- 				<ol> -->
+<!-- 					<li id="10" value="1400">14</li> -->
+<!-- 					<li id="11" value="1430"></li> -->
+<!-- 					<li id="12" value="1500">15</li> -->
+<!-- 					<li id="13" value="1530"></li> -->
+<!-- 					<li id="14" value="1600">16</li> -->
+<!-- 					<li id="15" value="1630"></li> -->
+<!-- 					<li id="16" value="1700">17</li> -->
+<!-- 					<li id="17" value="1730"></li> -->
+<!-- 					<li id="18" value="1800">18</li> -->
+<!-- 					<li id="19" value="1830" style='border-right: 0 none;'></li> -->
+<!-- 					<div class="clear"></div> -->
+<!-- 				</ol> -->
+<!-- 			</li> -->
+<!-- 		</ul> -->
+<!-- 		<ul> -->
+<!-- 			<li class='list_name'>会议时间</li> -->
+<!-- 			<li class="list_text">11:30 - 13:00</li> -->
+<!-- 		</ul> -->
+		
+<!-- 	</div> -->
 	<!-- 预定按钮 -->
-	<div class="but_bottom">立即预定</div>
+<!-- 	<div class="but_bottom">立即预定</div> -->
 
-	<!-- 弹层 -->
-	<!--     <div class="model"> -->
-	<!--         <div class="layer" style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'> -->
-	<!--             <p style='text-align: center;'>确定要删除 <span style='color:#1f97f4'>李孟然</span> 吗？</p> -->
-	<!--             <p><span class="but_ok">确定</span><span class="but_cancel">取消</span></p> -->
-	<!--         </div> -->
-	<!--     </div> -->
+	 <!-- 弹层 -->
+<!--     <div class="model"> -->
+<!--         <div class="layer" style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'> -->
+<!--             <p style='text-align: center;'>确定要删除 <span style='color:#1f97f4'>李孟然</span> 吗？</p> -->
+<!--             <p><span class="but_ok">确定</span><span class="but_cancel">取消</span></p> -->
+<!--         </div> -->
+<!--     </div> -->
 </body>
 </html>

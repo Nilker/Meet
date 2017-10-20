@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class ScheduledRecordExt extends ScheduledRecord {
-	private String[] employee_ids;
+	private String[] employeeIds;
 	private String[] startEndTimeArr;
 	private String startEndTime;
 	private String type;

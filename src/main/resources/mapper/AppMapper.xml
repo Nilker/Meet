@@ -8,6 +8,9 @@
 		<result column="bi_capacity" jdbcType="INTEGER" property="biCapacity" />
 		<result column="bi_name" jdbcType="VARCHAR" property="biName" />
 	</resultMap>
+	<update id="delScheduleBySrId" parameterType="java.lang.String">
+		update scheduled_record  set is_delete = 1 where sr_id = #{srId,jdbcType=VARCHAR} 
+	</update>
 	<select id="findBoradSchedInfoByReq" parameterType="map"
 		resultMap="ScheduledExtResultMap">
 		select
@@ -28,7 +31,7 @@
 		from
 		[xyauto_meet].[dbo].[boardroom_info] as A
 		where
-		A.office_id=1
+		A.office_id=#{officeId,jdbcType=INTEGER}
 		and
 		A.is_delete=0
 		and A.status=1
@@ -49,7 +52,7 @@
 	<select id="findInfoByBiId" parameterType="map"
 		resultMap="com.xyauto.mapper.ScheduledRecordMapper.BaseResultMap">
 		select
-		A.sr_id,A.start_time,A.end_time
+		A.sr_id,A.meeting_theme,A.phone,A.employee_name,A.start_time,A.end_time
 		from
 		[xyauto_meet].[dbo].[scheduled_record] A
 		where

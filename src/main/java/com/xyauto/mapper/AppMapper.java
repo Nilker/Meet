@@ -32,4 +32,7 @@ public interface AppMapper {
 	List<ScheduledRecordExt> findSingleMeetBySrId(String srId);
 
 	Object findInfoByBiId(@Param("biId") String biId, @Param("startTime") String startTime);
+	
+	int delScheduleBySrId(String siId);
+	
 }

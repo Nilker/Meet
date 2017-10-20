@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,16 +32,39 @@ public class AppController {
 	@Autowired
 	private AppService appService;
 
+	@RequestMapping(value = "scheduled/delScheduleBySrId", method = RequestMethod.GET)
+	public ResponseEntity<ResultUtil> delScheduleBySrId(HttpServletRequest request, String srId)
+			throws Exception {
+		log.debug("srId{}"+srId);
+//		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
+//			System.out.println(request.getSession().getAttribute("appUser"));
+			return ResponseEntity.ok(ResultUtil.success(appService.delScheduleBySrId(srId)));
+//		} else {
+//			return ResponseEntity.ok(ResultUtil.error("loginError"));
+//		}
+	}
+
+	@RequestMapping(value = "scheduled/findBoardByPrimaryKey", method = RequestMethod.GET)
+	public ResponseEntity<ResultUtil> findBoardByPrimaryKey(HttpServletRequest request, String biId) throws Exception {
+		log.debug("biId{}" + biId);
+		// if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
+		// System.out.println(request.getSession().getAttribute("appUser"));
+		return ResponseEntity.ok(ResultUtil.success(appService.findBoardByPrimaryKey(biId)));
+		// } else {
+		// return ResponseEntity.ok(ResultUtil.error("loginError"));
+		// }
+	}
+
 	@RequestMapping(value = "scheduled/getInfoByOfficeId", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> findInfoByOfficeId(HttpServletRequest request, int officeId, String startTime)
 			throws Exception {
-		log.debug("officeId{}"+officeId+"startTime{}"+startTime);
-		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-//			System.out.println(request.getSession().getAttribute("appUser"));
-			return ResponseEntity.ok(ResultUtil.success(appService.findInfoByOfficeId(officeId, startTime)));
-		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
-		}
+		log.debug("officeId{}" + officeId + "startTime{}" + startTime);
+		// if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
+		// System.out.println(request.getSession().getAttribute("appUser"));
+		return ResponseEntity.ok(ResultUtil.success(appService.findInfoByOfficeId(officeId, startTime)));
+		// } else {
+		// return ResponseEntity.ok(ResultUtil.error("loginError"));
+		// }
 	}
 	
 	@RequestMapping(value = "scheduled/findInfoByBiId", method = RequestMethod.GET)
@@ -84,6 +108,18 @@ public class AppController {
 			throws Exception {
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
 			return ResponseEntity.ok(ResultUtil.success(appService.findSingleInfoByBiId(biId,startTime)));
+		} else {
+			return ResponseEntity.ok(ResultUtil.error("loginError"));
+		}
+	}
+	@RequestMapping(value = "scheduled/insertSchedule", method = RequestMethod.POST)
+	public ResponseEntity<ResultUtil> insertSchedule(HttpServletRequest request,@RequestBody ScheduledRecordExt schedule)
+			throws Exception {
+		log.info("obj{}"+schedule);
+		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
+			User user=(User)request.getSession().getAttribute("appUser");
+			schedule.setEmployeeId(user.getEmployeeId());
+			return ResponseEntity.ok(ResultUtil.success(appService.insertSchedule(schedule)));
 		} else {
 			return ResponseEntity.ok(ResultUtil.error("loginError"));
 		}

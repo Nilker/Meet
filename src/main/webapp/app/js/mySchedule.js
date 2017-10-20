@@ -1,4 +1,3 @@
-//titleObj="<div class='title'><h2> 7层-会议室4 </h2><span>12人</span><div class='clear'></div><ul><li><img src='icon1.png' style='width:0.35rem;'>电视</li><li><img src='../app/images/icon2.png' style='width: 0.4rem;'>投影仪</li><li><img src='../app/images/icon3.png' style='width: 0.25rem;'>八爪鱼</li><div class='clear'></div></ul></div>";
 currentDay=new Date().Format('yyyy-MM-dd');
 ymdDate=new Date().Format('yyyy-MM-dd');
 $(function() {
@@ -126,7 +125,9 @@ $(function() {
 									$(".con").empty();
 								});
 								$(".btn_layer").on("click",function(e){//取消会议
-									alert("");
+									e.stopPropagation();
+//									alert(srId);
+									cancelMeet(srId);
 								})
 							}
 						}
@@ -140,6 +141,36 @@ $(function() {
 		}
 	});
 });
+function cancelMeet(srId){
+	var appendObj = "";
+	appendObj +="<div id='model' class='model'>"
+    +"<div class='layer' style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
+    +"<p style='text-align: center;'>确定要取消会议么？</p>"
+    +"<p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p>"
+    +"</div>"
+    +"</div>";
+	$("body").append(appendObj);
+	$(".but_ok").on("click",function(e){
+		 $.ajax({
+		        type:"GET",
+		        url:urlObj.delScheduleBySrId,
+		        data:{
+		        	srId : srId
+		        },
+		        dataType : "json",
+				contentType : 'application/json',
+		        success:function(data){
+		        	location.reload();
+		        },
+		        error : function(err){
+		        	console.log(err);
+		        }
+			})
+	});
+	$(".but_cancel").on("click",function(e){
+		$("#model").remove();
+	});
 
+}
 
 
