@@ -13,7 +13,7 @@ $(function(){
     dropDdownList();
 });
 
-// 办公室下拉框列表
+// 办公区下拉框列表
 function dropDdownList(){
     $.ajax({
         type: "get",
@@ -37,9 +37,9 @@ function dropDdownList(){
                 select(true);
             }else{
                 if(null == rec.msg || undefined == rec.msg)
-                    alert(ERROR_MSG);
+                    layer.msg(ERROR_MSG);
                 else
-                    alert(rec.msg);
+                    layer.msg(rec.msg);
             }
         }
     });
@@ -75,8 +75,8 @@ function select(pageInti){
                 MM_LIST_ID.push(item.biId);
                 var tempEquipment = equipmentConvert(item.equipment);
                 $('#mm_list').append('<tr>'+
-                    '<td class="td_con" style="padding-left: 30px;" title="'+ item.biName +'">'+ item.biName +'</td>'+
-                    '<td>'+ item.biFloor +'</td>'+
+                    '<td style="padding-left: 30px;">'+ item.biName +'</td>'+
+                    '<td class="td_con">'+ item.biFloor +'</td>'+
                     '<td>'+ item.biCapacity +'</td>'+
                     '<td>'+ OFFICE_INFO_MAP[item.officeId] +'</td>'+
                     '<td class="td_con" title="'+ tempEquipment +'">'+ tempEquipment +'</td>'+
@@ -104,9 +104,9 @@ function select(pageInti){
             $("#count_num").text(TOTAL);
         }else{
             if(null == rec.msg || undefined == rec.msg)
-                alert(ERROR_MSG);
+                layer.msg(ERROR_MSG);
             else
-                alert(rec.msg);
+                layer.msg(rec.msg);
         }
     });
 }
@@ -114,13 +114,13 @@ function select(pageInti){
 function deleteById(biId){
 	$.get("/mm/delete",{ "biId": biId }, function(rec){
         if(rec.code == 0){
-            alert(DELETE_OK);
+            layer.msg(DELETE_OK);
             select(false);
         }else{
             if(null == rec.msg || undefined == rec.msg)
-                alert(ERROR_MSG);
+                layer.msg(ERROR_MSG);
             else
-                alert(rec.msg);
+                layer.msg(rec.msg);
         }
     });
 }
@@ -128,13 +128,13 @@ function deleteById(biId){
 function statusById(biId, status){
     $.get("/mm/status",{ "biId": biId ,"status": status }, function(rec){
         if(rec.code == 0){
-            alert(UPDATE_OK);
+            layer.msg(UPDATE_OK);
             select(false);
         }else{
             if(null == rec.msg || undefined == rec.msg)
-                alert(ERROR_MSG);
+                layer.msg(ERROR_MSG);
             else
-                alert(rec.msg);
+                layer.msg(rec.msg);
         }
     });
 }
@@ -166,7 +166,6 @@ function openLayer(flag,biId){
     var checkboxList = $(".fr input:checkbox");
 
     if("insert" == flag){
-        
         $.each(checkboxList,function (i,item) {
             $(item).prop("checked",false);
         });
@@ -200,33 +199,45 @@ function openLayer(flag,biId){
             parameter.biCapacity = $("#layer_bi_capacity").val();
             parameter.equipment = parseInt(equipment,2);
 
-            if('' == parameter.officeId){
-                alert("请选择一个办公区");
+            if(undefined == parameter.officeId || '' == parameter.officeId){
+                // layer.msg("请选择一个办公区");
+                layer.tips("请选择一个办公区", '#layer_office_input',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
             if('' == parameter.biName){
-                alert("请输入会议室名称");
+                // layer.msg("请输入会议室名称");
+                layer.tips("请输入会议室名称", '#layer_bi_name',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
-            if('' == parameter.biName){
-                alert("请输入会议室所在楼层");
+            if('' == parameter.biFloor){
+                // layer.msg("请输入会议室所在楼层");
+                layer.tips("请输入会议室所在楼层", '#layer_assembly_floor',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
-            if('' == parameter.biName){
-                alert("请输入人数");
+            if('' == parameter.biCapacity || 0 == parameter.biCapacity){
+                // layer.msg("请输入人数");
+                layer.tips("请输入人数", '#layer_assembly_capacity',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
             
             $.get("/mm/insert", parameter, function(rec){
                 if(rec.code == 0){
-                    alert(INSTER_OK);
                     closeLayer();
+                    layer.msg(INSTER_OK);
                     select(false);
                 }else{
                     if(null == rec.msg || undefined == rec.msg)
-                        alert(ERROR_MSG);
+                        layer.msg(ERROR_MSG);
                     else
-                        alert(rec.msg);
+                        layer.msg(rec.msg);
                 }
             });
         });
@@ -235,6 +246,11 @@ function openLayer(flag,biId){
         $("#layer_title").html('编辑会议室'+
         '<div class="close" onclick="closeLayer()">&nbsp;</div>'+
         '<div class="clear"></div>');
+
+        $('#layer_office_list').empty();
+        $.each(OFFICE_INFO_LIST,function(i,item){
+            $('#layer_office_list').append('<li style="width: 296px; margin:0;" data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
+        });
 
         $.get("/mm/one",{ "biId": biId }, function(rec){
             if(rec.code == 0){
@@ -250,7 +266,7 @@ function openLayer(flag,biId){
                     var binaryList = decimalToBinaryArray(bi.equipment);
                     debugger
                     if(binaryList.length != checkboxList.length)
-                        alert("发生错误，设备列表数量异常");
+                        layer.msg("发生错误，设备列表数量异常");
                     $.each(checkboxList,function (i,item) {
                         if(binaryList[i] == 0)
                             $(item).prop("checked",false);
@@ -279,51 +295,63 @@ function openLayer(flag,biId){
                     parameter.biCapacity = $("#layer_bi_capacity").val();
                     parameter.equipment = parseInt(equipment,2);
         
-                    if('' == parameter.officeId){
-                        alert("请选择一个办公区");
+                    if(undefined == parameter.officeId || '' == parameter.officeId){
+                        // layer.msg("请选择一个办公区");
+                        layer.tips("请选择一个办公区", '#layer_office_input',{
+                            tips: [2, '#3399ff']
+                        });
                         return;
                     }
                     if('' == parameter.biName){
-                        alert("请输入会议室名称");
+                        // layer.msg("请输入会议室名称");
+                        layer.tips("请输入会议室名称", '#layer_bi_name',{
+                            tips: [2, '#3399ff']
+                        });
                         return;
                     }
-                    if('' == parameter.biName){
-                        alert("请输入会议室所在楼层");
+                    if('' == parameter.biFloor){
+                        // layer.msg("请输入会议室所在楼层");
+                        layer.tips("请输入会议室所在楼层", '#layer_assembly_floor',{
+                            tips: [2, '#3399ff']
+                        });
                         return;
                     }
-                    if('' == parameter.biName){
-                        alert("请输入人数");
+                    if('' == parameter.biCapacity || 0 == parameter.biCapacity){
+                        // layer.msg("请输入人数");
+                        layer.tips("请输入人数", '#layer_assembly_capacity',{
+                            tips: [2, '#3399ff']
+                        });
                         return;
                     }
                     
                     $.get("/mm/update", parameter, function(rec){
                         if(rec.code == 0){
-                            alert(UPDATE_OK);
                             closeLayer();
+                            layer.msg(UPDATE_OK);
                             select(false);
                         }else{
                             if(null == rec.msg || undefined == rec.msg)
-                                alert(ERROR_MSG);
+                                layer.msg(ERROR_MSG);
                             else
-                                alert(rec.msg);
+                                layer.msg(rec.msg);
                         }
                     });
                 });
             }else{
                 if(null == rec.msg || undefined == rec.msg)
-                    alert(ERROR_MSG);
+                    layer.msg(ERROR_MSG);
                 else
-                    alert(rec.msg);
+                    layer.msg(rec.msg);
             }
         });
     }else{
         return;
     }
-    $("#layer").show();
+    $("#layer").fadeToggle();
 }
 
 function closeLayer(){
-     $("#layer").hide();
+     $("#layer").fadeToggle();
      // 清空上次数据
      $("#layer_office_input").attr("key","");
      $("#layer_office_input").val("");

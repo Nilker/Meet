@@ -13,7 +13,7 @@ $(function(){
     dropDdownList();
 });
 
-// 办公室下拉框列表
+// 办公区下拉框列表
 function dropDdownList(){
     $.ajax({
         type: "get",
@@ -34,9 +34,9 @@ function dropDdownList(){
                 select(true);
             }else{
                 if(null == rec.msg || undefined == rec.msg)
-                    alert(ERROR_MSG);
+                    layer.msg(ERROR_MSG);
                 else
-                    alert(rec.msg);
+                    layer.msg(rec.msg);
             }
         }
     });
@@ -97,9 +97,9 @@ function select(pageInti){
             $("#count_num").text(TOTAL);
         }else{
             if(null == rec.msg || undefined == rec.msg)
-                alert(ERROR_MSG);
+                layer.msg(ERROR_MSG);
             else
-                alert(rec.msg);
+                layer.msg(rec.msg);
         }
     });
 }
@@ -107,13 +107,13 @@ function select(pageInti){
 function deleteById(oaaId){
 	$.get("/am/delete",{ "oaaId": oaaId }, function(rec){
         if(rec.code == 0){
-            alert(UPDATE_OK);
+            layer.msg(UPDATE_OK);
             select(false);
         }else{
             if(null == rec.msg || undefined == rec.msg)
-                alert(ERROR_MSG);
+                layer.msg(ERROR_MSG);
             else
-                alert(rec.msg);
+                layer.msg(rec.msg);
         }
     });
 }
@@ -143,7 +143,7 @@ function openLayer(flag,oaaId){
 
     var offcieHTML = '';
     $.each(OFFICE_INFO_LIST,function(index, el) {
-        offcieHTML += '<div class="fl check_con">';
+        offcieHTML += '<div class="check_con">';
         offcieHTML += '<input class="magic-checkbox" type="checkbox" name="layout" id="'+ el.officeId +'">';
         offcieHTML += '<label for="'+ el.officeId +'"><span>'+ el.officeName +'</span></label></div>';
     });
@@ -170,25 +170,39 @@ function openLayer(flag,oaaId){
             parameter.officeIds = tempId;
 
             if('' == parameter.employeeId){
-                alert("请输入员工编号");
+                // layer.msg("请输入员工编号");
+                layer.tips("请输入员工编号", '#layer_emp_num',{
+                    tips: [2, '#3399ff']
+                });
+                return;
+            }
+
+            if(parameter.employeeId.length < 4){
+                // layer.msg("员工编号格式不正确");
+                layer.tips("员工编号格式不正确", '#layer_emp_num',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
 
             if('' == parameter.officeIds){
-                alert("请至少选择一个授权办公区");
+                // layer.msg("请至少选择一个授权办公区");
+                layer.tips("请至少选择一个授权办公区", '#layer_office_list',{
+                    tips: [2, '#3399ff']
+                });
                 return;
             }
             
             $.get("/am/insert", parameter, function(rec){
                 if(rec.code == 0){
-                    alert(INSTER_OK);
                     closeLayer();
+                    layer.msg(INSTER_OK);
                     select(false);
                 }else{
                     if(null == rec.msg || undefined == rec.msg)
-                        alert(ERROR_MSG);
+                        layer.msg(ERROR_MSG);
                     else
-                        alert(rec.msg);
+                        layer.msg(rec.msg);
                 }
             });
         });
@@ -224,38 +238,41 @@ function openLayer(flag,oaaId){
                     var parameter = {};
                     parameter.oaaId = oaaId;
                     parameter.officeIds = tempId;
-        
+
                     if('' == parameter.officeIds){
-                        alert("请至少选择一个授权办公区");
+                        // layer.msg("请至少选择一个授权办公区");
+                        layer.tips("请至少选择一个授权办公区", '#layer_office_list',{
+                            tips: [2, '#3399ff']
+                        });
                         return;
                     }
                     
                     $.get("/am/update", parameter, function(rec){
                         if(rec.code == 0){
-                            alert(UPDATE_OK);
                             closeLayer();
+                            layer.msg(UPDATE_OK);
                             select(false);
                         }else{
                             if(null == rec.msg || undefined == rec.msg)
-                                alert(ERROR_MSG);
+                                layer.msg(ERROR_MSG);
                             else
-                                alert(rec.msg);
+                                layer.msg(rec.msg);
                         }
                     });
                 });
             }else{
                 if(null == rec.msg || undefined == rec.msg)
-                    alert(ERROR_MSG);
+                    layer.msg(ERROR_MSG);
                 else
-                    alert(rec.msg);
+                    layer.msg(rec.msg);
             }
         });
     }else{
         return;
     }
-    $("#layer").show();
+    $("#layer").fadeToggle();
 }
 
 function closeLayer(){
- 	$("#layer").hide();
+ 	$("#layer").fadeToggle();
 }

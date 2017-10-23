@@ -49,10 +49,18 @@ public class AuthorizeManagerController {
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
 		String employeeId = oaa.getEmployeeId();
+		String officeIds = oaa.getOfficeIds();
 		if (null == employeeId || StringUtil.isEmpty(employeeId))
 			return ResultUtil.error("员工编号不能为空");
-		if (!employeeId.matches("^\\d{4}$"))
+		if (!employeeId.matches("^\\d{4,5}$"))
 			return ResultUtil.error("员工编号格式不正确");
+		if (null == officeIds || StringUtil.isEmpty(officeIds))
+			return ResultUtil.error("至少选这一个授权办公区");
+		String[] officeIdArray = officeIds.split(",");
+		for (String string : officeIdArray) {
+			if (!string.matches("^\\d+$"))
+				return ResultUtil.error("授权办公区异常");
+		}
 
 		Employee e = oas.queryEmployeeById(employeeId);
 		if (null == e)
@@ -86,10 +94,16 @@ public class AuthorizeManagerController {
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
+		String officeIds = oaa.getOfficeIds();
 		if (StringUtil.isEmpty(oaa.getOaaId()))
 			return ResultUtil.error(Constants.EXCEPTION);
-		if (StringUtil.isEmpty(oaa.getOfficeIds()))
-			return ResultUtil.error("请至少选择一个办公区");
+		if (null == officeIds || StringUtil.isEmpty(officeIds))
+			return ResultUtil.error("至少选这一个授权办公区");
+		String[] officeIdArray = officeIds.split(",");
+		for (String string : officeIdArray) {
+			if (!string.matches("^\\d+$"))
+				return ResultUtil.error("授权办公区异常");
+		}
 
 		OfficeAreaAuthority update = new OfficeAreaAuthority();
 		update.setOaaId(oaa.getOaaId());

@@ -1,12 +1,11 @@
 package com.xyauto.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xyauto.mapper.ScheduledRecordMapper;
-import com.xyauto.pojo.ScheduledRecord;
+import com.xyauto.pojo.User;
+import com.xyauto.util.PageData;
 
 /**
  * 会议室预览服务类
@@ -20,8 +19,13 @@ public class ScheduledPreviewService {
 	@Autowired
 	private ScheduledRecordMapper scheduledRecordMapper;
 
-	public List<ScheduledRecord> selectByPage(Integer pageSize, Integer officeId, String biId, Integer conferenceStatus,
-			String departmentName) {
-		return scheduledRecordMapper.selectByPage(0, pageSize, officeId, biId, conferenceStatus, departmentName);
+	public PageData selectByPage(Integer pageNo, Integer pageSize, String officeId, String biId, String conferenceStatus,
+			String employeeName, User user) {
+		PageData data = new PageData();
+		data.setPageNo(pageNo);
+		data.setPageSize(pageSize);
+		data.setTotal(scheduledRecordMapper.countByPage(officeId, biId, conferenceStatus, employeeName, user.getEmployeeId()));
+		data.setData(scheduledRecordMapper.selectByPage(pageNo, pageSize, officeId, biId, conferenceStatus, employeeName, user.getEmployeeId()));
+		return data;
 	}
 }

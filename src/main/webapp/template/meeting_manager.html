@@ -52,20 +52,20 @@
             <li>
                 <div class="fl">会议室名称:</div>
                 <div class="type-select" name="type-select">
-                    <input id="layer_bi_name" type="text" placeholder="请输入会议室名称">
+                    <input id="layer_bi_name" type="text" placeholder="请输入会议室名称" maxlength="10">
                 </div><div class="clear"></div>
             </li>
             <li>
                 <div class="fl">所在楼层:</div>
-                <div class="type-select" name="type-select">
-                    <input id="layer_bi_floor" type="text" placeholder="请输入所在楼层" style="width: 260px;">
+                <div id="layer_assembly_floor" class="type-select" name="type-select">
+                    <input id="layer_bi_floor" type="text" placeholder="请输入所在楼层" style="width: 260px;" maxlength="10">
                     <span class="fr" style="line-height:36px; margin-right: 10px;">层</span>
                 </div><div class="clear"></div>
             </li>
             <li>
                 <div class="fl">容纳人数:</div>
-                <div class="type-select" name="type-select">
-                    <input id="layer_bi_capacity" type="text" value=""  placeholder="请输入人数" style="width: 260px;">
+                <div id="layer_assembly_capacity" class="type-select" name="type-select">
+                    <input id="layer_bi_capacity" type="text" value=""  placeholder="请输入人数" style="width: 260px;" maxlength="4" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     <span class="fr" style="line-height:36px; margin-right: 10px;">人</span>
                 </div><div class="clear"></div>
             </li>

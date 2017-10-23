@@ -50,9 +50,9 @@ public class MeetingManagerController {
 			return ResultUtil.error("所在楼层不能为空");
 		if (null == bi.getBiCapacity())
 			return ResultUtil.error("最大人数不能为空");
-		if (bi.getBiName().length() > 11)
+		if (bi.getBiName().length() > 10)
 			return ResultUtil.error("会议室名称超出最大限制");
-		if (bi.getBiFloor().length() > 11)
+		if (bi.getBiFloor().length() > 10)
 			return ResultUtil.error("所在楼层超出最大限制");
 		if (bi.getBiCapacity() > 9999 || bi.getBiCapacity() < 1)
 			return ResultUtil.error("人数过小或者过大");
@@ -93,9 +93,9 @@ public class MeetingManagerController {
 			return ResultUtil.error("所在楼层不能为空");
 		if (null == bi.getBiCapacity())
 			return ResultUtil.error("最大人数不能为空");
-		if (bi.getBiName().length() > 11)
+		if (bi.getBiName().length() > 10)
 			return ResultUtil.error("会议室名称超出最大限制");
-		if (bi.getBiFloor().length() > 11)
+		if (bi.getBiFloor().length() > 10)
 			return ResultUtil.error("所在楼层超出最大限制");
 		if (bi.getBiCapacity() > 9999 || bi.getBiCapacity() < 1)
 			return ResultUtil.error("人数过小或者过大");

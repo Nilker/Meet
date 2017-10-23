@@ -891,7 +891,9 @@
     line-height: 35px\0;
 }
 .layer .select_ndustry li .check_con{
-
+    float: left;
+    display: inline;
+    margin:0 15px 10px 0;
 }
 /*多选框样式*/
 .magic-radio,
@@ -1352,8 +1354,14 @@ table a:hover{
     text-align: left;
     border-bottom: solid #e4e4e4 1px;
 }
-.subject-table td.color06{
+.subject-table td.color01{
     color:#3399ff;
+}
+.subject-table td.color02{
+    color:#24cab0;
+}
+.subject-table td.color06{
+    color:#f55353;
 }
 .subject-table th {
     height: 54px;

@@ -1,11 +1,17 @@
 package com.xyauto.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.xyauto.pojo.User;
+import com.xyauto.pojo.UserRole;
 import com.xyauto.service.ScheduledPreviewService;
+import com.xyauto.util.Constants;
 import com.xyauto.util.ResultUtil;
 
 import io.swagger.annotations.Api;
@@ -24,15 +30,31 @@ public class ScheduledPreviewController {
 
 	@Autowired
 	private ScheduledPreviewService scheduledPreviewService;
-	
-	@GetMapping("/selectByPage")
-	@ApiOperation(value = "查询", notes = "通过条件查询会议室预定信息")
-	ResultUtil selectByPage(Integer pageSize, Integer officeId, String biId, Integer conferenceStatus,
-			String departmentName) {
 
-		// TODO session role
-		
-		// TODO oa role
-		return ResultUtil.success(scheduledPreviewService.selectByPage(pageSize, officeId, biId, conferenceStatus, departmentName));
+	@GetMapping("/select")
+	@ApiOperation(value = "查询", notes = "通过条件查询会议室预定信息")
+	ResultUtil select(Integer pageNo, Integer pageSize, String officeId, String biId, String conferenceStatus, String employeeName,
+			@SessionAttribute(Constants.SESSION_USER) User user) {
+
+		// role 会议室管理
+		List<UserRole> userRole = user.getRoleList();
+		UserRole roleCheck = new UserRole(Constants.SCHEDULED_PREVIEW);
+		if (!userRole.contains(roleCheck))
+			return ResultUtil.error(Constants.ROLE_ERROR);
+		// FETCH NEXT = 0 EXCEPTION
+		if (0 == pageSize)
+			return ResultUtil.error(Constants.EXCEPTION);
+		// 是否查询所有
+		if ("-2".equals(officeId))
+			officeId = null;
+		if ("-2".equals(biId))
+			biId = null;
+		if ("-2".equals(conferenceStatus))
+			conferenceStatus = null;
+		if ("-2".equals(employeeName))
+			employeeName = null;
+
+		return ResultUtil.success(
+				scheduledPreviewService.selectByPage(pageNo, pageSize, officeId, biId, conferenceStatus, employeeName, user));
 	}
 }

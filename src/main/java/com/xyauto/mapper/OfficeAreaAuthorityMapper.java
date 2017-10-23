@@ -1,13 +1,11 @@
 package com.xyauto.mapper;
 
-import com.xyauto.pojo.OfficeAreaAuthority;
-
-import io.swagger.models.auth.In;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.xyauto.pojo.OfficeAreaAuthority;
 
 /**
  * @author qiaom@xingyuanauto.com
