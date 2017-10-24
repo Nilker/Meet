@@ -47,7 +47,7 @@ $(function(){
     });
 
     // 请求登录信息
-    $.get("/getLoginInfo", function(rec){
+    $.get("getLoginInfo", function(rec){
         if(rec.code == 0){
             var data = rec.data;
             // 用户头像与名称
@@ -76,7 +76,7 @@ $(function(){
     });
 
     // 缓存所有员工信息
-    $.get("/oa/queryAllEmployee", function(rec){
+    $.get("oa/queryAllEmployee", function(rec){
         if(rec.code == 0){
             ALL_EMPLOYEE = rec.data;
         }else{
@@ -95,17 +95,17 @@ function skipPages(id) {
     {
         case "SYS023MOD0001":
             $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0001'] + '.html?r='+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0001'] + '.js" type="text/javascript"></script>');
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0001'] + '.js" type="text/javascript"></script>');
             });
             break;
         case "SYS023MOD0002":
             $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0002'] + '.html?r='+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
             });
             break;
         case "SYS023MOD0003":
             $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0003'] + '.html?r'+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="../js/' + SUB_URL_MAP['SYS023MOD0003'] + '.js" type="text/javascript"></script>');
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0003'] + '.js" type="text/javascript"></script>');
             });
             break;
     }

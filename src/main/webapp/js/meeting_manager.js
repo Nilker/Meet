@@ -17,7 +17,7 @@ $(function(){
 function dropDdownList(){
     $.ajax({
         type: "get",
-        url: "/getOfficeInfoByRole",
+        url: "getOfficeInfoByRole",
         dataType: "json",
         cache: false,
         async: false,
@@ -58,7 +58,7 @@ function select(pageInti){
 	parameter.officeId = officeId;
 	parameter.status = status;
 
-	$.get("/mm/select",parameter, function(rec){ 
+	$.get("mm/select",parameter, function(rec){ 
         if(rec.code == 0){
             MM_LIST_ID = [];
             $('#mm_list').empty();
@@ -112,7 +112,7 @@ function select(pageInti){
 }
 
 function deleteById(biId){
-	$.get("/mm/delete",{ "biId": biId }, function(rec){
+	$.get("mm/delete",{ "biId": biId }, function(rec){
         if(rec.code == 0){
             layer.msg(DELETE_OK);
             select(false);
@@ -126,7 +126,7 @@ function deleteById(biId){
 }
 
 function statusById(biId, status){
-    $.get("/mm/status",{ "biId": biId ,"status": status }, function(rec){
+    $.get("mm/status",{ "biId": biId ,"status": status }, function(rec){
         if(rec.code == 0){
             layer.msg(UPDATE_OK);
             select(false);
@@ -228,7 +228,7 @@ function openLayer(flag,biId){
                 return;
             }
             
-            $.get("/mm/insert", parameter, function(rec){
+            $.get("mm/insert", parameter, function(rec){
                 if(rec.code == 0){
                     closeLayer();
                     layer.msg(INSTER_OK);
@@ -252,7 +252,7 @@ function openLayer(flag,biId){
             $('#layer_office_list').append('<li style="width: 296px; margin:0;" data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
         });
 
-        $.get("/mm/one",{ "biId": biId }, function(rec){
+        $.get("mm/one",{ "biId": biId }, function(rec){
             if(rec.code == 0){
                 var bi = rec.data;
 
@@ -324,7 +324,7 @@ function openLayer(flag,biId){
                         return;
                     }
                     
-                    $.get("/mm/update", parameter, function(rec){
+                    $.get("mm/update", parameter, function(rec){
                         if(rec.code == 0){
                             closeLayer();
                             layer.msg(UPDATE_OK);

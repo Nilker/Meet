@@ -17,7 +17,7 @@ $(function(){
 function dropDdownList(){
     $.ajax({
         type: "get",
-        url: "/getOfficeInfoAll",
+        url: "getOfficeInfoAll",
         dataType: "json",
         cache: true,
         async: false,
@@ -55,7 +55,7 @@ function select(pageInti){
 	parameter.officeId = officeId;
 	parameter.employeeName = employeeName;
 
-	$.get("/am/select",parameter, function(rec){ 
+	$.get("am/select",parameter, function(rec){ 
         if(rec.code == 0){
             AM_LIST_ID = [];
             $('#am_list').empty();
@@ -73,7 +73,7 @@ function select(pageInti){
                     '<td style="padding-left: 30px;">'+ item.employeeName +'</td>'+
                     '<td>'+ item.departmentName +'</td>'+
                     '<td class="td_con" title="'+ item.officeIds +'">'+ item.officeIds +'</td>'+
-                    '<td>'+ dateConvert(item.adddate) +'</td>'+
+                    '<td class="td_con">'+ dateConvert(item.adddate) +'</td>'+
                     '<td>'+ item.founderName +'</td>'+
                     '<td class="pr" onmouseover="tdIn('+ "'" + item.oaaId + "'" +')" onmouseout="tdOut('+ "'" + item.oaaId + "'" +')">'+
                         '<div class="type-ellipse" >&nbsp;</div>'+
@@ -105,7 +105,7 @@ function select(pageInti){
 }
 
 function deleteById(oaaId){
-	$.get("/am/delete",{ "oaaId": oaaId }, function(rec){
+	$.get("am/delete",{ "oaaId": oaaId }, function(rec){
         if(rec.code == 0){
             layer.msg(UPDATE_OK);
             select(false);
@@ -193,7 +193,7 @@ function openLayer(flag,oaaId){
                 return;
             }
             
-            $.get("/am/insert", parameter, function(rec){
+            $.get("am/insert", parameter, function(rec){
                 if(rec.code == 0){
                     closeLayer();
                     layer.msg(INSTER_OK);
@@ -207,7 +207,7 @@ function openLayer(flag,oaaId){
             });
         });
     }else if("update" == flag){
-        $.get("/am/one",{ "oaaId": oaaId }, function(rec){
+        $.get("am/one",{ "oaaId": oaaId }, function(rec){
             if(rec.code == 0){
                 var oaa = rec.data;
                 $("#layer_title").empty();
@@ -247,7 +247,7 @@ function openLayer(flag,oaaId){
                         return;
                     }
                     
-                    $.get("/am/update", parameter, function(rec){
+                    $.get("am/update", parameter, function(rec){
                         if(rec.code == 0){
                             closeLayer();
                             layer.msg(UPDATE_OK);

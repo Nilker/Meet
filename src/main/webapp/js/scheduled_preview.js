@@ -17,7 +17,7 @@ $(function(){
 function dropDdownList1(){
     $.ajax({
         type: "get",
-        url: "/getOfficeInfoByRole",
+        url: "getOfficeInfoByRole",
         dataType: "json",
         cache: false,
         async: false,
@@ -48,7 +48,7 @@ function dropDdownList1(){
 }
 // 会议室下拉框列表
 function dropDdownList2(oid){
-    $.get("/getMeetingByOfficeId", { "oid" : oid }, function(rec){
+    $.get("getMeetingByOfficeId", { "oid" : oid }, function(rec){
         if(rec.code == 0){
             $('#meeting_list').empty();
             $('#meeting_list').append('<li data-value="-2">全部</li>');
@@ -85,7 +85,7 @@ function select(pageInti){
     parameter.conferenceStatus = conferenceStatus;
     parameter.employeeName = employeeName;
 
-	$.get("/sp/select",parameter, function(rec){ 
+	$.get("sp/select",parameter, function(rec){ 
         if(rec.code == 0){
             $('#sp_list').empty();
             $('#sp_list').append('<tr>'+
