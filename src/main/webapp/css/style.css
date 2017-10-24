@@ -9,7 +9,7 @@
 .box .box_left{
     width:210px;
     background-color:#3c4356;
-    position: absolute;
+    position: fixed;
     left:0;
     top:0;
     bottom: 0; /*IE6下没有实现效果*/
@@ -1653,5 +1653,11 @@ input[type=checkbox] {
 @media screen and (max-width:1366px){
     .td_con{
         max-width: 218px;
+    }
+    .type-select{
+        width: 170px;
+    }
+    .type-select ul{
+        width: 170px;
     }
 }

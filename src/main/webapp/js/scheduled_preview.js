@@ -89,14 +89,14 @@ function select(pageInti){
         if(rec.code == 0){
             $('#sp_list').empty();
             $('#sp_list').append('<tr>'+
-                                    '<th width="10%" style="padding-left: 30px;">会议室</th>'+
-                                    '<th width="13%">预定时间</th>'+
-                                    '<th width="13%">会议主题</th>'+
-                                    '<th width="5%">预订者</th>'+
-                                    '<th width="13%">预订者部门</th>'+
+                                    '<th width="12%" style="padding-left: 30px;">会议室</th>'+
+                                    '<th width="18%">预定时间</th>'+
+                                    '<th width="14%">会议主题</th>'+
+                                    '<th width="8%">预订者</th>'+
+                                    '<th width="15%">预订者部门</th>'+
                                     '<th width="10%">联系电话</th>'+
-                                    '<th width="13%">办公区</th>'+
-                                    '<th width="5%">会议状态</th>'+
+                                    '<th width="15%">办公区</th>'+
+                                    '<th width="8%">会议状态</th>'+
                                 '</tr>');
             $.each(rec.data.data,function(i,item){
                 $('#sp_list').append('<tr>'+
