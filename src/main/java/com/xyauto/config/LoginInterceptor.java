@@ -46,7 +46,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		String url = request.getRequestURL().toString();
 		log.debug(">> " + url);
-		if (url.endsWith("/***/***")) {
+		if (url.endsWith("/app/scheduled/delScheduleBySrId") || url.endsWith("/app/scheduled/insertSchedule")
+				|| url.endsWith("/app/scheduled/delScheduleBySrId") 
+				|| url.endsWith("/app/scheduled/findBoardByPrimaryKey")
+				|| url.endsWith("/app/scheduled/getInfoByOfficeId")
+				|| url.endsWith("/app/scheduled/findInfoByBiId")
+				|| url.endsWith("/app/scheduled/findAllMeetOfSelf")
+				|| url.endsWith("/app/scheduled/findSingleInfoByBiId")
+				|| url.endsWith("/app/scheduled/findSingleMeetBySrId")) {
 			return true;
 		}
 		HttpSession session = request.getSession();

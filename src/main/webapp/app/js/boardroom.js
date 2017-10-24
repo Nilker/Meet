@@ -1,10 +1,26 @@
 $(function() {
-	var officeId = 1;
-	var startDay = '2017-10-18';
-	var boardroomList = [];
-	var scheduleList = [];
+	var officeId = getQueryString("officeId");;
+	var startDay = getQueryString("startTime");;
 	loadBoardList(officeId, startDay);
 });
+function getQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+//预定页面
+function toSchedule(biId){
+//	alert(biId);
+	 var u = navigator.userAgent;
+	 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+	 if(isAndroid){
+		 console.log('getSchedule'+"?"+biId); 
+	 }else if(isiOS){
+	        window.location.href='bluebird://getSchedule?bid='+biId;
+	 }
+}
 function loadBoardList(officeId, startTime) {
 	$.ajax({
 		url : urlObj.scheduleOffice,
@@ -15,6 +31,9 @@ function loadBoardList(officeId, startTime) {
 			startTime : startTime
 		},
 		success : function(data) {
+			if (data.msg == 'loginError') {
+				alert("登陆失败");return;
+			}
 			if (data.msg == 'success') {
 				var boardroomList = data.data;
 				getList(boardroomList);
@@ -53,17 +72,18 @@ function loadBoardList(officeId, startTime) {
 									if(data.msg == 'success'){
 										$(".layer_toBook").empty();
 										var boardHead = "<p class='info fl'>"+data.data.biFloor+"-"+data.data.biName+"  &nbsp;&nbsp;（"+data.data.biCapacity+"座）<br><br>";
-										var boardEnd = "</p><div class='button'>预定</div>";
+										var boardEnd = "</p><div  class='button'>预定</div>";
 										var boardBody = "";
 										var equipArr = XY.dec2bin(data.data.equipment).split("");
 										for (var i = 0; i < equipArr.length; i++) {
 											if (equipArr[i] == 1) {
-												boardBody+=equipmentArr[i];
+												boardBody+=" "+equipmentArr[i];
 											}
 										}
 										$(".layer_toBook").append(boardHead+boardBody+boardEnd);
 										$(".button").on('click',function(){
-											alert(data.data.biId);//立即预定
+//											alert(biId);//立即预定
+											toSchedule(biId);
 										});
 									}
 								},
@@ -128,7 +148,7 @@ function getList(boardroomList) {
 				"<div class='table_item'><div class='table_title'>"
 						+ boardroomList[i].biFloor + "-"
 						+ boardroomList[i].biName + "("
-						+ boardroomList[i].biCapacity + "座)<span>"
+						+ boardroomList[i].biCapacity + "座)<span style = 'display:none;'>"
 						+ boardroomList[i].biId
 						+ "</span></div><ul class='ul' id='id" + i
 						+ "'></ul></div>");

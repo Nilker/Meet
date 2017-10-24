@@ -1,70 +1,102 @@
 //3秒定时器
 $(function() {
 	var mesTimeOut;
-	var username = document.cookie.split(";")[0].split("=")[1];
-	// alert(username);
-	var biId = "3";
-	startDay = "2017-10-20";// 用户选择
+	var biId = getQueryString("biId");
+	startDay = getQueryString("startTime");// 用户选择
 	scheduleInitial(biId, startDay);
+//	console.info(document.cookie);
 });
-//预定成功2秒跳转
-function clearMes(){
+
+function getQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+// 预定成功2秒跳转
+function clearMes() {
 	$(".model").remove();
-	window.clearTimeout(mesTimeOut); 
+	window.clearTimeout(mesTimeOut);
+}
+function getUserName(){
+	
 }
 // 添加与会人
 function addAttendee(employeeIds) {
-	// 获取与会人Id
-	employeeIds = [ "0214", "0216", "0213" ];
-	employeeIdName = [ "李梦茹", "孟然", "许松玉" ,"孙尚香" ];
-	var attendStr = "";
-	attendStr += "<ul class='add_people'><li class='list_name'>与会人</li>"
-	for (var i = 0; i < employeeIds.length; i++) {//绑定人员ID和人员名称
-		attendStr += "<li class='peoples'><span value='"+employeeIds[i]+"'>" + employeeIdName[i]
-				+ "</span>、</li>"
+	alert("员工ID串 ：" + employeeIds);
+//	employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+	if(employeeIds.length == 0 || employeeIds == null){
+		return;
 	}
-	attendStr += "<div class='clear'></div>"
-			+ "<li class='add'><span id='empIds' style='display:none;'>"
-			+ employeeIds + "</span></li></ul>"
-	$(".list").append(attendStr);
-	$(".peoples").on("click", function(e) {
-		e.stopPropagation();
-		$(this).siblings().removeClass("active");
-		$(this).addClass("active");
-//		alert($(this).text().substring(0,4));
-		var empName=$(this).text();
-		empName=empName.substr(0,empName.length-1);
-		var delAddentee="<div class='model'>"
-			+"<div class='layer' style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
-			+"<p style='text-align: center;'>确定要删除 <span style='color:#1f97f4'>"+empName+"</span> 吗？</p>"
-			+"<p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p>"
-			+"</div>"
-			+"</div>";
-		$("body").append(delAddentee);
-		$(".but_ok").on("click",function(e){
-			delArry(empName,employeeIdName);//应该删除人员ID数组======
-			$(".active").text("");
-			$(".model").remove();
-		});
-		$(".but_cancel").on("click",function(e){
-			$(".model").remove();
-		});
-	});
+	var employeeIdAttr = [];
+	employeeIdAttr = employeeIds.split(",");
+	console.log(employeeIdAttr);
+	// 获取与会人Id
+	var attendStr = "";
+	for (var i = 0; i < employeeIdAttr.length; i++) {// 绑定人员ID和人员名称
+		empId = employeeIdAttr[i].split("|")[0];
+		empName = employeeIdAttr[i].split("|")[1];
+		console.log(empId+empName);
+		attendStr += "<li class='peoples'><span class = 'empId' style = 'display:none;'>" + empId
+			+ "|</span><span>"+ empName + "</span>、</li>"
+	}
+
+	$(".add_people .list_name").after(attendStr);
+	$(".peoples")
+			.on(
+					"click",
+					function(e) {
+						e.stopPropagation();
+						$(this).siblings().removeClass("active");
+						$(this).addClass("active");
+						// alert($(this).text().substring(0,4));
+						var empName = $(this).find("span:last-child").text();
+						var empId = $(this).find("span:first-child").text();
+//						empName = empName.substr(0, empName.length - 1);
+						alert(empName+empId);
+						var delAddentee = "<div class='model'>"
+								+ "<div class='layer' style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
+								+ "<p style='text-align: center;'>确定要删除 <span style='color:#1f97f4'>"
+								+ empName
+								+ "</span> 吗？</p>"
+								+ "<p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p>"
+								+ "</div>" + "</div>";
+						$("body").append(delAddentee);
+						$(".but_ok").on("click", function(e) {
+							delArry(empName, employeeIdName);// 应该删除人员ID数组======
+							$(".active").text("");
+							$(".model").remove();
+						});
+						$(".but_cancel").on("click", function(e) {
+							$(".model").remove();
+						});
+					});
 }
-function delArry(delElement,arr){
-	var index=$.inArray(delElement,arr);
-	if(index>=0){
-		//arrayObject.splice(index,howmany,item1,.....,itemX)
-		//参数  描述
-		//index 必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
-		//howmany 必需。要删除的项目数量。如果设置为 0，则不会删除项目。
-		//item1, ..., itemX 可选。向数组添加的新项目。
-		 arr.splice(index,1);
-		}else{
-		 alert("error");
-		 return false;
-		}
+function delArry(delElement, arr) {
+	var index = $.inArray(delElement, arr);
+	if (index >= 0) {
+		arr.splice(index, 1);
+	} else {
+		alert("error");
+		return false;
+	}
 }
+themeMsg = "请填写会议主题";
+timeMsg = "请选择会议时间";
+employeeIdsMsg = "请选择与会人";
+function checkSche(scheduleExt) {
+	var startTime = $("#start").text();
+	if (scheduleExt.meetingTheme == null || scheduleExt.meetingTheme == '') {
+		return themeMsg;
+	}
+	if (startTime == null || startTime == '') {
+		return timeMsg;
+	}
+	if (scheduleExt.employeeIds == null || scheduleExt.employeeIds == '') {
+		return employeeIdsMsg;
+	}
+	return "";
+};
 // 立即预定
 function scheduleBoard() {
 	var scheduleExt = {};
@@ -78,50 +110,64 @@ function scheduleBoard() {
 	ids = $("#empIds").text().split(",");
 	scheduleExt.employeeIds = ids;
 	scheduleExt.biId = $("#biId").text();
-	scheduleExt.startTime = new Date(beginDay + " " + startEndTime.split("-")[0] + ":59");
-	scheduleExt.endTime = new Date(beginDay + " " + startEndTime.split("-")[1] + ":00");
+//	alert($("#biId").text());
+	scheduleExt.startTime = new Date(beginDay + " "
+			+ startEndTime.split("-")[0] + ":59");
+	scheduleExt.endTime = new Date(beginDay + " " + startEndTime.split("-")[1]
+			+ ":00");
 	scheduleExt.meetingTheme = $("input").val();
 	scheduleExt.officeId = $("#officeId").text();
 	console.info(scheduleExt);
-	$.ajax({
-        type:"POST",
-        url:urlObj.insertSchedule,
-        data:JSON.stringify(scheduleExt),
-        dataType : "json",
-		contentType : 'application/json',
-        success:function(data){
-        	if(data.msg == 'success' && data.data == 0){
-        		var toast="";
-                toast+=""
-                +"<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
-                +"  <p style='text-align: center;'>预定成功</p>"
-                +" </div><div>"
-                $("body").append(toast);
-                   mesTimeOut=setTimeout(function() {
-        				clearMes()
-        			},2000);
-        	}else{
-        		var toast="";
-                toast+=""
-                +"<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
-                +"  <p style='text-align: center;'>预定失败</p>"
-                +" </div><div>"
-                $("body").append(toast);
-                   mesTimeOut=setTimeout(function() {
-        				clearMes()
-        		},2000);
-        	}
-        },
-        async: false,
-//        beforeSend : function(xhr) {  
-//            var cookie = credentials["COOKIE"];//此处设置cookie
-//            console.info( "adding cookie: "+ cookie );          
-//            xhr.setRequestHeader('Cookie', cookie);
-//         },
-        error: function(err){
-            console.log(err);
-        }      
-     });
+	if (checkSche(scheduleExt) != "") {
+		alert(checkSche(scheduleExt));
+		return;
+	}
+	$
+			.ajax({
+				type : "POST",
+				url : urlObj.insertSchedule,
+				data : JSON.stringify(scheduleExt),
+				dataType : "json",
+				contentType : 'application/json',
+				success : function(data) {
+					if (data.msg == 'success' && data.data == 0) {
+						var toast = "";
+						toast += ""
+								+ "<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
+								+ "  <p style='text-align: center;'>预定成功</p>"
+								+ " </div><div>"
+						$("body").append(toast);
+						mesTimeOut = setTimeout(function() {
+							clearMes()
+						}, 2000);
+					} else {
+						var toast = "";
+						toast += ""
+								+ "<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
+								+ "  <p style='text-align: center;'>预定失败</p>"
+								+ " </div><div>"
+						$("body").append(toast);
+						mesTimeOut = setTimeout(function() {
+							clearMes()
+						}, 2000);
+					}
+				},
+				async : false,
+				// beforeSend : function(xhr) {
+				// var cookie = credentials["COOKIE"];//此处设置cookie
+				// console.info( "adding cookie: "+ cookie );
+				// xhr.setRequestHeader('Cookie', cookie);
+				// },
+				error : function(err) {
+					console.log(err);
+				}
+			});
+}
+function activeClick(param){
+	console.log("click===" + param.val());
+	console.log("showMin===" + $("#start").text().split("-")[0]);
+	console.log("showMax===" + $("#start").text().split("-")[1]);
+	
 }
 // 初始化
 function scheduleInitial(biId, startDay) {
@@ -136,28 +182,41 @@ function scheduleInitial(biId, startDay) {
 				},
 				success : function(data) {
 					console.info(data.data);
+					if (data.msg == 'loginError') {
+						alert("登陆失败");return;
+					}
 					if (data.msg == 'success') {
 						var beforeStr = "";
 						var boardroomList = data.data.boardroomList;
 						var scheduleList = data.data.scheduleList;
 						var strartDay = startDay;
 						var headStr = "<div class='title'><h2> "
-								+ boardroomList.biFloor + "层-"
-								+ boardroomList.biName + " </h2><span>"
+								+ boardroomList.biFloor
+								+ "层-"
+								+ boardroomList.biName
+								+ " </h2><span>"
 								+ boardroomList.biCapacity
-								+ "人</span><span id='officeId' style='display:none;'>"+boardroomList.officeId+"</span><span id='biId' style='display:none;'>"+boardroomList.biId+"</span><div class='clear'></div><ul>";
+								+ "人</span><span id='officeId' style='display:none;'>"
+								+ boardroomList.officeId
+								+ "</span><span id='biId' style='display:none;'>"
+								+ biId
+								+ "</span><div class='clear'></div><ul>";
 						var equipmentInfo1 = "<li id='eq0' style='display:none;'><img src='"
 								+ urlPrefix
-								+ "icon2.png' style='width:0.4rem;'>"+equipmentArr[0]+"</li>";
+								+ "icon2.png' style='width:0.4rem;'>"
+								+ equipmentArr[0] + "</li>";
 						var equipmentInfo2 = "<li id='eq1' style='display:none;'><img src='"
 								+ urlPrefix
-								+ "icon5.png' style='width:0.34rem;'>"+equipmentArr[1]+"</li>";
+								+ "icon5.png' style='width:0.34rem;'>"
+								+ equipmentArr[1] + "</li>";
 						var equipmentInfo3 = "<li id='eq2' style='display:none;'><img src='"
 								+ urlPrefix
-								+ "icon1.png' style='width:0.35rem;'>"+equipmentArr[2]+"</li>";
+								+ "icon1.png' style='width:0.35rem;'>"
+								+ equipmentArr[2] + "</li>";
 						var equipmentInfo4 = "<li id='eq3' style='display:none;'><img src='"
 								+ urlPrefix
-								+ "icon3.png' style='width:0.25rem;'>"+equipmentArr[3]+"</li>";
+								+ "icon3.png' style='width:0.25rem;'>"
+								+ equipmentArr[3] + "</li>";
 						var headEndStr = "<div class='clear'></div></ul></div>";
 						var schedStr = "<div class='but_bottom'>立即预定</div>";
 						beforeStr = headStr + equipmentInfo1 + equipmentInfo2
@@ -197,99 +256,140 @@ function scheduleInitial(biId, startDay) {
 								+ "</ol>"
 								+ "	</li>"
 								+ "</ul><ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start'></span></li></ul>";
-						$(".list").append(body);
+						var attendStr = "";
+						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
+						$(".list").append(body+attendStr);
+//						addAttendee(1);
+						$(".add").on('click',function(){
+							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);
+							alert("userid =" + userid);
+							var u = navigator.userAgent;
+							var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+							var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+							if(isAndroid){
+								console.log('getUserID?'+userid); 
+							}else if(isiOS){
+								window.location.href='bluebird://getUserID?userid='+userid;
+							}
+						});
 						$(".table ol li")
 								.on(
 										'click',
 										function(e) {
 											e.stopPropagation();
 											$(this).addClass("active");
-											$(this).siblings().removeClass(
-													"active");
-											$(this).parent().siblings()
-													.children().removeClass(
-															"active");
-											
+//											$(this).siblings().removeClass(
+//													"active");
+//											$(this).parent().siblings()
+//													.children().removeClass(
+//															"active");
+
 											var str = $(this).val() + "";// 点击获取值
-											var nextStr = $(this).next().val() + "";
+											var prevStr = $(this).prev().val()
+													+ "";
+											var nextStr = $(this).next().val()
+													+ "";
+
 											if (str == "900") {
 												str = "0900";
 											}
 											if (str == "930") {
 												str = "0930";
 											}
+											// alert("当前点击值：" + str);
+											// alert("下一个值：" + nextStr);
+											// alert("上一个值：" + prevStr);
 											if (nextStr == "900") {
 												nextStr = "0900";
 											}
 											if (nextStr == "930") {
 												nextStr = "0930";
 											}
+											if (str == "1330") {
+												nextStr = "1400";
+											}
+
+											if (str == "1830") {
+												nextStr = "1830";
+											}
+
 											var start = "";
 											var staTimeStr = $("#start").text();// 目前值
-											if ($("#start").text().length > 5) {
-												$("#start").text("");
-												staTimeStr = "";
-											}
+											// alert("目前值：" + staTimeStr);
+											// if ($("#start").text().length >
+											// 11) {
+											// $("#start").text("");
+											// staTimeStr = "";
+											// }
 											if (staTimeStr == null
 													|| staTimeStr == '') {
 												start = str.substring(0, 2)
 														+ ":"
 														+ str.substring(2, 4);
-												$("#start").text(start);
+												end = nextStr.substring(0, 2)
+														+ ":"
+														+ nextStr.substring(2,
+																4);
+												$("#start").text(
+														start + "-" + end);
 											} else {
-												// 获取点击值
-												var t = staTimeStr.substring(0,
-														2)
-														+ staTimeStr.substring(
-																3, 5);
+												var showStrMax = staTimeStr
+														.split("-")[1];
+												var showStrMin = staTimeStr
+														.split("-")[0];
+												// alert("显示值：" +
+												// currentShowStr);
 												var currentClick = str
 														.substring(0, 2)
 														+ ":"
 														+ str.substring(2, 4);
-												var exsitTime = t.substring(0,
-														2)
+												// alert("点击值：" + currentClick);
+												var currentClickNext = nextStr
+														.substring(0, 2)
 														+ ":"
-														+ t.substring(2, 4);
-												if (str == t) {
-													return;
-												}
-												if (str < t) {
+														+ nextStr.substring(2,
+																4);
+//												 alert("showStrMax:===" +
+//												 showStrMax +
+//												 "currentClick==="
+//												 +currentClick);
+//												 alert("showStrMin:===" +
+//												 showStrMin +
+//												 "currentClickNext==="
+//												 +currentClickNext);
+												if (showStrMin == currentClickNext) {
 													$("#start")
 															.text(
 																	currentClick
 																			+ "-"
-																			+ exsitTime);
-												} else {
+																			+ showStrMax);
+												}
+												if (showStrMax == currentClick) {
 													$("#start")
 															.text(
-																	exsitTime
+																	showStrMin
 																			+ "-"
-																			+ currentClick);
+																			+ currentClickNext);
 												}
+
+												if (showStrMin != currentClickNext
+														&& showStrMax != currentClick && currentClickNext < showStrMin || showStrMax < currentClick) {
+													$(this).removeClass("active");
+													alert("必须点击连续的时间段");
+													// $("#start").text("");
+												}
+												$(".active").on("click", function(e) {
+													e.stopPropagation();
+													activeClick($(this));
+												});
 											}
 										});
-						for (var i = 0; i < scheduleList.length; i++) {
-							var startIdx = '0';
-							var endIdx = '0';
-							var startTime = new Date(scheduleList[i].startTime)
-									.Format('hh:mm');
-							var endTime = new Date(scheduleList[i].endTime)
-									.Format('hh:mm');
-							startIdx = schedTimeArr.indexOf(startTime);
-							endIdx = schedTimeArr.indexOf(endTime);
-							for (var j = startIdx; j <= endIdx; j++) {
-								$("#" + j).addClass("booked");
-								$("#" + j).unbind("click");
-							}
-						}
-						addAttendee(1);
+						var u = navigator.userAgent;
 						$(".list").append(schedStr);
 						$(".but_bottom").on("click", function(e) {
 							e.stopPropagation();
 							scheduleBoard();
 						});
-						
-						
 					}
 				},
 				error : function(err) {

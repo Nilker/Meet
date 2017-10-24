@@ -1,6 +1,8 @@
 package com.xyauto.test;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -41,6 +43,11 @@ public class AppTest {
 	 */
 	@Test
 	public void checkMeetTimeTest() {
+		Date now = new Date();
+		Date now_10 = new Date(now.getTime() - 900000); //10分钟前的时间
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String nowTime_10 = dateFormat.format(now_10);
+		System.out.println(nowTime_10);
 		// System.out.println(request.getSession().getAttribute("appUser"));
 		// Integer count = appMapper.checkMeetTime("1", DateUtils.str2Date("2017-10-11
 		// 07:00:59"),

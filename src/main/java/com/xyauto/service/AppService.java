@@ -20,6 +20,7 @@ import com.xyauto.oa.Employee;
 import com.xyauto.pojo.Attendees;
 import com.xyauto.pojo.BoardroomInfo;
 import com.xyauto.pojo.ScheduledRecord;
+import com.xyauto.util.CacheUtil;
 import com.xyauto.util.Constants;
 import com.xyauto.util.DateUtils;
 import com.xyauto.util.Expand;
@@ -53,35 +54,40 @@ public class AppService {
 	}
 	@Transactional
 	public Integer delScheduleBySrId(String srId) throws ParseException, IOException, InterruptedException, ExecutionException {
-		appMapper.delScheduleBySrId(srId);
-		List<ScheduledRecordExt> findSingleMeetBySrId = appMapper.findSingleMeetBySrId(srId);
-		MeetingMessage msg = new MeetingMessage();
-		MainData data = new MainData();
-		Expand expand = new Expand();
-		StringBuffer empIdStr = new StringBuffer();
-		StringBuffer boardInfo = new StringBuffer();
-		String actionUser = "";
-		for (int i = 0; i < findSingleMeetBySrId.size(); i++) {
-			empIdStr.append(findSingleMeetBySrId.get(i).getEmployeeId()+"|");
-			if(findSingleMeetBySrId.get(i).getType().equals("发起人")) {
-				actionUser=findSingleMeetBySrId.get(i).getEmployeeName();
-				boardInfo.append(findSingleMeetBySrId.get(i).getBiFloor());
-				boardInfo.append(findSingleMeetBySrId.get(i).getBiName());
+		int upSchedCount = appMapper.delScheduleBySrId(srId);
+		int upAttenCount = appMapper.delAttendeesBySrId(srId);
+		if(upSchedCount > 0 && upAttenCount > 0) {
+			List<ScheduledRecordExt> findSingleMeetBySrId = appMapper.findSingleMeetBySrId(srId);
+			MeetingMessage msg = new MeetingMessage();
+			MainData data = new MainData();
+			Expand expand = new Expand();
+			StringBuffer empIdStr = new StringBuffer();
+			StringBuffer boardInfo = new StringBuffer();
+			String actionUser = "";
+			for (int i = 0; i < findSingleMeetBySrId.size(); i++) {
+				empIdStr.append(findSingleMeetBySrId.get(i).getEmployeeId()+"|");
+				if(findSingleMeetBySrId.get(i).getType().equals("发起人")) {
+					actionUser=findSingleMeetBySrId.get(i).getEmployeeName();
+					boardInfo.append(findSingleMeetBySrId.get(i).getBiFloor());
+					boardInfo.append(findSingleMeetBySrId.get(i).getBiName());
+				}
+				expand.setTitle(findSingleMeetBySrId.get(0).getMeetingTheme());
+				expand.setDate(DateUtils.date2Str(findSingleMeetBySrId.get(i).getStartTime(),DateUtils.YMD));
+				expand.setStartTime(DateUtils.date2Str(findSingleMeetBySrId.get(i).getStartTime(),DateUtils.HHMMSS));
+				expand.setEndTime(DateUtils.date2Str(findSingleMeetBySrId.get(i).getEndTime(),DateUtils.HHMMSS));
 			}
-			expand.setTitle(findSingleMeetBySrId.get(0).getMeetingTheme());
-			expand.setDate(DateUtils.date2Str(findSingleMeetBySrId.get(i).getStartTime(),DateUtils.YMD));
-			expand.setStartTime(DateUtils.date2Str(findSingleMeetBySrId.get(i).getStartTime(),DateUtils.HHMMSS));
-			expand.setEndTime(DateUtils.date2Str(findSingleMeetBySrId.get(i).getEndTime(),DateUtils.HHMMSS));
+			expand.setSubTitle(boardInfo.toString());
+			msg.setUserCode(empIdStr.toString());
+			data.setRealtionId(srId);
+			data.setActionUser(actionUser);
+			data.setRemark(Constants.MEETTING_CANCEL);
+			data.setRemindUserCode(empIdStr.toString());
+			data.setExpand(expand);
+			msg.setData(data);
+			MessageUtil.meetingCancel(msg);
+			CacheUtil.delScheMap(srId, appMapper);
+			System.out.println("删除后-->"+CacheUtil.getScheMap(appMapper));
 		}
-		expand.setSubTitle(boardInfo.toString());
-		msg.setUserCode(empIdStr.toString());
-		data.setRealtionId(srId);
-		data.setActionUser(actionUser);
-		data.setRemark(Constants.MEETTING_CANCEL);
-		data.setRemindUserCode(empIdStr.toString());
-		data.setExpand(expand);
-		msg.setData(data);
-		MessageUtil.meetingCancel(msg);
 		return 0;
 	}
 
@@ -112,14 +118,13 @@ public class AppService {
 	}
 
 	public List<ScheduledRecordExt> findAllMeetOfSelf(String employeeId) {
-		return appMapper.findAllMeetOfSelf(employeeId);
+		return appMapper.findAllMeetOfSelf(employeeId,DateUtils.now(DateUtils.YMD));
 	}
 
 	public List<ScheduledRecordExt> findSingleMeetBySrId(String srId) {
 		return appMapper.findSingleMeetBySrId(srId);
 	}
 
-	// 加事务
 	@Transactional
 	public Integer insertSchedule(ScheduledRecordExt record) throws ParseException, IOException, InterruptedException, ExecutionException {
 		// 验证
@@ -142,7 +147,7 @@ public class AppService {
 		record.setIsDelete(false);
 		record.setCreateUser(record.getEmployeeId());
 		record.setUpdateUser(record.getEmployeeId());
-		scheduledRecordMapper.insert(record);
+		int insert = scheduledRecordMapper.insert(record);
 		// 插入与会人
 		List<Attendees> attendeesList = new ArrayList<>();
 		for (String eid : record.getEmployeeIds()) {
@@ -157,23 +162,30 @@ public class AppService {
 			attendeesList.add(attendees);
 			empIdStr.append(eid+"|");
 		}
-		appMapper.insertByBatch(attendeesList);
-		BoardroomInfo selectByPrimaryKey = boardroomInfoMapper.selectByPrimaryKey(record.getBiId());
-		empIdStr.append(record.getEmployeeId());
-		expand.setTitle(record.getMeetingTheme());
-		expand.setDate(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD));
-		expand.setStartTime(DateUtils.date2Str(record.getStartTime(),DateUtils.HHMMSS));
-		expand.setEndTime(DateUtils.date2Str(record.getEndTime(),DateUtils.HHMMSS));
-		expand.setSubTitle(selectByPrimaryKey.getBiFloor()+selectByPrimaryKey.getBiName());
-		msg.setUserCode(empIdStr.toString());
-		data.setRealtionId(srId);
-		data.setActionUser(e.getCnName());
-		data.setRemark(Constants.MEETTING_INVITATION);
-		data.setRemindUserCode(empIdStr.toString());
-		data.setExpand(expand);
-		msg.setData(data);
-		// 通知与会人
-		MessageUtil.meetingInvitation(msg);
+		int insertByBatch = appMapper.insertByBatch(attendeesList);
+		if(insert > 0 && insertByBatch > 0) {
+			BoardroomInfo selectByPrimaryKey = boardroomInfoMapper.selectByPrimaryKey(record.getBiId());
+			empIdStr.append(record.getEmployeeId());
+			expand.setTitle(record.getMeetingTheme());
+			expand.setDate(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD));
+			expand.setStartTime(DateUtils.date2Str(record.getStartTime(),DateUtils.HHMMSS));
+			expand.setEndTime(DateUtils.date2Str(record.getEndTime(),DateUtils.HHMMSS));
+			expand.setSubTitle(selectByPrimaryKey.getBiFloor()+selectByPrimaryKey.getBiName());
+			msg.setUserCode(empIdStr.toString());
+			data.setRealtionId(srId);
+			data.setActionUser(e.getCnName());
+			data.setRemark(Constants.MEETTING_INVITATION);
+			data.setRemindUserCode(empIdStr.toString());
+			data.setExpand(expand);
+			msg.setData(data);
+			// 通知与会人
+			MessageUtil.meetingInvitation(msg);
+			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
+				record.setBeginTimer(DateUtils.dateCompute(record.getStartTime()));
+				CacheUtil.addScheMap(record, appMapper);
+				System.out.println("增加后-->"+CacheUtil.getScheMap(appMapper));
+			}
+		}
 		return 0;
 	}
 
