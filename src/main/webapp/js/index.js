@@ -64,24 +64,24 @@ $(function(){
                 }
     　　　　    $("#" + item.moduleId).show();
             });
+
+            // 缓存所有员工信息
+            $.get("oa/queryAllEmployee", function(rec){
+                if(rec.code == 0){
+                    ALL_EMPLOYEE = rec.data;
+                }else{
+                    if(null == rec.msg || undefined == rec.msg){
+                        layer.msg(ERROR_MSG);
+                    }else
+                        layer.msg(rec.msg);
+                }
+            });
         }else{
             if(null == rec.msg || undefined == rec.msg){
                 layer.msg(ERROR_MSG);
                 // TODO TEST 验证登录
                 layer.msg("跳转到测试环境");
                 window.location.href=OA_URL;
-            }else
-                layer.msg(rec.msg);
-        }
-    });
-
-    // 缓存所有员工信息
-    $.get("oa/queryAllEmployee", function(rec){
-        if(rec.code == 0){
-            ALL_EMPLOYEE = rec.data;
-        }else{
-            if(null == rec.msg || undefined == rec.msg){
-                layer.msg(ERROR_MSG);
             }else
                 layer.msg(rec.msg);
         }

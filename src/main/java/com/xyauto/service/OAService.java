@@ -128,7 +128,7 @@ public class OAService {
 		EmployeeService employeeService = new EmployeeService();
 		EmployeeServiceSoap employeeServiceSoap = employeeService.getEmployeeServiceSoap();
 		Employee employee = employeeServiceSoap.getEmployeeByEmployeeNumber(id);
-		log.debug(">> 人员信息_未命中缓存 <<");
+		log.debug(">> 人员信息 未命中缓存 <<");
 		return employee;
 	}
 	
@@ -141,7 +141,7 @@ public class OAService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		HashMap<String, List<HashMap<String, String>>> map = objectMapper.readValue(res, HashMap.class);
 		List<HashMap<String, String>> employeeList = map.get("EmployeeList");
-		log.debug(">> 人员信息列表_未命中缓存 <<");
+		log.debug(">> 人员信息列表 未命中缓存 <<");
 		return employeeList;
 	}
 }

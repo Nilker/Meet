@@ -45,7 +45,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String url = request.getRequestURL().toString();
-		log.debug(url);
+		log.debug(">> " + url);
 		if (url.endsWith("/***/***")) {
 			return true;
 		}
@@ -58,10 +58,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		} else {
 			session.setAttribute(Constants.SESSION_USER, user);
-			log.debug("login " + user.toString());
+			log.debug(">> login session:" + user.toString());
 		}
 		long postTime = System.currentTimeMillis();
-		log.debug("Login Interceptor time:" + (postTime - preTime) + "ms");
+		log.debug(">> Login Interceptor time:" + (postTime - preTime) + "ms");
 		return true;
 	}
 
@@ -70,10 +70,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 		String cookieValue = CookieUtil.getCookieValue(request, Constants.COOKIE_KEY);
 		if (null == cookieValue || StringUtil.isEmpty(cookieValue)) {
-			log.debug("cookie not found");
+			log.debug(">> cookie not found <<");
 			return null;
 		}
-		log.debug("cookie:" + cookieValue);
+		log.debug(">> cookie:" + cookieValue);
 		
 		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
 		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
@@ -82,7 +82,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpResponse httpResponse = future.get();
 		
 		String res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug("check:" + res);
+		log.debug(">> login check:" + res.replace("\r\n",""));
 		ObjectMapper objectMapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> checkMap = objectMapper.readValue(res, HashMap.class);
@@ -97,7 +97,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		httpResponse = future.get();
 		
 		res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug("user:" + res);
+		log.debug(">> user json:" + res);
 		if (res.indexOf("{\"Status\":401") == 0)
 			return null;
 		@SuppressWarnings("unchecked")

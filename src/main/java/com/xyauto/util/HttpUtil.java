@@ -36,7 +36,7 @@ public class HttpUtil {
 			synchronized (lock) {
 				if (client == null) {
 					client = HttpAsyncClients.custom().setMaxConnTotal(5).disableCookieManagement().build();
-					log.debug("get new CloseableHttpAsyncClient");
+					log.debug(">> get new CloseableHttpAsyncClient");
 				}
 			}
 		}
@@ -53,7 +53,7 @@ public class HttpUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			log.debug("CloseableHttpAsyncClient closed");
+			log.debug(">> CloseableHttpAsyncClient closed");
 		}
 	}
 
