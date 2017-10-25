@@ -202,8 +202,10 @@ public class MeetingManagerController {
 		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
+		if (null == pageNo)
+			return ResultUtil.error(Constants.EXCEPTION);
 		// FETCH NEXT = 0 EXCEPTION
-		if (0 == pageSize)
+		if (null == pageSize || 0 == pageSize)
 			return ResultUtil.error(Constants.EXCEPTION);
 		// 是否查询所有
 		if ("-2".equals(officeId))
