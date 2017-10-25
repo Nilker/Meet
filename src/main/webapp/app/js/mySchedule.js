@@ -6,6 +6,9 @@ $(function() {
 		type : 'get',
 		dataType : 'json',
 		success : function(data) {
+			if(data.msg == 'loginError'){
+				loginauthorizefailed();return;
+			}
 			if (data.msg == 'success') {
 				var flag=0;
 				var boardroomList=[];

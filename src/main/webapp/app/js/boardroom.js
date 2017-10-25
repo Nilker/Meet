@@ -32,7 +32,7 @@ function loadBoardList(officeId, startTime) {
 		},
 		success : function(data) {
 			if (data.msg == 'loginError') {
-				alert("登陆失败");return;
+				loginauthorizefailed();return;
 			}
 			if (data.msg == 'success') {
 				var boardroomList = data.data;
@@ -69,6 +69,10 @@ function loadBoardList(officeId, startTime) {
 									biId : biId
 								},
 								success : function(data) {
+									if (data.msg == 'loginError') {
+										loginauthorizefailed();
+										return;
+									}
 									if(data.msg == 'success'){
 										$(".layer_toBook").empty();
 										var boardHead = "<p class='info fl'>"+data.data.biFloor+"-"+data.data.biName+"  &nbsp;&nbsp;（"+data.data.biCapacity+"座）<br><br>";
@@ -114,6 +118,10 @@ function clickNotSchedule(biId, startTime) {
 			startTime : startTime
 		},
 		success : function(data) {
+			if (data.msg == 'loginError') {
+				loginauthorizefailed();
+				return;
+			}
 			if (data.msg == 'success') {
 				$('.layer_booked').empty();
 				$(".layer_booked").append(

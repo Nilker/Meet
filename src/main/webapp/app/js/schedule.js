@@ -24,7 +24,7 @@ function getUserName(){
 // 添加与会人
 function addAttendee(employeeIds) {
 	alert("员工ID串 ：" + employeeIds);
-//	employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+	employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
 	}
@@ -49,11 +49,12 @@ function addAttendee(employeeIds) {
 						e.stopPropagation();
 						$(this).siblings().removeClass("active");
 						$(this).addClass("active");
+						$(this).addClass("empId");
 						// alert($(this).text().substring(0,4));
 						var empName = $(this).find("span:last-child").text();
-						var empId = $(this).find("span:first-child").text();
+						var empId = $(this).find("span:first-child").text().substring(0,$(this).find("span:first-child").text().length-1);
 //						empName = empName.substr(0, empName.length - 1);
-						alert(empName+empId);
+//						alert(empName+empId);
 						var delAddentee = "<div class='model'>"
 								+ "<div class='layer' style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
 								+ "<p style='text-align: center;'>确定要删除 <span style='color:#1f97f4'>"
@@ -63,23 +64,13 @@ function addAttendee(employeeIds) {
 								+ "</div>" + "</div>";
 						$("body").append(delAddentee);
 						$(".but_ok").on("click", function(e) {
-							delArry(empName, employeeIdName);// 应该删除人员ID数组======
-							$(".active").text("");
+							$(this).parent().parent().parent().siblings(".list").children(".add_people").children(".active").text("");
 							$(".model").remove();
 						});
 						$(".but_cancel").on("click", function(e) {
 							$(".model").remove();
 						});
 					});
-}
-function delArry(delElement, arr) {
-	var index = $.inArray(delElement, arr);
-	if (index >= 0) {
-		arr.splice(index, 1);
-	} else {
-		alert("error");
-		return false;
-	}
 }
 themeMsg = "请填写会议主题";
 timeMsg = "请选择会议时间";
@@ -107,10 +98,8 @@ function scheduleBoard() {
 	startTime = $(".list_text").text();
 	beginDay = startTime.substring(0, 10);
 	startEndTime = startTime.substring(10);
-	ids = $("#empIds").text().split(",");
-	scheduleExt.employeeIds = ids;
+	scheduleExt.employeeIds = $(".empId").text().substring(0,$(".empId").text().length-1).split("|");
 	scheduleExt.biId = $("#biId").text();
-//	alert($("#biId").text());
 	scheduleExt.startTime = new Date(beginDay + " "
 			+ startEndTime.split("-")[0] + ":59");
 	scheduleExt.endTime = new Date(beginDay + " " + startEndTime.split("-")[1]
@@ -130,6 +119,10 @@ function scheduleBoard() {
 				dataType : "json",
 				contentType : 'application/json',
 				success : function(data) {
+					if (data.msg == 'loginError') {
+						loginauthorizefailed();
+						return;
+					}
 					if (data.msg == 'success' && data.data == 0) {
 						var toast = "";
 						toast += ""
@@ -183,7 +176,8 @@ function scheduleInitial(biId, startDay) {
 				success : function(data) {
 					console.info(data.data);
 					if (data.msg == 'loginError') {
-						alert("登陆失败");return;
+						loginauthorizefailed();
+						return;
 					}
 					if (data.msg == 'success') {
 						var beforeStr = "";
@@ -259,7 +253,7 @@ function scheduleInitial(biId, startDay) {
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
-//						addAttendee(1);
+						addAttendee(1);
 						$(".add").on('click',function(){
 							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);
 							alert("userid =" + userid);

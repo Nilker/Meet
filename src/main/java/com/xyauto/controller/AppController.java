@@ -15,6 +15,7 @@ import com.xyauto.extend.ScheduledRecordExt;
 import com.xyauto.pojo.User;
 import com.xyauto.service.AppService;
 import com.xyauto.util.AppLoginInterceptor;
+import com.xyauto.util.Constants;
 import com.xyauto.util.ResultUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +38,10 @@ public class AppController {
 			throws Exception {
 		log.debug("srId{}"+srId);
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-			System.out.println(request.getSession().getAttribute("appUser"));
+			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.delScheduleBySrId(srId)));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 
@@ -48,10 +49,10 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findBoardByPrimaryKey(HttpServletRequest request, String biId) throws Exception {
 		log.debug("biId{}" + biId);
 		 if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-		 System.out.println(request.getSession().getAttribute("appUser"));
+		 System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 		return ResponseEntity.ok(ResultUtil.success(appService.findBoardByPrimaryKey(biId)));
 		 } else {
-		 return ResponseEntity.ok(ResultUtil.error("loginError"));
+		 return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		 }
 	}
 
@@ -60,10 +61,10 @@ public class AppController {
 			throws Exception {
 		log.debug("officeId{}" + officeId + "startTime{}" + startTime);
 		 if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-		 System.out.println(request.getSession().getAttribute("appUser"));
+		 System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 		return ResponseEntity.ok(ResultUtil.success(appService.findInfoByOfficeId(officeId, startTime)));
 		 } else {
-		 return ResponseEntity.ok(ResultUtil.error("loginError"));
+		 return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		 }
 	}
 	
@@ -72,10 +73,10 @@ public class AppController {
 			throws Exception {
 		log.debug("biId{}"+biId+"startTime{}"+startTime);
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-			System.out.println(request.getSession().getAttribute("appUser"));
+			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 		return ResponseEntity.ok(ResultUtil.success(appService.findInfoByBiId(biId, startTime)));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 /**
@@ -85,22 +86,22 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findAllMeetOfSelf(HttpServletRequest request)
 			throws Exception {
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-			User user=(User)request.getSession().getAttribute("appUser");
+			User user=(User)request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			return ResponseEntity.ok(ResultUtil.success(appService.findAllMeetOfSelf(user.getEmployeeId())));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 	@RequestMapping(value = "scheduled/findSingleMeetBySrId", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> findSingleMeetBySrId(HttpServletRequest request,String srId)
 			throws Exception {
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-			User user=(User)request.getSession().getAttribute("appUser");
+			User user=(User)request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			List<ScheduledRecordExt> findSingleMeetBySrId = appService.findSingleMeetBySrId(srId);
 			findSingleMeetBySrId.get(0).setMyEmpId(user.getEmployeeId());
 			return ResponseEntity.ok(ResultUtil.success(findSingleMeetBySrId));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 	@RequestMapping(value = "scheduled/findSingleInfoByBiId", method = RequestMethod.GET)
@@ -109,7 +110,7 @@ public class AppController {
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
 			return ResponseEntity.ok(ResultUtil.success(appService.findSingleInfoByBiId(biId,startTime)));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 	@RequestMapping(value = "scheduled/insertSchedule", method = RequestMethod.POST)
@@ -117,11 +118,11 @@ public class AppController {
 			throws Exception {
 		log.info("obj{}"+schedule);
 		if (AppLoginInterceptor.checkLogin(request)) {//登陆验证
-			User user=(User)request.getSession().getAttribute("appUser");
+			User user=(User)request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			schedule.setEmployeeId(user.getEmployeeId());
 			return ResponseEntity.ok(ResultUtil.success(appService.insertSchedule(schedule)));
 		} else {
-			return ResponseEntity.ok(ResultUtil.error("loginError"));
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}
 	

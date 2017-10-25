@@ -40,6 +40,11 @@ public interface Constants {
 	public static final String ROLE_ERROR = "没有访问权限";
 	public static final String EXCEPTION = "发生异常";
 	/**
+	 *  Login Error
+	 */
+	public static final String LOGIN_ERROR = "loginError";
+	
+	/**
 	 * message
 	 */
 	public static final String MESSAGE_API_URL = "http://192.168.3.51:8002/PushMessage.ashx?mode=general";
