@@ -24,6 +24,7 @@ function dropDdownList(){
         success:function(rec){
             if(rec.code == 0){
                 OFFICE_INFO_LIST = rec.data;
+                OFFICE_INFO_MAP = {};
                 $('#office_list').empty();
                 $('#office_list').append('<li data-value="-2">全部</li>');
                 $.each(rec.data,function(i,item){

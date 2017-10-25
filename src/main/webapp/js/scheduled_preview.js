@@ -24,6 +24,7 @@ function dropDdownList1(){
         success:function(rec){
             if(rec.code == 0){
                 OFFICE_INFO_LIST = rec.data;
+                OFFICE_INFO_MAP = {};
                 $('#office_list').empty();
                 $('#office_list').append('<li data-value="-2" onclick="dropDdownList2(-2)">全部</li>');
                 $.each(rec.data,function(i,item){
@@ -50,6 +51,7 @@ function dropDdownList1(){
 function dropDdownList2(oid){
     $.get("getMeetingByOfficeId", { "oid" : oid }, function(rec){
         if(rec.code == 0){
+            MEETING_INFO_MAP = {};
             $('#meeting_list').empty();
             $('#meeting_list').append('<li data-value="-2">全部</li>');
             $.each(rec.data,function(i,item){
@@ -100,7 +102,7 @@ function select(pageInti){
                                 '</tr>');
             $.each(rec.data.data,function(i,item){
                 $('#sp_list').append('<tr>'+
-                    '<td style="padding-left: 30px;">'+ MEETING_INFO_MAP[item.biId] +'</td>'+
+                    '<td class="td_con" style="padding-left: 30px;">'+ MEETING_INFO_MAP[item.biId] +'</td>'+
                     '<td>'+ dateConvert(item.startTime) +'</td>'+
                     '<td class="td_con" title="'+ item.meetingTheme +'">'+ item.meetingTheme +'</td>'+
                     '<td>'+ item.employeeName +'</td>'+
