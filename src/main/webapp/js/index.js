@@ -78,9 +78,6 @@ $(function(){
             });
         }else{
             if(null == rec.msg || undefined == rec.msg){
-                layer.msg(ERROR_MSG);
-                // TODO TEST 验证登录
-                layer.msg("跳转到测试环境");
                 window.location.href=OA_URL;
             }else
                 layer.msg(rec.msg);
