@@ -29,9 +29,9 @@ public class OATest {
 	}
 
 	@Test
-	public void test() throws JsonParseException, JsonMappingException, IOException {
-		oas.queryAllEmployee();
-		oas.queryAllEmployee();
+	public void test() {
+		Employee queryEmployeeById = oas.queryEmployeeById("1103");
+		System.out.println(queryEmployeeById.getCnName());
 	}
 
 	@After

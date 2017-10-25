@@ -73,7 +73,7 @@ function select(pageInti){
                     '<td style="padding-left: 30px;">'+ item.employeeName +'</td>'+
                     '<td>'+ item.departmentName +'</td>'+
                     '<td class="td_con" title="'+ item.officeIds +'">'+ item.officeIds +'</td>'+
-                    '<td class="td_con">'+ dateConvert(item.adddate) +'</td>'+
+                    '<td class="td_con">'+ dateConvert(item.adddate,'yyyyMMddHHmmss') +'</td>'+
                     '<td>'+ item.founderName +'</td>'+
                     '<td class="pr" onmouseover="tdIn('+ "'" + item.oaaId + "'" +')" onmouseout="tdOut('+ "'" + item.oaaId + "'" +')">'+
                         '<div class="type-ellipse" >&nbsp;</div>'+

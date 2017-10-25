@@ -125,7 +125,29 @@ function fuzzyMatching(){
     }
 }
 
-function dateConvert(timestamp){
-    var newDate = new Date();
-    return newDate.toJSON().replace("T"," ").slice(0,19);
+function dateConvert(timestamp,format){
+    var time = new Date(timestamp);
+    var y = time.getFullYear();//年
+    var m = time.getMonth() + 1;//月
+    m = m < 10 ? '0'+m : m;
+    var d = time.getDate();//日
+    d = d < 10 ? '0'+d : d;
+    var h = time.getHours();//时
+    h = h < 10 ? '0'+h : h;
+    var mm = time.getMinutes();//分
+    mm = mm < 10 ? '0'+mm : mm;
+    var s = time.getSeconds();//秒
+    s = s < 10 ? '0'+s : s;
+    switch (format) {
+        case "yyyyMMddHHmm":
+            return y+"-"+m+"-"+d+" "+h+":"+mm;
+            break;
+        case "yyyyMMddHHmmss":
+            return y+"-"+m+"-"+d+" "+h+":"+mm+":"+s;
+            break;
+        default:
+            return "undefined time";
+            break;
+    }
+    
 }

@@ -2,6 +2,7 @@ package com.xyauto.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xyauto.mapper.OfficeAreaAuthorityMapper;
 import com.xyauto.pojo.OfficeAreaAuthority;
@@ -19,7 +20,7 @@ public class AuthorizeManagerService {
 	@Autowired
 	private OfficeAreaAuthorityMapper officeAreaAuthorityMapper;
 
-	// TODO transaction
+	@Transactional
 	public Integer insert(OfficeAreaAuthority oaa) {
 		if (0 < officeAreaAuthorityMapper.existsByEmployeeId(oaa.getEmployeeId()))
 			return -1;
@@ -34,7 +35,7 @@ public class AuthorizeManagerService {
 		return officeAreaAuthorityMapper.selectByPrimaryKey(oaaId);
 	}
 
-	// TODO transaction
+	@Transactional
 	public PageData selectByCondition(Integer pageNo, Integer pageSize, String officeId, String employeeName) {
 		PageData data = new PageData();
 		data.setPageNo(pageNo);

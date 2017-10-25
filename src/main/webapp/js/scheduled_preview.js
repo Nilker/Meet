@@ -103,7 +103,7 @@ function select(pageInti){
             $.each(rec.data.data,function(i,item){
                 $('#sp_list').append('<tr>'+
                     '<td class="td_con" style="padding-left: 30px;">'+ MEETING_INFO_MAP[item.biId] +'</td>'+
-                    '<td>'+ dateConvert(item.startTime) +'</td>'+
+                    '<td>'+ dateConvert(item.startTime,'yyyyMMddHHmm') +'</td>'+
                     '<td class="td_con" title="'+ item.meetingTheme +'">'+ item.meetingTheme +'</td>'+
                     '<td>'+ item.employeeName +'</td>'+
                     '<td>'+ item.departmentName +'</td>'+

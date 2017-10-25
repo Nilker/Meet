@@ -180,8 +180,14 @@
 			department_id, 
 			department_name, 
 			phone, 
-			office_id, 
-			is_delete
+			office_id,
+			conference_status = case 
+				when  (CONVERT(varchar(19),start_time,20) &gt; CONVERT(varchar(19),GETDATE(),20)) then -1
+				when  (CONVERT(varchar(19),end_time,20) &lt; CONVERT(varchar(19),GETDATE(),20)) then 1
+				when  
+					(CONVERT(varchar(19),start_time,20) &lt;= CONVERT(varchar(19),GETDATE(),20)) and 
+					(CONVERT(varchar(19),end_time,20) &gt;= CONVERT(varchar(19),GETDATE(),20)) then 0
+			end
 		from 
 			scheduled_record
 		where
@@ -210,7 +216,7 @@
 			and start_time &gt; CURRENT_TIMESTAMP
 		</if>
 		<if test="conferenceStatus != null and conferenceStatus == 0">
-			and start_time &lt; CURRENT_TIMESTAMP and end_time &gt; CURRENT_TIMESTAMP
+			and start_time &lt;= CURRENT_TIMESTAMP and end_time &gt;= CURRENT_TIMESTAMP
 		</if>
 		<if test="conferenceStatus != null and conferenceStatus == 1">
 			and end_time &lt; CURRENT_TIMESTAMP
@@ -218,7 +224,7 @@
 		<if test="employeeName != null and employeeName != ''">
 			and employee_name like '%${ employeeName }%'
 		</if>
-		order by start_time desc
+		order by conference_status, start_time asc
 		OFFSET #{ pageNo } ROW
 		FETCH NEXT
 			#{ pageSize } ROW ONLY

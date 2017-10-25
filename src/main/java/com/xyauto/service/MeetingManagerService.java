@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xyauto.mapper.BoardroomInfoMapper;
 import com.xyauto.mapper.OfficeAreaAuthorityMapper;
@@ -29,7 +30,7 @@ public class MeetingManagerService {
 	@Autowired
 	private ScheduledRecordMapper scheduledRecordMapper;
 
-	// TODO transaction
+	@Transactional
 	public Integer insert(BoardroomInfo bi, User user) {
 		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
 		if(!roleList.contains(bi.getOfficeId())){
@@ -41,7 +42,7 @@ public class MeetingManagerService {
 		
 	}
 
-	// TODO transaction
+	@Transactional
 	public Integer update(BoardroomInfo bi, User user) {
 		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
 		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
@@ -56,7 +57,7 @@ public class MeetingManagerService {
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}
 
-	// TODO transaction
+	@Transactional
 	public Integer status(BoardroomInfo bi, User user) {
 		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
 		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
@@ -66,7 +67,7 @@ public class MeetingManagerService {
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}
 
-	// TODO transaction
+	@Transactional
 	public Integer delete(BoardroomInfo bi) {
 		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
 		if (0 != old.getStatus())
@@ -80,7 +81,7 @@ public class MeetingManagerService {
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}
 	
-	// TODO transaction
+	@Transactional
 	public BoardroomInfo one(String oaaId, User user) {
 		BoardroomInfo bi = boardroomInfoMapper.selectByPrimaryKey(oaaId);
 		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
@@ -90,7 +91,7 @@ public class MeetingManagerService {
 		return boardroomInfoMapper.selectByPrimaryKey(oaaId);
 	}
 
-	// TODO transaction
+	@Transactional
 	public PageData selectByCondition(Integer pageNo, Integer pageSize, String officeId, String status, String employeeId) {
 		PageData data = new PageData();
 		data.setPageNo(pageNo);
