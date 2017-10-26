@@ -267,7 +267,7 @@ function appFunction(functionName,paramName,param){
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
 	if(isAndroid){
-		console.log(functionName+paramName+param); 
+		console.log(functionName+param); 
 		alert(functionName+param);
 	}else if(isiOS){
 		alert('bluebird://'+functionName+paramName+param);
