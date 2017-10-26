@@ -1,6 +1,6 @@
 target/
 .mvn/
-logs/
+*_log/
 mvn*
 run.*
 
