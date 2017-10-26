@@ -357,12 +357,11 @@ a:hover {color:#2a93f5;}
     width: 5.85rem;
     height:auto;
     position: fixed;
-    top:50%;
-    bottom:0;
+    top:5%;
     left:0;
     right:0;
     margin:auto;
-    transform: translateY(-50%);
+/*     transform: translateY(50%); */
     color:#000;
     padding-left: 0;
     padding-right: 0;

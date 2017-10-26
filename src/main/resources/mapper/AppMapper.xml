@@ -81,7 +81,7 @@
 	<select id="findMeetByStartTime" parameterType="java.lang.String"
 		resultMap="ScheduledExtResultMap">
 		select A.sr_id,STUFF((select '|' + C.employee_id from
-		attendees C where A.sr_id = C.sr_id for XML path('')),1,1,'') as
+		attendees C where A.sr_id = C.sr_id for XML path('')),1,1,'')+'|'+A.employee_id as
 		'myEmpId',
 		A.employee_id,A.employee_name,A.start_time,A.end_time,A.meeting_theme,B.bi_floor,B.bi_name
 		from

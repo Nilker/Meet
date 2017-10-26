@@ -100,6 +100,7 @@ $(function() {
 								var strEnd="<div class='clear'></div></ul><div class='clear'></div>";
 								var mark="<p class='mark'>会议时间已过，不能取消</p>";
 								var cancel="<div class='btn_layer'>取消会议</div>";
+								var markNest = "<div style='height:0.2rem;background: transparent;'></div>";
 								var end="<div class='clear'></div></div>";
 								var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
 								var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
@@ -115,12 +116,12 @@ $(function() {
 								}
 								appendStr=title+boardBody+attenStr+faqiAttenStr+strEnd
 								if(meetStatus=='已结束'){
-									appendStr+=mark;
+									appendStr+=mark+markNest;
 								}
 								if(meetStatus=='会议中'||meetStatus=='未开始'){
 									for (var i = 0; i < dataList.length; i++) {
 										if(dataList[i].type=='发起人'&&dataList[i].employeeId==dataList[0].myEmpId){
-											appendStr+=cancel;
+											appendStr+=cancel+markNest;
 										}
 									}
 								}

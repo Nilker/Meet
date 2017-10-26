@@ -14,7 +14,7 @@ public class CacheUtil {
 
 	private static final Object scheLock = new Object();
 	private static Map<String, ScheduledRecordExt> scheMap;
-	
+
 	public static Map<String, ScheduledRecordExt> getScheMap(AppMapper mapper) {
 		if (scheMap == null) {
 			synchronized (scheLock) {
@@ -25,7 +25,7 @@ public class CacheUtil {
 						scheInfo.setBeginTimer(DateUtils.dateCompute(scheInfo.getStartTime()));
 						scheMap.put(scheInfo.getSrId(), scheInfo);
 					}
-					log.debug("scheMap {} " + scheMap);
+					log.debug(">> scheMap {} " + scheMap);
 				}
 			}
 		}
@@ -34,25 +34,25 @@ public class CacheUtil {
 
 	public static ScheduledRecordExt getScheduleBySrId(String srId, AppMapper mapper) {
 		Map<String, ScheduledRecordExt> map = getScheMap(mapper);
-		 log.debug("getScheduleBySrId {} "+srId);
+		log.debug(">> getScheduleBySrId {} " + srId);
 		return map.get(srId);
 	}
 
 	public static void addScheMap(ScheduledRecordExt scheObj, AppMapper mapper) {
 		Map<String, ScheduledRecordExt> map = getScheMap(mapper);
 		map.put(scheObj.getSrId(), scheObj);
-		 log.debug("addScheMap {} " + scheObj);
+		log.debug(">> addScheMap {} " + scheObj);
 	}
 
 	public static void delScheMap(String srId, AppMapper mapper) {
 		Map<String, ScheduledRecordExt> map = getScheMap(mapper);
 		map.remove(srId);
-		 log.debug("delScheMap {} "+srId);
+		log.debug(">> delScheMap {} " + srId);
 	}
 
 	public static void clearScheMap(AppMapper mapper) {
 		scheMap = null;
 		getScheMap(mapper);
-		log.debug("clear scheMap !" + scheMap);
+		log.debug(">> clear scheMap {} " + scheMap);
 	}
 }

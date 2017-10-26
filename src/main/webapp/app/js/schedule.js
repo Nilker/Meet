@@ -34,7 +34,7 @@ function noClick(param){
 // 添加与会人
 function addAttendee(employeeIds) {
 //	alert("员工ID串 ：" + employeeIds);
-	//employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+//	employeeIds = "1018|李梦茹,1039|孟然";
 //	10003, 10009, 10012, 10011
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
@@ -263,7 +263,7 @@ function scheduleInitial(biId, startDay) {
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
-						//addAttendee(1);
+//						addAttendee(1);
 						noClick(scheduleList);
 						$(".add").on('click',function(){
 							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);

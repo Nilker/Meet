@@ -6,20 +6,23 @@ import org.springframework.stereotype.Component;
 import com.xyauto.mapper.AppMapper;
 import com.xyauto.util.CacheUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 //import com.xyauto.util.HttpUtil;
 import org.springframework.boot.CommandLineRunner;
 
 @Component
 @Order(value = 2)
+@Slf4j
 public class AppListener implements CommandLineRunner {
 	@Autowired
 	private AppMapper mapper;
 	@Override
 	public void run(String... args) throws Exception {
-//		System.out.println(">>>>>>>>>>>>>>>服务启动执行，执行加载数据等操作111111111<<<<<<<<<<<<<");
+		log.info(">> Initializing loading start <<");
 		CacheUtil.getScheMap(mapper);
-//		System.out.println(">>>>>>>>>>>>>>>服务启动执行成功<<<<<<<<<<<<<");
+		log.info(">> Initializing loading end <<");
 	}
 
 }

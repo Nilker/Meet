@@ -39,11 +39,11 @@ public class MessageSendTimer {
 	public void timerRate() throws ParseException, IOException, InterruptedException, ExecutionException {
 		// 获取当前时间
 		Map<String, ScheduledRecordExt> scheMap = CacheUtil.getScheMap(mapper);
-		log.debug("scheMap-->" + scheMap);
-		for (Map.Entry<String, ScheduledRecordExt> entry : scheMap.entrySet()) {  
-//		    log.debug("Key = " + entry.getKey() + ", Value = " + entry.getValue());  
-		    if (DateUtils.now(DateUtils.HHMM).equals(entry.getValue().getBeginTimer())) {
-				String empIdStr = entry.getValue().getMyEmpId() + "|" + entry.getValue().getEmployeeId();
+		log.debug(">> scheMap {} " + scheMap);
+		for (Map.Entry<String, ScheduledRecordExt> entry : scheMap.entrySet()) {
+			// log.debug("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+			if (DateUtils.now(DateUtils.HHMM).equals(entry.getValue().getBeginTimer())) {
+				String empIdStr = entry.getValue().getMyEmpId();
 				MeetingMessage msg = new MeetingMessage();
 				MainData data = new MainData();
 				Expand expand = new Expand();
@@ -61,20 +61,21 @@ public class MessageSendTimer {
 				msg.setData(data);
 				// 提醒与会人
 				MessageUtil.meetingRemind(msg);
-				log.info("meetingRemind {}" + msg);
+				log.info(">> meetingRemind msg {}" + msg);
 			}
-			log.info("当前时间为 : " + DateUtils.now(DateUtils.HHMM) + " 预定时间为 : " + entry.getValue().getBeginTimer());
+			log.info(">> current time : " + DateUtils.now(DateUtils.HHMM) + " remind time : "
+					+ entry.getValue().getBeginTimer());
 		}
 	}
 
 	/**
-	 * 每天1点执行H
+	 * 清空预定信息
 	 */
 	@Scheduled(cron = "0 0 1 * * *")
 	public void timerRate2() {
 		// 获取当前时间
 		CacheUtil.clearScheMap(mapper);
 		CacheUtil.getScheMap(mapper);
-		log.info("current time:" + DateUtils.now() + "  clear scheMap success ! ");
+		log.info(">> current time : " + DateUtils.now() + "  clear scheMap success ! ");
 	}
 }
