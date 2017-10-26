@@ -2,9 +2,9 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var PAGE_SIZE_INIT = 3;//初始化条数
+var PAGE_SIZE_INIT = 10;//初始化条数
 var PAGE_SIZE_TEMP = PAGE_SIZE_INIT;//当前显示条数
-var STEP_VAlUE = 3;//分页步进值
+var STEP_VAlUE = 10;//分页步进值
 var TOTAL = 0;//查询总量
 var OFFICE_INFO_LIST = [];
 var OFFICE_INFO_MAP = {};
