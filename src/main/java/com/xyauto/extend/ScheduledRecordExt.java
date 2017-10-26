@@ -1,5 +1,7 @@
 package com.xyauto.extend;
 
+import java.util.Date;
+
 import com.xyauto.pojo.ScheduledRecord;
 
 import lombok.Data;

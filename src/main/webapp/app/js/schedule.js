@@ -3,6 +3,7 @@ $(function() {
 	var mesTimeOut;
 	var biId = getQueryString("biId");
 	startDay = getQueryString("startTime");// 用户选择
+//	alert(startDay);
 	scheduleInitial(biId, startDay);
 //	console.info(document.cookie);
 });
@@ -17,14 +18,24 @@ function getQueryString(name)
 function clearMes() {
 	$(".model").remove();
 	window.clearTimeout(mesTimeOut);
-}
-function getUserName(){
 	
+}
+//已预约
+function noClick(param){
+//	console.info(param);
+	for (var i = 0; i < param.length; i++) {
+		var startTime = schedTimeArr.indexOf(new Date(param[i].startTime).Format("hh:mm"));
+		var endTime = schedTimeArr.indexOf(new Date(param[i].endTime).Format("hh:mm"));
+		for(var j = startTime; j < endTime; j++){
+			$('#' + j).addClass('booked');
+		}
+	}
 }
 // 添加与会人
 function addAttendee(employeeIds) {
-	alert("员工ID串 ：" + employeeIds);
-	employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+//	alert("员工ID串 ：" + employeeIds);
+	//employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+//	10003, 10009, 10012, 10011
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
 	}
@@ -32,6 +43,7 @@ function addAttendee(employeeIds) {
 	employeeIdAttr = employeeIds.split(",");
 	console.log(employeeIdAttr);
 	// 获取与会人Id
+	$(".peoples").empty();
 	var attendStr = "";
 	for (var i = 0; i < employeeIdAttr.length; i++) {// 绑定人员ID和人员名称
 		empId = employeeIdAttr[i].split("|")[0];
@@ -40,7 +52,6 @@ function addAttendee(employeeIds) {
 		attendStr += "<li class='peoples'><span class = 'empId' style = 'display:none;'>" + empId
 			+ "|</span><span>"+ empName + "</span>、</li>"
 	}
-
 	$(".add_people .list_name").after(attendStr);
 	$(".peoples")
 			.on(
@@ -100,17 +111,23 @@ function scheduleBoard() {
 	startEndTime = startTime.substring(10);
 	scheduleExt.employeeIds = $(".empId").text().substring(0,$(".empId").text().length-1).split("|");
 	scheduleExt.biId = $("#biId").text();
-	scheduleExt.startTime = new Date(beginDay + " "
-			+ startEndTime.split("-")[0] + ":59");
-	scheduleExt.endTime = new Date(beginDay + " " + startEndTime.split("-")[1]
-			+ ":00");
+	
+	dateStart = beginDay + " "
+			+ startEndTime.split("-")[0] + ":59";
+	dateEnd = beginDay + " "
+			+ startEndTime.split("-")[1] + ":00";
+	scheduleExt.startTime = new Date(dateStart.replace(new RegExp(/-/gm) ,"/"));
+	scheduleExt.endTime = new Date(dateEnd.replace(new RegExp(/-/gm) ,"/"));
 	scheduleExt.meetingTheme = $("input").val();
 	scheduleExt.officeId = $("#officeId").text();
-	console.info(scheduleExt);
+	//alert(scheduleExt.startTime);
+	//alert(scheduleExt.endTime);
+	//console.log("======"+scheduleExt);
 	if (checkSche(scheduleExt) != "") {
 		alert(checkSche(scheduleExt));
 		return;
 	}
+	
 	$
 			.ajax({
 				type : "POST",
@@ -131,7 +148,8 @@ function scheduleBoard() {
 								+ " </div><div>"
 						$("body").append(toast);
 						mesTimeOut = setTimeout(function() {
-							clearMes()
+							clearMes();
+							appFunction('scheduleSuccess','','');
 						}, 2000);
 					} else {
 						var toast = "";
@@ -141,7 +159,8 @@ function scheduleBoard() {
 								+ " </div><div>"
 						$("body").append(toast);
 						mesTimeOut = setTimeout(function() {
-							clearMes()
+							clearMes();
+							location.reload();
 						}, 2000);
 					}
 				},
@@ -156,16 +175,9 @@ function scheduleBoard() {
 				}
 			});
 }
-function activeClick(param){
-	console.log("click===" + param.val());
-	console.log("showMin===" + $("#start").text().split("-")[0]);
-	console.log("showMax===" + $("#start").text().split("-")[1]);
-	
-}
 // 初始化
 function scheduleInitial(biId, startDay) {
-	$
-			.ajax({
+	$.ajax({
 				url : urlObj.findSingleInfoByBiId,
 				type : 'get',
 				dataType : 'json',
@@ -174,7 +186,6 @@ function scheduleInitial(biId, startDay) {
 					startTime : startDay
 				},
 				success : function(data) {
-					console.info(data.data);
 					if (data.msg == 'loginError') {
 						loginauthorizefailed();
 						return;
@@ -223,7 +234,6 @@ function scheduleInitial(biId, startDay) {
 								$("#eq" + i).show();
 							}
 						}
-						//
 						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' style='border: none;'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
 								+ strartDay
 								+ "</li><div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
@@ -253,129 +263,144 @@ function scheduleInitial(biId, startDay) {
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
-						addAttendee(1);
+						//addAttendee(1);
+						noClick(scheduleList);
 						$(".add").on('click',function(){
 							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);
-							alert("userid =" + userid);
-							var u = navigator.userAgent;
-							var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-							var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
-							if(isAndroid){
-								console.log('getUserID?'+userid); 
-							}else if(isiOS){
-								window.location.href='bluebird://getUserID?userid='+userid;
-							}
+							appFunction('getUserID?','userid=',userid);
 						});
-						$(".table ol li")
-								.on(
-										'click',
-										function(e) {
+						$(".table ol li").on('click',function(e) {
 											e.stopPropagation();
+						if($(this).attr("class") == 'active'){
+								var currentClick = $(this).val() + "";
+								var nextClick = $(this).next().val() + "";
+								if (currentClick == "900") {
+									currentClick = "0900";
+								}
+								if (currentClick == "930") {
+									currentClick = "0930";
+								}
+								if (nextClick == "900") {
+									nextClick = "0900";
+								}
+								if (nextClick == "930") {
+									nextClick = "0930";
+								}
+								if (currentClick == "1330") {
+									nextClick = "1400";
+								}
+
+								if (currentClick == "1830") {
+									nextClick = "1900";
+								}
+
+								currentClick = currentClick.substring(0, 2)
+								+ ":"
+								+ currentClick.substring(2, 4);
+								nextClick = nextClick.substring(0, 2)
+								+ ":"
+								+ nextClick.substring(2, 4);
+//								console.log("click===" + currentClick);
+//								console.log("nextClick===" + nextClick);
+//								console.log("showMin===" + $("#start").text().split("-")[0]);
+//								console.log("showMax===" + $("#start").text().split("-")[1]);
+								$(this).nextAll().removeClass("active");
+								$(this).parent().next().children().removeClass("active");
+								$(this).removeClass("active");
+								if(currentClick == $("#start").text().split("-")[0]){
+									$("#start").text("");
+								}else{
+									$("#start").text($("#start").text().split("-")[0] + "-" + currentClick);
+								}
+							return;
+						}
+						if($(this).attr("class") == null || $(this).attr("class") == undefined || $(this).attr("class") == ''){
 											$(this).addClass("active");
-//											$(this).siblings().removeClass(
-//													"active");
-//											$(this).parent().siblings()
-//													.children().removeClass(
-//															"active");
+												var str = $(this).val() + "";// 点击获取值
+												var prevStr = $(this).prev().val()
+														+ "";
+												var nextStr = $(this).next().val()
+														+ "";
 
-											var str = $(this).val() + "";// 点击获取值
-											var prevStr = $(this).prev().val()
-													+ "";
-											var nextStr = $(this).next().val()
-													+ "";
-
-											if (str == "900") {
-												str = "0900";
-											}
-											if (str == "930") {
-												str = "0930";
-											}
-											// alert("当前点击值：" + str);
-											// alert("下一个值：" + nextStr);
-											// alert("上一个值：" + prevStr);
-											if (nextStr == "900") {
-												nextStr = "0900";
-											}
-											if (nextStr == "930") {
-												nextStr = "0930";
-											}
-											if (str == "1330") {
-												nextStr = "1400";
-											}
-
-											if (str == "1830") {
-												nextStr = "1830";
-											}
-
-											var start = "";
-											var staTimeStr = $("#start").text();// 目前值
-											// alert("目前值：" + staTimeStr);
-											// if ($("#start").text().length >
-											// 11) {
-											// $("#start").text("");
-											// staTimeStr = "";
-											// }
-											if (staTimeStr == null
-													|| staTimeStr == '') {
-												start = str.substring(0, 2)
-														+ ":"
-														+ str.substring(2, 4);
-												end = nextStr.substring(0, 2)
-														+ ":"
-														+ nextStr.substring(2,
-																4);
-												$("#start").text(
-														start + "-" + end);
-											} else {
-												var showStrMax = staTimeStr
-														.split("-")[1];
-												var showStrMin = staTimeStr
-														.split("-")[0];
-												// alert("显示值：" +
-												// currentShowStr);
-												var currentClick = str
-														.substring(0, 2)
-														+ ":"
-														+ str.substring(2, 4);
-												// alert("点击值：" + currentClick);
-												var currentClickNext = nextStr
-														.substring(0, 2)
-														+ ":"
-														+ nextStr.substring(2,
-																4);
-//												 alert("showStrMax:===" +
-//												 showStrMax +
-//												 "currentClick==="
-//												 +currentClick);
-//												 alert("showStrMin:===" +
-//												 showStrMin +
-//												 "currentClickNext==="
-//												 +currentClickNext);
-												if (showStrMin == currentClickNext) {
-													$("#start")
-															.text(
-																	currentClick
-																			+ "-"
-																			+ showStrMax);
+												if (str == "900") {
+													str = "0900";
 												}
-												if (showStrMax == currentClick) {
-													$("#start")
-															.text(
-																	showStrMin
-																			+ "-"
-																			+ currentClickNext);
+												if (str == "930") {
+													str = "0930";
+												}
+												if (nextStr == "900") {
+													nextStr = "0900";
+												}
+												if (nextStr == "930") {
+													nextStr = "0930";
+												}
+												if (str == "1330") {
+													nextStr = "1400";
 												}
 
-												if (showStrMin != currentClickNext
-														&& showStrMax != currentClick && currentClickNext < showStrMin || showStrMax < currentClick) {
-													$(this).removeClass("active");
-													alert("必须点击连续的时间段");
-													// $("#start").text("");
+												if (str == "1830") {
+													nextStr = "1900";
 												}
-												$(".active").on("click", function(e) {
-													e.stopPropagation();
-													activeClick($(this));
-												});
+
+												var start = "";
+												var staTimeStr = $("#start").text();// 目前值
+												if (staTimeStr == null
+														|| staTimeStr == '') {
+													start = str.substring(0, 2)
+															+ ":"
+															+ str.substring(2, 4);
+													end = nextStr.substring(0, 2)
+															+ ":"
+															+ nextStr.substring(2,
+																	4);
+													$("#start").text(
+															start + "-" + end);
+												} else {
+													var showStrMax = staTimeStr
+															.split("-")[1];
+													var showStrMin = staTimeStr
+															.split("-")[0];
+													// alert("显示值：" +
+													// currentShowStr);
+													var currentClick = str
+															.substring(0, 2)
+															+ ":"
+															+ str.substring(2, 4);
+													// alert("点击值：" + currentClick);
+													var currentClickNext = nextStr
+															.substring(0, 2)
+															+ ":"
+															+ nextStr.substring(2,
+																	4);
+//													 alert("showStrMax:===" +
+//													 showStrMax +
+//													 "currentClick==="
+//													 +currentClick);
+//													 alert("showStrMin:===" +
+//													 showStrMin +
+//													 "currentClickNext==="
+//													 +currentClickNext);
+													if (showStrMin == currentClickNext) {
+														$("#start")
+																.text(
+																		currentClick
+																				+ "-"
+																				+ showStrMax);
+													}
+													if (showStrMax == currentClick) {
+														$("#start")
+																.text(
+																		showStrMin
+																				+ "-"
+																				+ currentClickNext);
+													}
+
+													if (showStrMin != currentClickNext
+															&& showStrMax != currentClick && currentClickNext < showStrMin || showStrMax < currentClick) {
+														$(this).removeClass("active");
+														alert("必须点击连续的时间段");
+													}
+												}
 											}
 										});
 						var u = navigator.userAgent;
@@ -390,4 +415,24 @@ function scheduleInitial(biId, startDay) {
 					console.log(err)
 				}
 			});
+}
+function loginauthorizefailed(){
+	var u = navigator.userAgent;
+	 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+	 if(isAndroid){
+		 console.log('loginauthorizefailed'); 
+	 }else if(isiOS){
+	        window.location.href='bluebird://loginauthorizefailed';
+	 }
+}
+function appFunction(functionName,paramName,param){
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+	if(isAndroid){
+		console.log(functionName+param); 
+	}else if(isiOS){
+		window.location.href='bluebird://'+functionName+paramName+param;
+	}
 }

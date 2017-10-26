@@ -2,6 +2,7 @@ package com.xyauto.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.druid.support.logging.Log;
 import com.xyauto.extend.ScheduledRecordExt;
 import com.xyauto.mapper.AppMapper;
 import com.xyauto.mapper.BoardroomInfoMapper;
@@ -30,7 +32,10 @@ import com.xyauto.util.MeetingMessage;
 import com.xyauto.util.MessageUtil;
 import com.xyauto.util.StringUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AppService {
 	@Autowired
 	private BoardroomInfoMapper boardroomInfoMapper;
@@ -181,9 +186,15 @@ public class AppService {
 			// 通知与会人
 			MessageUtil.meetingInvitation(msg);
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
-				record.setBeginTimer(DateUtils.dateCompute(record.getStartTime()));
-				CacheUtil.addScheMap(record, appMapper);
-				System.out.println("增加后-->"+CacheUtil.getScheMap(appMapper));
+				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
+					MessageUtil.meetingRemind(msg);
+				}else {
+					record.setBiFloor(selectByPrimaryKey.getBiFloor());
+					record.setBiName(selectByPrimaryKey.getBiName());
+					record.setMyEmpId(empIdStr.toString());
+					record.setBeginTimer(DateUtils.dateCompute(record.getStartTime()));
+					CacheUtil.addScheMap(record, appMapper);
+				}
 			}
 		}
 		return 0;

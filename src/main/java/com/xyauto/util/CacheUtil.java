@@ -1,21 +1,20 @@
 package com.xyauto.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xyauto.extend.ScheduledRecordExt;
 import com.xyauto.mapper.AppMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public class CacheUtil {
 
 	private static final Object scheLock = new Object();
 	private static Map<String, ScheduledRecordExt> scheMap;
-
+	
 	public static Map<String, ScheduledRecordExt> getScheMap(AppMapper mapper) {
 		if (scheMap == null) {
 			synchronized (scheLock) {
@@ -51,8 +50,9 @@ public class CacheUtil {
 		 log.debug("delScheMap {} "+srId);
 	}
 
-	public static void clearScheMap() {
+	public static void clearScheMap(AppMapper mapper) {
 		scheMap = null;
+		getScheMap(mapper);
 		log.debug("clear scheMap !" + scheMap);
 	}
 }

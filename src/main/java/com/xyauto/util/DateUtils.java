@@ -21,7 +21,8 @@ public class DateUtils {
 	public static final String HHMMSS = "HH:mm:ss";
 	public static final String HHMM = "HH:mm";
 	public static final String D = "dd";
-	public static final Integer MS = 900000;
+	public static final Integer FIFTEEN_MIN = 900000;
+	public static final Integer TEN_MIN = 600000;
 
 	/**
 	 * 默认格式化 yyyy-MM-dd HH:mm:ss
@@ -88,13 +89,24 @@ public class DateUtils {
 	}
 
 	/**
-	 * 默认当前时间前十五分钟 返回格式 HH:mm
+	 * 当前时间前十五分钟 返回格式 HH:mm
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String dateCompute15Min(Date date) {
+		Date nowBefore15 = new Date(date.getTime() - FIFTEEN_MIN);
+		return DateUtils.date2Str(nowBefore15, HHMM);
+	}
+	
+	/**
+	 * 默认当前时间前十分钟 返回格式 HH:mm
 	 * 
 	 * @param date
 	 * @return
 	 */
 	public static String dateCompute(Date date) {
-		Date nowBefore15 = new Date(date.getTime() - MS);
+		Date nowBefore15 = new Date(date.getTime() - TEN_MIN);
 		return DateUtils.date2Str(nowBefore15, HHMM);
 	}
 

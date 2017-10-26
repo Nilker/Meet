@@ -31,6 +31,7 @@ function loadBoardList(officeId, startTime) {
 			startTime : startTime
 		},
 		success : function(data) {
+			alert(data.msg);
 			if (data.msg == 'loginError') {
 				loginauthorizefailed();return;
 			}
@@ -254,4 +255,14 @@ function test(temp_1, temp_2) {
 		}
 		console.log('--');
 	}
+}
+function loginauthorizefailed(){
+	var u = navigator.userAgent;
+	 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+	 if(isAndroid){
+		 console.log('loginauthorizefailed'); 
+	 }else if(isiOS){
+	        window.location.href='bluebird://loginauthorizefailed';
+	 }
 }

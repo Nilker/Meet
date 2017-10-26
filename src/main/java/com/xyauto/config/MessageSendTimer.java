@@ -73,7 +73,7 @@ public class MessageSendTimer {
 	@Scheduled(cron = "0 0 1 * * *")
 	public void timerRate2() {
 		// 获取当前时间
-		CacheUtil.clearScheMap();
+		CacheUtil.clearScheMap(mapper);
 		CacheUtil.getScheMap(mapper);
 		log.info("current time:" + DateUtils.now() + "  clear scheMap success ! ");
 	}

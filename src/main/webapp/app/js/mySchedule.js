@@ -79,6 +79,9 @@ $(function() {
 						dataType : 'json',
 						success : function(data) {
 							console.info(data);
+							if(data.msg == 'loginError'){
+								loginauthorizefailed();return;
+							}
 							if(data.msg=='success'){
 								var dataList=data.data;
 								appendStr="";
@@ -166,6 +169,9 @@ function cancelMeet(srId){
 		        dataType : "json",
 				contentType : 'application/json',
 		        success:function(data){
+		        	if(data.msg == 'loginError'){
+						loginauthorizefailed();return;
+					}
 		        	location.reload();
 		        },
 		        error : function(err){
@@ -176,7 +182,15 @@ function cancelMeet(srId){
 	$(".but_cancel").on("click",function(e){
 		$("#model").remove();
 	});
-
 }
-
+function loginauthorizefailed(){
+	var u = navigator.userAgent;
+	 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
+	 if(isAndroid){
+		 console.log('loginauthorizefailed'); 
+	 }else if(isiOS){
+	        window.location.href='bluebird://loginauthorizefailed';
+	 }
+}
 
