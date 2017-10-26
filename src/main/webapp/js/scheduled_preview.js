@@ -15,35 +15,26 @@ $(function(){
 
 // 办公区下拉框列表
 function dropDdownList1(){
-    $.ajax({
-        type: "get",
-        url: "getOfficeInfoByRole",
-        dataType: "json",
-        cache: false,
-        async: false,
-        success:function(rec){
-            if(rec.code == 0){
-                OFFICE_INFO_LIST = rec.data;
-                OFFICE_INFO_MAP = {};
-                $('#office_list').empty();
-                $('#office_list').append('<li data-value="-2" onclick="dropDdownList2(-2)">全部</li>');
-                $.each(rec.data,function(i,item){
-                    OFFICE_INFO_MAP[item.officeId] = item.officeName;
-                    $('#office_list').append('<li data-value="'+ item.officeId +'" onclick="dropDdownList2('+ item.officeId +')">'+ item.officeName +'</li>');
-                });
-                $('#office_input').val("全部");
-                $('#office_input').attr("key",-2);
-                $('#status_input').val("全部");
-                $('#status_input').attr("key",-2);
-                  
-                dropDdownList2(-2);
-                select(true);
-            }else{
-                if(null == rec.msg || undefined == rec.msg)
-                    layer.msg(ERROR_MSG);
-                else
-                    layer.msg(rec.msg);
-            }
+    $.get("getOfficeInfoByRole",function(rec){
+        if(rec.code == 0){
+            OFFICE_INFO_LIST = rec.data;
+            OFFICE_INFO_MAP = {};
+            $('#office_list').empty();
+            $('#office_list').append('<li data-value="-2" onclick="dropDdownList2(-2)">全部</li>');
+            $.each(rec.data,function(i,item){
+                OFFICE_INFO_MAP[item.officeId] = item.officeName;
+                $('#office_list').append('<li data-value="'+ item.officeId +'" onclick="dropDdownList2('+ item.officeId +')">'+ item.officeName +'</li>');
+            });
+            $('#office_input').val("全部");
+            $('#office_input').attr("key",-2);
+            $('#status_input').val("全部");
+            $('#status_input').attr("key",-2);
+            dropDdownList2(-2);            
+        }else{
+            if(null == rec.msg || undefined == rec.msg)
+                layer.msg(ERROR_MSG);
+            else
+                layer.msg(rec.msg);
         }
     });
 }
@@ -58,6 +49,7 @@ function dropDdownList2(oid){
                 MEETING_INFO_MAP[item.biId] = item.biName;
                 $('#meeting_list').append('<li data-value="'+ item.biId +'">'+ item.biName +'</li>');
             });
+            select(true);
             $('#meeting_input').val("全部");
             $('#meeting_input').attr("key",-2);
         }else{
