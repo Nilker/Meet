@@ -104,7 +104,7 @@ public class MeetingManagerController {
 
 		BoardroomInfo update = new BoardroomInfo();
 		update.setBiId(bi.getBiId());
-		update.setOfficeId(bi.getOfficeId());
+//		update.setOfficeId(bi.getOfficeId());
 		update.setBiName(bi.getBiName());
 		update.setBiFloor(bi.getBiFloor());
 		update.setBiCapacity(bi.getBiCapacity());

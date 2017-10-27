@@ -46,13 +46,13 @@ public class MeetingManagerService {
 	public Integer update(BoardroomInfo bi, User user) {
 		BoardroomInfo old = boardroomInfoMapper.selectByPrimaryKey(bi.getBiId());
 		List<Integer> roleList = officeAreaAuthorityMapper.selectRoleByEmpId(user.getEmployeeId());
-		if((!roleList.contains(old.getOfficeId())) || (!roleList.contains(bi.getOfficeId()))){
+		if(!roleList.contains(old.getOfficeId())){
 			return -1;
 		}
 		
-		if (bi.getOfficeId().equals(old.getOfficeId()) && bi.getBiName().equals(old.getBiName()))
+		if (bi.getBiName().equals(old.getBiName()))
 			return boardroomInfoMapper.updateByPrimaryKey(bi);
-		if (0 < boardroomInfoMapper.existsByOfficeIdAndbiName(bi.getOfficeId(), bi.getBiName()))
+		if (0 < boardroomInfoMapper.existsByOfficeIdAndbiName(old.getOfficeId(), bi.getBiName()))
 			return -2;
 		return boardroomInfoMapper.updateByPrimaryKey(bi);
 	}

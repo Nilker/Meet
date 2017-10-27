@@ -29,7 +29,7 @@ function dropDdownList1(){
             $('#office_input').attr("key",-2);
             $('#status_input').val("全部");
             $('#status_input').attr("key",-2);
-            dropDdownList2(-2);            
+            dropDdownList2(-2,true);            
         }else{
             if(null == rec.msg || undefined == rec.msg)
                 layer.msg(ERROR_MSG);
@@ -39,7 +39,8 @@ function dropDdownList1(){
     });
 }
 // 会议室下拉框列表
-function dropDdownList2(oid){
+function dropDdownList2(oid,autoSelect){
+    // autoSelect 当页面第一次加载时自动查询，当办公区发生改变联动会议室时不自动查询
     $.get("getMeetingByOfficeId", { "oid" : oid }, function(rec){
         if(rec.code == 0){
             MEETING_INFO_MAP = {};
@@ -49,7 +50,8 @@ function dropDdownList2(oid){
                 MEETING_INFO_MAP[item.biId] = item.biName;
                 $('#meeting_list').append('<li data-value="'+ item.biId +'">'+ item.biName +'</li>');
             });
-            select(true);
+            if(autoSelect)
+                select(true);
             $('#meeting_input').val("全部");
             $('#meeting_input').attr("key",-2);
         }else{

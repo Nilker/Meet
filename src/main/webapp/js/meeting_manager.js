@@ -247,17 +247,19 @@ function openLayer(flag,biId){
         $("#layer_title").html('编辑会议室'+
         '<div class="close" onclick="closeLayer()">&nbsp;</div>'+
         '<div class="clear"></div>');
-
-        $('#layer_office_list').empty();
-        $.each(OFFICE_INFO_LIST,function(i,item){
-            $('#layer_office_list').append('<li style="width: 296px; margin:0;" data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
-        });
+        // 编辑情况readonly删除下拉框样式
+        $("#layer_remove").remove();
+        $("#layer_office_list").remove();
+        // $('#layer_office_list').empty();
+        // $.each(OFFICE_INFO_LIST,function(i,item){
+        //     $('#layer_office_list').append('<li style="width: 296px; margin:0;" data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
+        // });
 
         $.get("mm/one",{ "biId": biId }, function(rec){
             if(rec.code == 0){
                 var bi = rec.data;
 
-                $("#layer_office_input").attr("key",bi.officeId);
+                // $("#layer_office_input").attr("key",bi.officeId);
                 $("#layer_office_input").val(OFFICE_INFO_MAP[bi.officeId]);
                 $("#layer_bi_name").val(bi.biName);
                 $("#layer_bi_floor").val(bi.biFloor);
@@ -296,13 +298,13 @@ function openLayer(flag,biId){
                     parameter.biCapacity = $("#layer_bi_capacity").val();
                     parameter.equipment = parseInt(equipment,2);
         
-                    if(undefined == parameter.officeId || '' == parameter.officeId){
-                        // layer.msg("请选择一个办公区");
-                        layer.tips("请选择一个办公区", '#layer_office_input',{
-                            tips: [2, '#3399ff']
-                        });
-                        return;
-                    }
+                    // if(undefined == parameter.officeId || '' == parameter.officeId){
+                    //     // layer.msg("请选择一个办公区");
+                    //     layer.tips("请选择一个办公区", '#layer_office_input',{
+                    //         tips: [2, '#3399ff']
+                    //     });
+                    //     return;
+                    // }
                     if('' == parameter.biName){
                         // layer.msg("请输入会议室名称");
                         layer.tips("请输入会议室名称", '#layer_bi_name',{
