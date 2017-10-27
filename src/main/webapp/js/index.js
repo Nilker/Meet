@@ -2,7 +2,10 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var OA_URL = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http%3A%2F%2Fmeet.xingyuanauto.com%2Fxyauto_meet%2F';
+var OA_URL = 'http://oa1.xingyuanauto.com/';
+var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://x.xingyuanauto.com/';
+// var OA_URL = 'http://oa.xingyuanauto.com/';
+// var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com:8081/xyauto_meet/';
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
@@ -46,6 +49,8 @@ $(function(){
         $(this).removeClass('li-hover');
     });
 
+    $("#return_oa").prop("href",OA_URL);
+
     // 请求登录信息
     $.get("getLoginInfo", function(rec){
         if(rec.code == 0){
@@ -70,16 +75,16 @@ $(function(){
                 if(rec.code == 0){
                     ALL_EMPLOYEE = rec.data;
                 }else{
-                    if(null == rec.msg || undefined == rec.msg){
+                    if(null == rec.msg || undefined == rec.msg)
                         layer.msg(ERROR_MSG);
-                    }else
+                    else
                         layer.msg(rec.msg);
                 }
             });
         }else{
-            if(null == rec.msg || undefined == rec.msg){
-                window.location.href=OA_URL;
-            }else
+            if(null == rec.msg || undefined == rec.msg)
+                window.location.href=OA_LOGIN;
+            else
                 layer.msg(rec.msg);
         }
     });
