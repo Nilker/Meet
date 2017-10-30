@@ -47,8 +47,10 @@ function dropDdownList2(oid,autoSelect){
             $('#meeting_list').empty();
             $('#meeting_list').append('<li data-value="-2">全部</li>');
             $.each(rec.data,function(i,item){
+                //下拉框中只显示未删除的会议室 名称关联全部会议室
+                if(!item.isDelete)
+                    $('#meeting_list').append('<li data-value="'+ item.biId +'">'+ item.biName +'</li>');
                 MEETING_INFO_MAP[item.biId] = item.biName;
-                $('#meeting_list').append('<li data-value="'+ item.biId +'">'+ item.biName +'</li>');
             });
             if(autoSelect)
                 select(true);

@@ -113,17 +113,15 @@ function skipPages(id) {
     }
 }
 
-
 function fuzzyMatching(){
-    var key = $('#emp_input').val();
-    if(key != ''){
-        var reg = new RegExp(key,'gi');
+    var key = $.trim($('#emp_input').val());
+    if(key){
+        var reg = new RegExp(key,'i');
         var str = '';
         $.each(ALL_EMPLOYEE,function(i,item){
-            if(reg.test(item.CnName)){
+            if(reg.test(item.CnName) || reg.test(item.RealNameSpell))
                 str += '<li>' + item.CnName + '</li>';
-            }
-        })
+        });
         $("#emp_list").html(str);
     }else{
         $("#emp_list").empty();

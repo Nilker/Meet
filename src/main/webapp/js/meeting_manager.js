@@ -267,7 +267,6 @@ function openLayer(flag,biId){
 
                 if(0 != bi.equipment){
                     var binaryList = decimalToBinaryArray(bi.equipment);
-                    debugger
                     if(binaryList.length != checkboxList.length)
                         layer.msg("发生错误，设备列表数量异常");
                     $.each(checkboxList,function (i,item) {

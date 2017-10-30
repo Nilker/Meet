@@ -128,11 +128,11 @@
 	<select id="selectByOfficeId" parameterType="map" resultMap="BaseResultMap">
 		select
 			bi_id,
-			bi_name
+			bi_name,
+			is_delete
 		from
 			boardroom_info
 		where
-			is_delete = 0 and
 			office_id in (
 				select 
 					t_str as office_role
