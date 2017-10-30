@@ -149,7 +149,7 @@ function clickNotSchedule(biId, startTime) {
 				$('.layer_toBook').css('height', '0');
 				$(".phone").on("click",function(e){
 					e.stopPropagation();
-					alert($(this).parent().children().text());
+//					alert($(this).parent().children().text());
 					appFunction('phone?','phoneNumber=',$(this).parent().children().text());
 				});
 			}
@@ -248,34 +248,15 @@ function searchIndex(origArr, newArr) {
 	// }
 	return newArr3;
 }
-//function test(temp_1, temp_2) {
-//	var temp_1 = [];
-//	var temp_2 = [];
-//	temp_2.push(1);
-//	temp_2.push(5);
-//	temp_1.push(temp_2);
-//	temp_2 = [];
-//	temp_2.push(8);
-//	temp_2.push(11);
-//	temp_1.push(temp_2);
-//	console.log(temp_1);
-//	console.log(temp_2);
-//	for (var i = 0; i < temp_1.length; i++) {
-//		for (var j = temp_1[i][0]; j <= temp_1[i][temp_1[i].length - 1]; j++) {
-//			console.log(j);
-//		}
-//		console.log('--');
-//	}
-//}
 function appFunction(functionName,paramName,param){
 	var u = navigator.userAgent;
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
 	if(isAndroid){
 		console.log(functionName+param); 
-		alert(functionName+param);
+//		alert(functionName+param);
 	}else if(isiOS){
-		alert('bluebird://'+functionName+paramName+param);
+//		alert('bluebird://'+functionName+paramName+param);
 		window.location.href='bluebird://'+functionName+paramName+param;
 	}
 }

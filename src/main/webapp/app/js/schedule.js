@@ -3,10 +3,7 @@ $(function() {
 	var mesTimeOut;
 	var biId = getQueryString("biId");
 	startDay = getQueryString("startTime");// 用户选择
-//	alert(startDay);
-//	layer.alert(startDay);
 	scheduleInitial(biId, startDay);
-//	console.info(document.cookie);
 });
 
 function getQueryString(name)
@@ -127,7 +124,7 @@ function scheduleBoard() {
 	//alert(scheduleExt.endTime);
 	//console.log("======"+scheduleExt);
 	if (checkSche(scheduleExt) != "") {
-		alert(checkSche(scheduleExt));
+		layer.msg(checkSche(scheduleExt));
 		return;
 	}
 $.ajax({

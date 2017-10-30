@@ -16,7 +16,7 @@ $(function() {
 				var dayHead="<div class='head'><h2>";
 				var dayEnd="</h2></div>";
 				if(boardroomList.length == 0){
-					$(".list").append("<div class='info'>暂无会议室预定</div>");
+					$(".list").append("<div class='info'>暂无预定会议</div>");
 				}
 				for (var i = 0; i < boardroomList.length; i++) {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
@@ -34,7 +34,7 @@ $(function() {
 								+scheBeginTime+" -"
 								+scheEndTime+"</span><span class='fr'>"
 								+employeeName+"</span><div class='clear'></div></p><p>"
-								+meetingTheme+"</p><p class='place'>"+biFloor+"-"+biName+"</p><div class='state'>";
+								+meetingTheme+"</p><p class='place'>"+biFloor+"层-"+biName+"</p><div class='state'>";
 					var listObjEnd="</div></div>";
 //					console.info("dayTime"+dayTime);
 //					console.info(dayHead+dayTime+dayEnd);
