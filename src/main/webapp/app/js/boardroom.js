@@ -37,8 +37,10 @@ function loadBoardList(officeId, startTime) {
 			if (data.msg == 'success') {
 				var boardroomList = data.data;
 //				boardroomList = [];
-				if(boardroomList.length == 0 || boardroomList == ''){
+				if(boardroomList.length == 0 || boardroomList == '' || boardroomList == null){
+					console.info(boardroomList);
 					$(".table_box").append("<div class='info'>此办公区暂没有可预订的会议室</div>");
+					$(".info").show();
 					return;
 				}
 				getList(boardroomList);

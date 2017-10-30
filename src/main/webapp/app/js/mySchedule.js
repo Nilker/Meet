@@ -15,8 +15,9 @@ $(function() {
 				boardroomList=data.data;
 				var dayHead="<div class='head'><h2>";
 				var dayEnd="</h2></div>";
-				if(boardroomList.length == 0){
+				if(boardroomList.length == 0 || boardroomList == ''){
 					$(".list").append("<div class='info'>暂无预定会议</div>");
+					return;
 				}
 				for (var i = 0; i < boardroomList.length; i++) {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
