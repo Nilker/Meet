@@ -122,33 +122,37 @@ function detialMeet(meetStatus,srId){
 				var startTime=new Date(dataList[0].startTime).Format("yyyy-MM-dd hh:mm");
 				var endTime=new Date(dataList[0].endTime).Format("hh:mm");
 				var title="<div class='title'>"+dataList[0].meetingTheme+"</div>";
-				var boardBody="<ul><li><div class='list_name'>时间 :</div><div class='list_text'> "+startTime+" - "+endTime+"</div></li><li><div class='list_name'>地点:</div><div class='list_text'> "+dataList[0].biFloor+"-"+dataList[0].biName+"</div><div class='clear'></div></li>";
+				var boardBody="<ul><li><div class='list_name'>时间 :</div><div class='list_text'> "+startTime+" - "+endTime+"</div><div class='clear'></div></li><li><div class='list_name'>地点:</div><div class='list_text'> "+dataList[0].biFloor+"-"+dataList[0].biName+"</div><div class='clear'></div></li>";
 				var attenBodyHead="<li><div class='list_name'>";
 				var attenBodyEnd=":</div>";
 				var attenNameHead="<div class='list_text'>";
 				var spanLabelBeg="<span>";
 				var spanLabelEnd="</span>";
 				var attenNameEnd="</div>";
-				var attenEnd="<div class='clear'></div></li>";
+				var attenEnd="</li>";
 				var strEnd="<div class='clear'></div></ul><div class='clear'></div>";
 				var mark="<p class='mark'>会议时间已过，不能取消</p>";
-				var cancel="<div class='btn_layer'>取消会议</div>";
+				var cancel="<div class='btn_con'><div class='btn_layer'>取消会议</div><p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p></div>";
 				var markNest = "<div style='height:0.2rem;background: transparent;'></div>";
 				var end="<div class='clear'></div></div>";
 				var clear = "<div class='clear'></div>";
 				var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
 				var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
+				console.info(attenStr+"====attenStr");
+				var attenssBody = "";
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='与会人'){
-						attenStr+=spanLabelBeg+dataList[i].employeeName+spanLabelEnd + clear;
+						attenssBody += spanLabelBeg+dataList[i].employeeName+"  "+spanLabelEnd;
 					}
 				}
+				
+//				alert(attenssBody);
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='发起人'){
-						faqiAttenStr += attenNameHead+dataList[i].employeeName + attenNameEnd + attenEnd ;
+						faqiAttenStr += attenNameHead+dataList[i].employeeName + attenNameEnd ;
 					}
 				}
-				appendStr=title+boardBody+attenStr+faqiAttenStr+strEnd
+				appendStr=title+boardBody+attenStr+attenssBody+attenNameEnd+clear + "</li>" + faqiAttenStr +"</div>"+clear+attenEnd+strEnd
 				if(meetStatus=='已结束'){
 					appendStr+=mark+markNest;
 				}
@@ -163,31 +167,25 @@ function detialMeet(meetStatus,srId){
 				console.info("append"+appendStr);
 				$(".con").append(appendStr);
 				$(".model").show();
+				$(".btn_layer").on("click",function(e){//取消会议
+					e.stopPropagation();
+				//	$(".btn_layer").hide();
+					$('.btn_con').css('-webkit-transform','translateX(-50%)');
+					cancelMeet(srId);
+				});
 				$(".close").on('click',function(e){
 					e.stopPropagation();
 					$(".model").css('display','none');
 					$(".con").empty();
 				});
-				$(".btn_layer").on("click",function(e){//取消会议
-					e.stopPropagation();
-//					alert(srId);
-					cancelMeet(srId);
-				})
 			}
 		}
 	});
 }
 function cancelMeet(srId){
-	var appendObj = "";
-	appendObj +="<div id='model' class='model'>"
-    +"<div class='layer' style='width:4.7rem;height:2.5rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
-    +"<p style='text-align: center;'>确定要取消会议么？</p>"
-    +"<p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p>"
-    +"</div>"
-    +"</div>";
-	$("body").append(appendObj);
+//	e.stopPropagation();
+//	$('.btn_con').css('transform','translateX(-50%)');
 	$(".but_ok").on("click",function(e){
-		e.stopPropagation();
 		 $.ajax({
 		        type:"GET",
 		        url:urlObj.delScheduleBySrId,
@@ -209,7 +207,8 @@ function cancelMeet(srId){
 	});
 	$(".but_cancel").on("click",function(e){
 		e.stopPropagation();
-		$("#model").remove();
+		$(".model").css('display','none');
+		$(".con").empty();
 	});
 }
 function loginauthorizefailed(){

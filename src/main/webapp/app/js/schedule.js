@@ -4,6 +4,7 @@ $(function() {
 	var biId = getQueryString("biId");
 	startDay = getQueryString("startTime");// 用户选择
 //	alert(startDay);
+//	layer.alert(startDay);
 	scheduleInitial(biId, startDay);
 //	console.info(document.cookie);
 });
@@ -34,7 +35,7 @@ function noClick(param){
 // 添加与会人
 function addAttendee(employeeIds) {
 //	alert("员工ID串 ：" + employeeIds);
-	employeeIds = "1079|李梦茹,90018|孟然";
+//	employeeIds = "1079|李梦茹,90018|孟然";
 //	10003, 10009, 10012, 10011
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
@@ -58,10 +59,7 @@ function addAttendee(employeeIds) {
 		}
 	}
 	$(".add_people .list_name").after(attendStr);
-	$(".peoples")
-			.on(
-					"click",
-					function(e) {
+	$(".peoples").on("click",function(e) {
 						e.stopPropagation();
 						$(this).siblings().removeClass("active");
 						$(this).addClass("active");
@@ -132,9 +130,7 @@ function scheduleBoard() {
 		alert(checkSche(scheduleExt));
 		return;
 	}
-	
-	$
-			.ajax({
+$.ajax({
 				type : "POST",
 				url : urlObj.insertSchedule,
 				data : JSON.stringify(scheduleExt),
@@ -183,11 +179,6 @@ function scheduleBoard() {
 					}
 				},
 				async : false,
-				// beforeSend : function(xhr) {
-				// var cookie = credentials["COOKIE"];//此处设置cookie
-				// console.info( "adding cookie: "+ cookie );
-				// xhr.setRequestHeader('Cookie', cookie);
-				// },
 				error : function(err) {
 					console.log(err);
 				}
@@ -281,10 +272,10 @@ function scheduleInitial(biId, startDay) {
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
-						addAttendee(1);
+//						addAttendee(1);
 						noClick(scheduleList);
 						$(".add").on('click',function(){
-							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);
+							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length);
 							appFunction('getUserID?','userid=',userid);
 						});
 						$(".table ol li").on('click',function(e) {
@@ -378,26 +369,15 @@ function scheduleInitial(biId, startDay) {
 															.split("-")[1];
 													var showStrMin = staTimeStr
 															.split("-")[0];
-													// alert("显示值：" +
-													// currentShowStr);
 													var currentClick = str
 															.substring(0, 2)
 															+ ":"
 															+ str.substring(2, 4);
-													// alert("点击值：" + currentClick);
 													var currentClickNext = nextStr
 															.substring(0, 2)
 															+ ":"
 															+ nextStr.substring(2,
 																	4);
-//													 alert("showStrMax:===" +
-//													 showStrMax +
-//													 "currentClick==="
-//													 +currentClick);
-//													 alert("showStrMin:===" +
-//													 showStrMin +
-//													 "currentClickNext==="
-//													 +currentClickNext);
 													if (showStrMin == currentClickNext) {
 														$("#start")
 																.text(
@@ -412,7 +392,6 @@ function scheduleInitial(biId, startDay) {
 																				+ "-"
 																				+ currentClickNext);
 													}
-
 													if (showStrMin != currentClickNext
 															&& showStrMax != currentClick && currentClickNext < showStrMin || showStrMax < currentClick) {
 														$(this).removeClass("active");
@@ -453,6 +432,7 @@ function loginauthorizefailed(){
 	 }
 }
 function appFunction(functionName,paramName,param){
+//	alert(param);
 	var u = navigator.userAgent;
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is

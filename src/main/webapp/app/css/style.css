@@ -9,6 +9,7 @@ html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockqu
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -400,6 +401,7 @@ a:hover {color:#2a93f5;}
     line-height: 0.9rem;
     background: #fff;
     border-radius: 5px;
+    overflow-x: hidden;
 }
 .layer .con li{
     border-bottom: 1px solid #e4e4e4;
@@ -427,14 +429,29 @@ a:hover {color:#2a93f5;}
     background: url(../images/icon4.png) left center no-repeat;
     background-size: 0.3rem 0.3rem;
 }
+.layer .btn_con{
+    width: 11.7rem;
+    -webkit-transition: transform ease .3s;
+	-webkit-transform: translateX(0);
+}
+.layer .btn_con p{
+    width: 5.6rem;
+    height: 0.86rem;
+    position: static;
+    margin-top: 0;
+    float: left;
+    padding:0 0.5rem;
+}
 .layer .btn_layer{
+    float: left;
     width: 5.26rem;
     height:0.86rem;
     line-height: 0.86rem;
     text-align: center;
     background: #1f97f4;
     color:#fff;
-    margin:  0.2rem auto 0.3rem;
+    margin:auto;
+    margin:  0.2rem 0.3rem 0.3rem;
     border-radius: 5px;
 }
 .model  .close{
