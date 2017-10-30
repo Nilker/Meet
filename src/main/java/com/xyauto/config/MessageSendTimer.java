@@ -63,8 +63,8 @@ public class MessageSendTimer {
 				MessageUtil.meetingRemind(msg);
 				log.info(">> meetingRemind msg {}" + msg);
 			}
-			log.info(">> current time : " + DateUtils.now(DateUtils.HHMM) + " remind time : "
-					+ entry.getValue().getBeginTimer());
+			log.info(">> current time : " + DateUtils.now(DateUtils.HHMM) + " srId : " + entry.getValue().getSrId()
+					+ "  remind time : " + entry.getValue().getBeginTimer());
 		}
 	}
 

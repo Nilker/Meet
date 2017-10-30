@@ -139,15 +139,17 @@ function detialMeet(meetStatus,srId){
 				var clear = "<div class='clear'></div>";
 				var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
 				var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
-				console.info(attenStr+"====attenStr");
 				var attenssBody = "";
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='与会人'){
-						attenssBody += spanLabelBeg+dataList[i].employeeName+"  "+spanLabelEnd;
+						var attenPerson = dataList[i].employeeName;
+						if(attenPerson == null){
+							attenPerson = "";
+						}
+						attenssBody += spanLabelBeg+attenPerson+"  "+spanLabelEnd;
 					}
 				}
 				
-//				alert(attenssBody);
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='发起人'){
 						faqiAttenStr += attenNameHead+dataList[i].employeeName + attenNameEnd ;

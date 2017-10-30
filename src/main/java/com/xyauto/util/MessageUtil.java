@@ -28,7 +28,7 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingInvitation-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map));
+		log.debug("send meetingInvitation-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
 	public static void meetingCancel(MeetingMessage meetingMessage)
@@ -42,10 +42,10 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingCancel-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map));
+		log.debug("send meetingCancel-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
-	public static void meetingRemind(MeetingMessage meetingMessage)
+	public static synchronized void meetingRemind(MeetingMessage meetingMessage)
 			throws ParseException, IOException, InterruptedException, ExecutionException {
 		meetingMessage.setType(Constants.MEETTING_REMIND);
 		meetingMessage.getData().setEntityType(Constants.MEETTING_REMIND);
@@ -56,7 +56,7 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingRemind-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map));
+		log.debug("send meetingRemind-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
 }
