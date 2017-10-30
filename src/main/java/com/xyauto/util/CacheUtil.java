@@ -52,7 +52,8 @@ public class CacheUtil {
 
 	public static void clearScheMap(AppMapper mapper) {
 		scheMap = null;
+		log.debug(">> clear scheMap after {} " + scheMap);
 		getScheMap(mapper);
-		log.debug(">> clear scheMap {} " + scheMap);
+		log.debug(">> clear scheMap success {} " + scheMap);
 	}
 }

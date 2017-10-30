@@ -78,6 +78,10 @@
 		A.bi_id=#{biId,jdbcType=VARCHAR}
 		and A.is_delete=0
 	</select>
+	<select id="checkBoardStatus" parameterType="map" resultType="java.lang.Integer">
+		select status from [xyauto_meet].[dbo].[boardroom_info] A
+		where A.bi_id=#{biId,jdbcType=VARCHAR}
+	</select>
 	<select id="findMeetByStartTime" parameterType="java.lang.String"
 		resultMap="ScheduledExtResultMap">
 		select A.sr_id,STUFF((select '|' + C.employee_id from

@@ -34,7 +34,7 @@ function noClick(param){
 // 添加与会人
 function addAttendee(employeeIds) {
 //	alert("员工ID串 ：" + employeeIds);
-	//employeeIds = "0214|李梦茹,0216|孟然,0213|许松玉";
+	employeeIds = "1079|李梦茹,90018|孟然";
 //	10003, 10009, 10012, 10011
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
@@ -50,7 +50,12 @@ function addAttendee(employeeIds) {
 		empName = employeeIdAttr[i].split("|")[1];
 		console.log(empId+empName);
 		attendStr += "<li class='peoples'><span class = 'empId' style = 'display:none;'>" + empId
-			+ "|</span><span>"+ empName + "</span>、</li>"
+			+ "|</span><span>"+ empName + "</span>";
+		if(i == employeeIdAttr.length-1){
+			attendStr += "</li>";
+		}else{
+			attendStr +="、</li>";
+		}
 	}
 	$(".add_people .list_name").after(attendStr);
 	$(".peoples")
@@ -85,7 +90,7 @@ function addAttendee(employeeIds) {
 }
 themeMsg = "请填写会议主题";
 timeMsg = "请选择会议时间";
-employeeIdsMsg = "请选择与会人";
+//employeeIdsMsg = "请选择与会人";
 function checkSche(scheduleExt) {
 	var startTime = $("#start").text();
 	if (scheduleExt.meetingTheme == null || scheduleExt.meetingTheme == '') {
@@ -94,9 +99,9 @@ function checkSche(scheduleExt) {
 	if (startTime == null || startTime == '') {
 		return timeMsg;
 	}
-	if (scheduleExt.employeeIds == null || scheduleExt.employeeIds == '') {
-		return employeeIdsMsg;
-	}
+//	if (scheduleExt.employeeIds == null || scheduleExt.employeeIds == '') {
+//		return employeeIdsMsg;
+//	}
 	return "";
 };
 // 立即预定
@@ -140,6 +145,7 @@ function scheduleBoard() {
 						loginauthorizefailed();
 						return;
 					}
+					
 					if (data.msg == 'success' && data.data == 0) {
 						var toast = "";
 						toast += ""
@@ -151,17 +157,29 @@ function scheduleBoard() {
 							clearMes();
 							appFunction('scheduleSuccess','','');
 						}, 2000);
-					} else {
+					}
+					if(data.data == 2){
 						var toast = "";
 						toast += ""
 								+ "<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
-								+ "  <p style='text-align: center;'>预定失败</p>"
+								+ "  <p style='text-align: center;'>会议室已停用</p>"
 								+ " </div><div>"
 						$("body").append(toast);
 						mesTimeOut = setTimeout(function() {
 							clearMes();
-							location.reload();
 						}, 2000);
+					}
+					if (data.data == 1){
+							var toast = "";
+							toast += ""
+									+ "<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.2rem;'>"
+									+ "  <p style='text-align: center;'>会议时间已经被占用，请重新选择</p>"
+									+ " </div><div>"
+							$("body").append(toast);
+							mesTimeOut = setTimeout(function() {
+								clearMes();
+								location.reload();
+							}, 2000);
 					}
 				},
 				async : false,
@@ -234,7 +252,7 @@ function scheduleInitial(biId, startDay) {
 								$("#eq" + i).show();
 							}
 						}
-						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' style='border: none;'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
+						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' maxlength='10'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
 								+ strartDay
 								+ "</li><div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
 								+ "<li id='4' value='1100'>11</li>"
@@ -263,7 +281,7 @@ function scheduleInitial(biId, startDay) {
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
-						//addAttendee(1);
+						addAttendee(1);
 						noClick(scheduleList);
 						$(".add").on('click',function(){
 							var userid = $(".peoples").text().replace(/、/g,',').substring(0,$(".peoples").text().length-1);
@@ -398,7 +416,15 @@ function scheduleInitial(biId, startDay) {
 													if (showStrMin != currentClickNext
 															&& showStrMax != currentClick && currentClickNext < showStrMin || showStrMax < currentClick) {
 														$(this).removeClass("active");
-														alert("必须点击连续的时间段");
+														var toast = "";
+														toast += ""
+																+ "<div class='model'><div class='layer' style='width:4.7rem;height:1.4rem;background: #fff;top:0;margin:auto;padding-top: 0.1rem;'>"
+																+ "  <p style='text-align: center;'>必须选择连续的时间段</p>"
+																+ " </div><div>"
+														$("body").append(toast);
+														mesTimeOut = setTimeout(function() {
+															clearMes();
+														}, 1000);
 													}
 												}
 											}

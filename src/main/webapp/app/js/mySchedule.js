@@ -16,7 +16,7 @@ $(function() {
 				var dayHead="<div class='head'><h2>";
 				var dayEnd="</h2></div>";
 				if(boardroomList.length == 0){
-					$(".list").append(dayHead+"暂无会议"+dayEnd);
+					$(".list").append("<div class='info'>暂无会议室预定</div>");
 				}
 				for (var i = 0; i < boardroomList.length; i++) {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
@@ -66,82 +66,32 @@ $(function() {
 					}
 					currentDay=dayTime;
 				}
-				$(".list .state").on('click',function(e){
+//				$(".list .state").on('click',function(e){	
+//					e.stopPropagation();
+//					var meetStatus=$(this).text().substring(0,3);
+//					var srId=$(this).text().substring(3);
+//					detialMeet(meetStatus,srId);
+//				});
+				$(".over").on('click',function(e){	
 					e.stopPropagation();
-					var meetStatus=$(this).text().substring(0,3);
-					var srId=$(this).text().substring(3);
-					$.ajax({
-						url : urlObj.findSingleMeetBySrId,
-						type : 'get',
-						data :{
-							srId:srId
-						},
-						dataType : 'json',
-						success : function(data) {
-							console.info(data);
-							if(data.msg == 'loginError'){
-								loginauthorizefailed();return;
-							}
-							if(data.msg=='success'){
-								var dataList=data.data;
-								appendStr="";
-								console.info(dataList[0]);
-								var startTime=new Date(dataList[0].startTime).Format("yyyy-MM-dd hh:mm");
-								var endTime=new Date(dataList[0].endTime).Format("hh:mm");
-								var title="<div class='title'>"+dataList[0].meetingTheme+"</div>";
-								var boardBody="<ul><li><div class='list_name'>时间 :</div><div class='list_text'> "+startTime+" - "+endTime+"</div></li><li><div class='list_name'>地点:</div><div class='list_text'> "+dataList[0].biFloor+"-"+dataList[0].biName+"</div><div class='clear'></div></li>";
-								var attenBodyHead="<li><div class='list_name'>";
-								var attenBodyEnd=":</div>";
-								var attenNameHead="<div class='list_text'>";
-								var spanLabelBeg="<span>";
-								var spanLabelEnd="</span>";
-								var attenNameEnd="</div>";
-								var attenEnd="<div class='clear'></div></li>";
-								var strEnd="<div class='clear'></div></ul><div class='clear'></div>";
-								var mark="<p class='mark'>会议时间已过，不能取消</p>";
-								var cancel="<div class='btn_layer'>取消会议</div>";
-								var markNest = "<div style='height:0.2rem;background: transparent;'></div>";
-								var end="<div class='clear'></div></div>";
-								var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
-								var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
-								for (var i = 0; i < dataList.length; i++) {
-									if(dataList[i].type=='与会人'){
-										attenStr+=spanLabelBeg+dataList[i].employeeName+spanLabelEnd;
-									}
-								}
-								for (var i = 0; i < dataList.length; i++) {
-									if(dataList[i].type=='发起人'){
-										faqiAttenStr+=attenNameHead+dataList[i].employeeName+attenNameEnd+attenEnd;
-									}
-								}
-								appendStr=title+boardBody+attenStr+faqiAttenStr+strEnd
-								if(meetStatus=='已结束'){
-									appendStr+=mark+markNest;
-								}
-								if(meetStatus=='会议中'||meetStatus=='未开始'){
-									for (var i = 0; i < dataList.length; i++) {
-										if(dataList[i].type=='发起人'&&dataList[i].employeeId==dataList[0].myEmpId){
-											appendStr+=cancel+markNest;
-										}
-									}
-								}
-								appendStr+=end;
-								console.info("append"+appendStr);
-								$(".con").append(appendStr);
-								$(".model").show();
-								$(".close").on('click',function(e){
-									e.stopPropagation();
-									$(".model").css('display','none');
-									$(".con").empty();
-								});
-								$(".btn_layer").on("click",function(e){//取消会议
-									e.stopPropagation();
-//									alert(srId);
-									cancelMeet(srId);
-								})
-							}
-						}
-					});			
+					var meetStatus=$(this).children().last().text().substring(0,3);
+					var srId=$(this).children().last().text().substring(3);
+//					alert($(this).children().last().text());
+					detialMeet(meetStatus,srId);
+				});
+				$(".notbegin").on('click',function(e){	
+					e.stopPropagation();
+					var meetStatus=$(this).children().last().text().substring(0,3);
+					var srId=$(this).children().last().text().substring(3);
+//					alert($(this).children().last().text());
+					detialMeet(meetStatus,srId);
+				});
+				$(".ongoing").on('click',function(e){	
+					e.stopPropagation();
+					var meetStatus=$(this).children().last().text().substring(0,3);
+					var srId=$(this).children().last().text().substring(3);
+//					alert($(this).children().last().text());
+					detialMeet(meetStatus,srId);
 				});
 				console.info(data.data);
 			}
@@ -151,6 +101,82 @@ $(function() {
 		}
 	});
 });
+function detialMeet(meetStatus,srId){
+//	alert(meetStatus + "===meetStatus " + "srId===" + srId);
+	$.ajax({
+		url : urlObj.findSingleMeetBySrId,
+		type : 'get',
+		data :{
+			srId:srId
+		},
+		dataType : 'json',
+		success : function(data) {
+			console.info(data);
+			if(data.msg == 'loginError'){
+				loginauthorizefailed();return;
+			}
+			if(data.msg=='success'){
+				var dataList=data.data;
+				appendStr="";
+				console.info(dataList[0]);
+				var startTime=new Date(dataList[0].startTime).Format("yyyy-MM-dd hh:mm");
+				var endTime=new Date(dataList[0].endTime).Format("hh:mm");
+				var title="<div class='title'>"+dataList[0].meetingTheme+"</div>";
+				var boardBody="<ul><li><div class='list_name'>时间 :</div><div class='list_text'> "+startTime+" - "+endTime+"</div></li><li><div class='list_name'>地点:</div><div class='list_text'> "+dataList[0].biFloor+"-"+dataList[0].biName+"</div><div class='clear'></div></li>";
+				var attenBodyHead="<li><div class='list_name'>";
+				var attenBodyEnd=":</div>";
+				var attenNameHead="<div class='list_text'>";
+				var spanLabelBeg="<span>";
+				var spanLabelEnd="</span>";
+				var attenNameEnd="</div>";
+				var attenEnd="<div class='clear'></div></li>";
+				var strEnd="<div class='clear'></div></ul><div class='clear'></div>";
+				var mark="<p class='mark'>会议时间已过，不能取消</p>";
+				var cancel="<div class='btn_layer'>取消会议</div>";
+				var markNest = "<div style='height:0.2rem;background: transparent;'></div>";
+				var end="<div class='clear'></div></div>";
+				var clear = "<div class='clear'></div>";
+				var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
+				var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
+				for (var i = 0; i < dataList.length; i++) {
+					if(dataList[i].type=='与会人'){
+						attenStr+=spanLabelBeg+dataList[i].employeeName+spanLabelEnd + clear;
+					}
+				}
+				for (var i = 0; i < dataList.length; i++) {
+					if(dataList[i].type=='发起人'){
+						faqiAttenStr += attenNameHead+dataList[i].employeeName + attenNameEnd + attenEnd ;
+					}
+				}
+				appendStr=title+boardBody+attenStr+faqiAttenStr+strEnd
+				if(meetStatus=='已结束'){
+					appendStr+=mark+markNest;
+				}
+				if(meetStatus=='会议中'||meetStatus=='未开始'){
+					for (var i = 0; i < dataList.length; i++) {
+						if(dataList[i].type=='发起人'&&dataList[i].employeeId==dataList[0].myEmpId){
+							appendStr+=cancel+markNest;
+						}
+					}
+				}
+				appendStr+=end;
+				console.info("append"+appendStr);
+				$(".con").append(appendStr);
+				$(".model").show();
+				$(".close").on('click',function(e){
+					e.stopPropagation();
+					$(".model").css('display','none');
+					$(".con").empty();
+				});
+				$(".btn_layer").on("click",function(e){//取消会议
+					e.stopPropagation();
+//					alert(srId);
+					cancelMeet(srId);
+				})
+			}
+		}
+	});
+}
 function cancelMeet(srId){
 	var appendObj = "";
 	appendObj +="<div id='model' class='model'>"
@@ -161,6 +187,7 @@ function cancelMeet(srId){
     +"</div>";
 	$("body").append(appendObj);
 	$(".but_ok").on("click",function(e){
+		e.stopPropagation();
 		 $.ajax({
 		        type:"GET",
 		        url:urlObj.delScheduleBySrId,
@@ -181,6 +208,7 @@ function cancelMeet(srId){
 			})
 	});
 	$(".but_cancel").on("click",function(e){
+		e.stopPropagation();
 		$("#model").remove();
 	});
 }

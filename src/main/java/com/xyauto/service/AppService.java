@@ -135,6 +135,8 @@ public class AppService {
 		// 验证
 		if (appMapper.checkMeetTime(record.getBiId(), record.getStartTime(), record.getEndTime()) > 0)
 			return 1;
+		if(appMapper.checkBoardStatus(record.getBiId()) == 0)
+			return 2;
 		MeetingMessage msg = new MeetingMessage();
 		MainData data = new MainData();
 		Expand expand = new Expand();
@@ -154,21 +156,23 @@ public class AppService {
 		record.setUpdateUser(record.getEmployeeId());
 		int insert = scheduledRecordMapper.insert(record);
 		// 插入与会人
-		List<Attendees> attendeesList = new ArrayList<>();
-		for (String eid : record.getEmployeeIds()) {
-			Attendees attendees = new Attendees();
-			attendees.setSrId(srId);
-			attendees.setEmployeeId(eid);
-			String name = oAService.queryEmployeeById(eid).getCnName();
-			attendees.setEmployeeName(name);
-			attendees.setIsDelete(false);
-			attendees.setCreateUser(record.getEmployeeId());
-			attendees.setUpdateUser(record.getEmployeeId());
-			attendeesList.add(attendees);
-			empIdStr.append(eid+"|");
+		if(!record.getEmployeeIds()[0].equals("")) {
+			List<Attendees> attendeesList = new ArrayList<>();
+			for (String eid : record.getEmployeeIds()) {
+				Attendees attendees = new Attendees();
+				attendees.setSrId(srId);
+				attendees.setEmployeeId(eid);
+				String name = oAService.queryEmployeeById(eid).getCnName();
+				attendees.setEmployeeName(name);
+				attendees.setIsDelete(false);
+				attendees.setCreateUser(record.getEmployeeId());
+				attendees.setUpdateUser(record.getEmployeeId());
+				attendeesList.add(attendees);
+				empIdStr.append(eid+"|");
+			}
+			appMapper.insertByBatch(attendeesList);
 		}
-		int insertByBatch = appMapper.insertByBatch(attendeesList);
-		if(insert > 0 && insertByBatch > 0) {
+		if(insert > 0) {
 			BoardroomInfo selectByPrimaryKey = boardroomInfoMapper.selectByPrimaryKey(record.getBiId());
 			empIdStr.append(record.getEmployeeId());
 			expand.setTitle(record.getMeetingTheme());

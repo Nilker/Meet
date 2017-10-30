@@ -25,6 +25,8 @@ public interface AppMapper {
 
 	Integer checkMeetTime(@Param("biId") String biId, @Param("startTime") Date startTime,
 			@Param("endTime") Date endTime);
+	
+	Integer checkBoardStatus(@Param("biId") String biId);
 
 	int insertByBatch(List<Attendees> attendees);
 

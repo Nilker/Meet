@@ -36,6 +36,11 @@ function loadBoardList(officeId, startTime) {
 			}
 			if (data.msg == 'success') {
 				var boardroomList = data.data;
+//				boardroomList = [];
+				if(boardroomList.length == 0 || boardroomList == ''){
+					$(".table_box").append("<div class='info'>此办公区暂没有可预订的会议室</div>");
+					return;
+				}
 				getList(boardroomList);
 				$('.table_box .table_item ul .booked').on(
 						'click',
@@ -75,16 +80,16 @@ function loadBoardList(officeId, startTime) {
 									}
 									if(data.msg == 'success'){
 										$(".layer_toBook").empty();
-										var boardHead = "<p class='info fl'>"+data.data.biFloor+"-"+data.data.biName+"  &nbsp;&nbsp;（"+data.data.biCapacity+"座）<br><br>";
-										var boardEnd = "</p><div  class='button'>预定</div>";
+										var boardHead = "<div class='info fl'><p>"+data.data.biFloor+"层-"+data.data.biName+"  &nbsp;&nbsp;（"+data.data.biCapacity+"座）</p>";
+										var boardEnd = "<div  class='button'>预定</div>";
 										var boardBody = "";
 										var equipArr = XY.dec2bin(data.data.equipment).split("");
 										for (var i = 0; i < equipArr.length; i++) {
 											if (equipArr[i] == 1) {
-												boardBody+=" "+equipmentArr[i];
+												boardBody+="、"+equipmentArr[i];
 											}
 										}
-										$(".layer_toBook").append(boardHead+boardBody+boardEnd);
+										$(".layer_toBook").append(boardHead+"<p>"+boardBody.substring(1)+"</p></div>"+boardEnd);
 										$(".button").on('click',function(e){
 											e.stopPropagation();
 //											alert(biId);//立即预定
@@ -161,7 +166,7 @@ function getList(boardroomList) {
 	for (var i = 0; i < boardroomList.length; i++) {
 		$(".table_box").append(
 				"<div class='table_item'><div class='table_title'>"
-						+ boardroomList[i].biFloor + "-"
+						+ boardroomList[i].biFloor + "层-"
 						+ boardroomList[i].biName + "("
 						+ boardroomList[i].biCapacity + "座)<span style = 'display:none;'>"
 						+ boardroomList[i].biId
