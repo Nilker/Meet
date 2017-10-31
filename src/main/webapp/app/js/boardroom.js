@@ -182,9 +182,16 @@ function getList(boardroomList) {
 						+ "</span></div><ul class='ul' id='id" + i
 						+ "'></ul></div>");
 		for (var x = 0; x < 18; x++) {
+			var classStyle = "";
+			if(x == 0){
+				classStyle += "class='first'";
+			}
+			if(x == 17){
+				classStyle += "class='last'";
+			}
 			$("#id" + i).append(
 					"<li id=liId" + i + "x" + x
-							+ ">&nbsp;</li><span style='display:none;'>"
+							+ " "+classStyle+">&nbsp;</li><span style='display:none;'>"
 							+ boardroomList[i].biId + "</span>");
 		}
 		newArr3 = searchIndex(schedTimeArr, boardroomList[i].startEndTimeArr);
