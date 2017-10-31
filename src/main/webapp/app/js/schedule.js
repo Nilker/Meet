@@ -240,7 +240,9 @@ function scheduleInitial(biId, startDay) {
 						}
 						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' maxlength='10'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
 								+ strartDay
-								+ "</li><div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
+								+ "</li></ul>" 
+								+ "<ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start'></span></li>"
+								+"<div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
 								+ "<li id='4' value='1100'>11</li>"
 								+ "<li id='5' value='1130'></li>"
 								+ "<li id='6' value='1200'>12</li>"
@@ -263,7 +265,7 @@ function scheduleInitial(biId, startDay) {
 								+ "<div class='clear'></div>"
 								+ "</ol>"
 								+ "	</li>"
-								+ "</ul><ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start'></span></li></ul>";
+								+ "</ul>";
 						var attendStr = "";
 						attendStr += "<ul class='add_people'><li class='list_name'>与会人</li><div class='clear'></div><li class='add'></li></ul>";
 						$(".list").append(body+attendStr);
