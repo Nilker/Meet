@@ -102,7 +102,7 @@ function select(pageInti){
                     '<td>'+ dateConvert(item.startTime,'yyyyMMddHHmm') +'</td>'+
                     '<td class="td_con" title="'+ item.meetingTheme +'">'+ item.meetingTheme +'</td>'+
                     '<td>'+ item.employeeName +'</td>'+
-                    '<td>'+ item.departmentName +'</td>'+
+                    '<td class="td_con" title="'+ item.departmentName +'">'+ item.departmentName +'</td>'+
                     '<td>'+ item.phone +'</td>'+
                     '<td>'+ OFFICE_INFO_MAP[item.officeId] +'</td>'+
                     statusConvert(item.startTime,item.endTime)+
