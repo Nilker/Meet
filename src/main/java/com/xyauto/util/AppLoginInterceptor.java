@@ -37,10 +37,10 @@ public class AppLoginInterceptor {
 			return false;
 		} else {
 			session.setAttribute(Constants.SESSION_APPUSER, user);
-			log.debug("login " + user.toString());
+			log.debug(">> login " + user.toString());
 		}
 		long postTime = System.currentTimeMillis();
-		log.debug("Login Interceptor time:" + (postTime - preTime) + "ms");
+		log.debug(">> Login Interceptor time:" + (postTime - preTime) + "ms");
 		return true;
 	}
 
@@ -49,10 +49,10 @@ public class AppLoginInterceptor {
 
 		String cookieValue = CookieUtil.getCookieValue(request, Constants.COOKIE_KEY);
 		if (null == cookieValue || StringUtil.isEmpty(cookieValue)) {
-			log.debug("cookie not found");
+			log.debug(">> cookie not found <<");
 			return null;
 		}
-		log.debug("cookie:" + cookieValue);
+		log.debug(">> cookie:" + cookieValue);
 
 		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
 		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
@@ -61,7 +61,7 @@ public class AppLoginInterceptor {
 		HttpResponse httpResponse = future.get();
 
 		String res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug("check:" + res);
+		log.debug(">> check:" + res);
 		ObjectMapper objectMapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> checkMap = objectMapper.readValue(res, HashMap.class);
@@ -76,7 +76,7 @@ public class AppLoginInterceptor {
 		httpResponse = future.get();
 
 		res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug("user:" + res);
+		log.debug(">> user:" + res);
 		if (res.indexOf("{\"Status\":401") == 0)
 			return null;
 		@SuppressWarnings("unchecked")

@@ -40,6 +40,7 @@ public class AppController {
 			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.delScheduleBySrId(srId)));
 		} else {
+
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
 	}

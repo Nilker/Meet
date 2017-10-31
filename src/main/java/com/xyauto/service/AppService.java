@@ -174,7 +174,6 @@ public class AppService {
 		}
 		if(insert > 0) {
 			BoardroomInfo selectByPrimaryKey = boardroomInfoMapper.selectByPrimaryKey(record.getBiId());
-			empIdStr.append(record.getEmployeeId());
 			expand.setTitle(record.getMeetingTheme());
 			expand.setDate(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD));
 			expand.setStartTime(DateUtils.date2Str(record.getStartTime(),DateUtils.HHMMSS));
@@ -187,9 +186,13 @@ public class AppService {
 			data.setRemindUserCode(empIdStr.toString());
 			data.setExpand(expand);
 			msg.setData(data);
-			// 通知与会人
 			MessageUtil.meetingInvitation(msg);
+			// 通知与会人
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
+				empIdStr.append(record.getEmployeeId());//会议邀请不邀请发起人
+				msg.setUserCode(empIdStr.toString());
+				data.setRemindUserCode(empIdStr.toString());
+				msg.setData(data);
 				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
 					MessageUtil.meetingRemind(msg);
 				}else {
