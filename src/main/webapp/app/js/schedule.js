@@ -120,9 +120,7 @@ function scheduleBoard() {
 	scheduleExt.endTime = new Date(dateEnd.replace(new RegExp(/-/gm) ,"/"));
 	scheduleExt.meetingTheme = $("input").val();
 	scheduleExt.officeId = $("#officeId").text();
-	//alert(scheduleExt.startTime);
-	//alert(scheduleExt.endTime);
-	//console.log("======"+scheduleExt);
+	console.log("======"+scheduleExt);
 	if (checkSche(scheduleExt) != "") {
 		layer.msg(checkSche(scheduleExt));
 		return;

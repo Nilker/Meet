@@ -115,8 +115,6 @@ function loadBoardList(officeId, startTime) {
 }
 // 不可预定
 function clickNotSchedule(biId, startTime) {
-	// $(this).find('li').removeClass('active');
-	// $(this).parent().parent().siblings().find('li').removeClass('active');
 	$.ajax({
 		url : urlObj.findInfoByBiId,
 		type : 'get',
@@ -133,20 +131,25 @@ function clickNotSchedule(biId, startTime) {
 			if (data.msg == 'success') {
 				console.info(data.data.scheduleList);
 				$('.layer_booked').empty();
-				$(".layer_booked").append(
-						"<p>"
-								+ data.data.scheduleList.meetingTheme
-								+ "&nbsp;&nbsp;（"
-								+ new Date(data.data.scheduleList.startTime)
-										.Format('hh:mm')
-								+ " --"
-								+ new Date(data.data.scheduleList.endTime)
-										.Format('hh:mm') + "）</p><p>"
-								+ data.data.scheduleList.employeeName
-								+ "&nbsp;&nbsp;&nbsp;&nbsp;"
-								+ "<span>"+data.data.scheduleList.phone +"</span>"
-								+ " <span class='phone'><img src='" + urlPrefix
-								+ "phone.png'></span></p>");
+				var appenstr = "";
+				appenstr += "<p>"
+					+ data.data.scheduleList.meetingTheme
+					+ "&nbsp;&nbsp;（"
+					+ new Date(data.data.scheduleList.startTime)
+							.Format('hh:mm')
+					+ " --"
+					+ new Date(data.data.scheduleList.endTime)
+							.Format('hh:mm') + "）</p><p>"
+					+ data.data.scheduleList.employeeName
+					+ "&nbsp;&nbsp;&nbsp;&nbsp;";
+				if(Trim(data.data.scheduleList.phone) != null && Trim(data.data.scheduleList.phone) != ''){
+					appenstr += "<span>"+data.data.scheduleList.phone +"</span>"
+					+ " <span class='phone'><img src='" + urlPrefix
+					+ "phone.png'></span></p>";
+				}else{
+					appenstr += "</p>";
+				}
+				$(".layer_booked").append(appenstr);
 				$('.layer_booked').css('height', '1.5rem');
 				$('.layer_toBook').css('height', '0');
 				$(".phone").on("click",function(e){
@@ -160,6 +163,10 @@ function clickNotSchedule(biId, startTime) {
 			console.log(err)
 		}
 	});
+}
+function Trim(str)
+{ 
+    return str.replace(/(^\s*)|(\s*$)/g, ""); 
 }
 function getList(boardroomList) {
 	console.log(boardroomList);

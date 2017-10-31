@@ -17,6 +17,7 @@ $(function() {
 				var dayEnd="</h2></div>";
 				if(boardroomList.length == 0 || boardroomList == ''){
 					$(".list").append("<div class='info'>暂无预定会议</div>");
+					$(".info").show();
 					return;
 				}
 				for (var i = 0; i < boardroomList.length; i++) {
