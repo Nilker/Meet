@@ -19,6 +19,7 @@ public class CacheUtil {
 		if (scheMap == null) {
 			synchronized (scheLock) {
 				if (scheMap == null) {
+					log.debug(">> 未读取缓存  <<");
 					List<ScheduledRecordExt> scheInfoList = mapper.findMeetByStartTime(DateUtils.now(DateUtils.YMD));
 					scheMap = new HashMap<>();
 					for (ScheduledRecordExt scheInfo : scheInfoList) {
