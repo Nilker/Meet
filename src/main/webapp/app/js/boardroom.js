@@ -38,7 +38,7 @@ function loadBoardList(officeId, startTime) {
 				var boardroomList = data.data;
 //				boardroomList = [];
 				if(boardroomList.length == 0 || boardroomList == '' || boardroomList == null){
-					console.info(boardroomList);
+//	//				console.info(boardroomList);
 					$(".table_box").append("<div class='info'>此办公区暂没有可预订的会议室</div>");
 					$(".info").show();
 					return;
@@ -48,6 +48,10 @@ function loadBoardList(officeId, startTime) {
 						'click',
 						function(e) {
 							e.stopPropagation();
+							$(this).siblings().removeClass("clicked");
+//							$(this).parent('ul').parent('table_item').siblings().children('ul').find('li').removeClass('clicked');
+//							console.info($(this).parent('ul').parent('table_item').siblings().children('ul'));
+							$("[booked-click="+$(this).attr('booked-click')+"]").addClass("clicked");
 							var startTimes = $(this).children().text();
 							startTimes = startTime + " "
 									+ schedTimeArr[startTimes] + ":59";
@@ -58,6 +62,9 @@ function loadBoardList(officeId, startTime) {
 							$(this).parent().parent().siblings('.table_item')
 									.children('ul').find('li').removeClass(
 											'active');
+							$(this).parent().parent().siblings('.table_item')
+							.children('ul').find('li').removeClass(
+									'clicked');
 						});
 				$('.table_item ul').on(
 						'click',
@@ -65,7 +72,11 @@ function loadBoardList(officeId, startTime) {
 							e.stopPropagation();
 							$(this).parents('.table_item').siblings(
 									'.table_item').find('li').removeClass(
-									'active');
+									'clicked');
+							$(this).find('li').removeClass('clicked');
+							$(this).parents('.table_item').siblings(
+							'.table_item').find('li').removeClass(
+							'active');
 							$(this).find('li').addClass('active');
 							var biId = $(this).prev().children().text();
 							$.ajax({
@@ -129,7 +140,7 @@ function clickNotSchedule(biId, startTime) {
 				return;
 			}
 			if (data.msg == 'success') {
-				console.info(data.data.scheduleList);
+//				console.info(data.data.scheduleList);
 				$('.layer_booked').empty();
 				var appenstr = "";
 				appenstr += "<p>"
@@ -203,10 +214,12 @@ function getList(boardroomList) {
 				if (b == newArr3[a][newArr3[a].length - 1] - 1) {
 					$('#liId' + i + "x" + b).addClass('booked');
 					$('#liId' + i + "x" + b).css('border-color', '#fff');
-					// console.log("我加边框了" + '#liId' + i + "x" + b);
+					$('#liId' + i + "x" + b).attr('booked-click',"click" + a + i);
+//					 console.log("我加边框了" + '#liId' + i + "x" + b + "==a==" + a + i);
 				} else {
 					$('#liId' + i + "x" + b).addClass('booked');
-					// console.log("我没加边框" + '#liId' + i + "x" + b);
+					$('#liId' + i + "x" + b).attr('booked-click',"click" + a + i);
+//					 console.log("我没加边框" + '#liId' + i + "x" + b + "==a==" + a+i);
 				}
 				$("#liId" + i + "x" + b).append(
 						"<span style='display:none;'>" + newArr3[a][0]
