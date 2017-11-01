@@ -3,6 +3,8 @@ package com.xyauto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -47,5 +49,15 @@ public class Run extends SpringBootServletInitializer {
 		cacheManagerFactoryBean.setConfigLocation(new ClassPathResource("/ehcache.xml"));
 		cacheManagerFactoryBean.setShared(false);
 		return cacheManagerFactoryBean;
+	}
+	
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer(){
+	       return new EmbeddedServletContainerCustomizer() {
+	           @Override
+	           public void customize(ConfigurableEmbeddedServletContainer container) {
+	                container.setSessionTimeout(1);//单位为S
+	          }
+	    };
 	}
 }
