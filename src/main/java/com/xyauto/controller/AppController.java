@@ -37,7 +37,6 @@ public class AppController {
 	public ResponseEntity<ResultUtil> delScheduleBySrId(HttpServletRequest request, String srId) throws Exception {
 		log.info(">> srId {} " + srId);
 		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
-			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.delScheduleBySrId(srId)));
 		} else {
 
@@ -49,7 +48,7 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findBoardByPrimaryKey(HttpServletRequest request, String biId) throws Exception {
 		log.info(">> biId {} " + biId);
 		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
-			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
+//			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findBoardByPrimaryKey(biId)));
 		} else {
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
@@ -61,7 +60,7 @@ public class AppController {
 			throws Exception {
 		log.info(">> officeId {} " + officeId + " startTime {} " + startTime);
 		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
-			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
+//			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findInfoByOfficeId(officeId, startTime)));
 		} else {
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
@@ -73,7 +72,7 @@ public class AppController {
 			throws Exception {
 		log.info(">> biId {} " + biId + " startTime {} " + startTime);
 		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
-			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
+//			System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findInfoByBiId(biId, startTime)));
 		} else {
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
