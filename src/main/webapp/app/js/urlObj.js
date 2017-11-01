@@ -1,4 +1,4 @@
-var domain="http://x.xingyuanauto.com/app/scheduled/";
+﻿var domain="http://meet.xingyuanauto.com:8081/xyauto_meet/app/scheduled/";
 urlPrefix="../app/images/";
 var urlObj={
 		//会议室区域列表

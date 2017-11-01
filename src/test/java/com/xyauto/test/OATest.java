@@ -30,7 +30,8 @@ public class OATest {
 
 	@Test
 	public void test() {
-		Employee queryEmployeeById = oas.queryEmployeeById("1103");
+//		9846, 1180
+		Employee queryEmployeeById = oas.queryEmployeeById("9846");
 		System.out.println(queryEmployeeById.getCnName());
 	}
 

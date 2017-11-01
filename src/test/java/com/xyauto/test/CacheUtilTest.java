@@ -37,7 +37,7 @@ public class CacheUtilTest {
 	 */
 	@Test
 	public void CacheUtil() {
-		Map<String, ScheduledRecordExt> scheMap = com.xyauto.util.CacheUtil.getScheMap(appMapper);
+//		Map<String, ScheduledRecordExt> scheMap = com.xyauto.util.CacheUtil.getScheMap(appMapper);
 //		ScheduledRecordExt scheduleBySrId = CacheUtil.getScheduleBySrId("0646c1d7da5346bd9e4ac43377f301da", appMapper);
 //		System.out.println("当前时间-->"+DateUtils.date2Str(scheduleBySrId.getStartTime()));
 //		Date now_10 = new Date(scheduleBySrId.getStartTime().getTime() - 900000);
