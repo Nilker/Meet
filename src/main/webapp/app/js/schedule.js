@@ -91,7 +91,7 @@ function checkSche(scheduleExt) {
 	if (scheduleExt.meetingTheme == null || scheduleExt.meetingTheme == '') {
 		return themeMsg;
 	}
-	if (startTime == null || startTime == '') {
+	if (startTime == null || startTime == '' || startTime.length < 3) {
 		return timeMsg;
 	}
 //	if (scheduleExt.employeeIds == null || scheduleExt.employeeIds == '') {
@@ -238,10 +238,10 @@ function scheduleInitial(biId, startDay) {
 								$("#eq" + i).show();
 							}
 						}
-						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' maxlength='10'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
+						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' maxlength='10' placeholder='必填'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
 								+ strartDay
 								+ "</li></ul>" 
-								+ "<ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start'></span></li>"
+								+ "<ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start' style='color:#aaa;'>必填</span></li>"
 								+"<div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
 								+ "<li id='4' value='1100'>11</li>"
 								+ "<li id='5' value='1130'></li>"
@@ -314,7 +314,7 @@ function scheduleInitial(biId, startDay) {
 								$(this).parent().next().children().removeClass("active");
 								$(this).removeClass("active");
 								if(currentClick == $("#start").text().split("-")[0]){
-									$("#start").text("");
+									$("#start").text("必填");
 								}else{
 									$("#start").text($("#start").text().split("-")[0] + "-" + currentClick);
 								}
@@ -350,6 +350,9 @@ function scheduleInitial(biId, startDay) {
 
 												var start = "";
 												var staTimeStr = $("#start").text();// 目前值
+												if(staTimeStr == '必填'){
+													staTimeStr = "";
+												}
 												if (staTimeStr == null
 														|| staTimeStr == '') {
 													start = str.substring(0, 2)

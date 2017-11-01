@@ -51,13 +51,13 @@ public class Run extends SpringBootServletInitializer {
 		return cacheManagerFactoryBean;
 	}
 	
-	@Bean
-	public EmbeddedServletContainerCustomizer containerCustomizer(){
-	       return new EmbeddedServletContainerCustomizer() {
-	           @Override
-	           public void customize(ConfigurableEmbeddedServletContainer container) {
-	                container.setSessionTimeout(1);//单位为S
-	          }
-	    };
-	}
+//	@Bean
+//	public EmbeddedServletContainerCustomizer containerCustomizer(){
+//	       return new EmbeddedServletContainerCustomizer() {
+//	           @Override
+//	           public void customize(ConfigurableEmbeddedServletContainer container) {
+//	                container.setSessionTimeout(1);//单位为S
+//	          }
+//	    };
+//	}
 }

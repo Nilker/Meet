@@ -20,6 +20,7 @@ $(function() {
 					$(".info").show();
 					return;
 				}
+
 				for (var i = 0; i < boardroomList.length; i++) {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
 					var endTime=new Date(boardroomList[i].endTime).Format('yyyyMMddhhmm');
@@ -47,26 +48,26 @@ $(function() {
 					if(dayTime == ymdDate){
 						weekDay = '今天';
 					}
-					
 					if(beginTime>currentTime){
 						if(currentDay!=dayTime||i==0){
-							str=dayHead+dayTime+weekDay+dayEnd;
+							str=dayHead+dayTime+" "+weekDay+dayEnd;
 						}
 						$(".list").append(str+listObjHead+" notbegin"+listObjBody+"未开始"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
 					}
 					if(beginTime<=currentTime&&endTime>=currentTime){
 						if(currentDay!=dayTime&&i==0){
-							str=dayHead+dayTime+weekDay+dayEnd;
+							str=dayHead+dayTime+" "+weekDay+dayEnd;
 						}
 						$(".list").append(str+listObjHead+" ongoing"+listObjBody+"会议中"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
 					}
 					if(endTime<currentTime){
 						if(currentDay!=dayTime||i==0){
-							str=dayHead+dayTime+weekDay+dayEnd;
+							str=dayHead+dayTime+" "+weekDay+dayEnd;
 						}
 						$(".list").append(str+listObjHead+" over"+listObjBody+"已结束"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
 					}
 					currentDay=dayTime;
+//					alert(currentDay);
 				}
 //				$(".list .state").on('click',function(e){	
 //					e.stopPropagation();
