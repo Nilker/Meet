@@ -35,7 +35,6 @@ import com.xyauto.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class AppService {
 	@Autowired
 	private BoardroomInfoMapper boardroomInfoMapper;
@@ -132,6 +131,7 @@ public class AppService {
 
 	@Transactional
 	public Integer insertSchedule(ScheduledRecordExt record) throws ParseException, IOException, InterruptedException, ExecutionException {
+		int addResult = 0;
 		// 验证
 		if (appMapper.checkMeetTime(record.getBiId(), record.getStartTime(), record.getEndTime()) > 0)
 			return 1;
@@ -141,7 +141,7 @@ public class AppService {
 		MainData data = new MainData();
 		Expand expand = new Expand();
 		StringBuffer empIdStr = new StringBuffer();
-		StringBuffer boardInfo = new StringBuffer();
+//		StringBuffer boardInfo = new StringBuffer();
 		String srId = IdUtil.getUUID();
 		// 调用oa接口
 		record.setSrId(srId);
@@ -156,7 +156,7 @@ public class AppService {
 		record.setUpdateUser(record.getEmployeeId());
 		int insert = scheduledRecordMapper.insert(record);
 		// 插入与会人
-		if(!record.getEmployeeIds()[0].equals("")) {
+		if(!record.getEmployeeIds()[0].equals("") && record.getEmployeeIds() != null) {
 			List<Attendees> attendeesList = new ArrayList<>();
 			for (String eid : record.getEmployeeIds()) {
 				Attendees attendees = new Attendees();
@@ -170,7 +170,7 @@ public class AppService {
 				attendeesList.add(attendees);
 				empIdStr.append(eid+"|");
 			}
-			appMapper.insertByBatch(attendeesList);
+			addResult = appMapper.insertByBatch(attendeesList);
 		}
 		if(insert > 0) {
 			BoardroomInfo selectByPrimaryKey = boardroomInfoMapper.selectByPrimaryKey(record.getBiId());
@@ -178,7 +178,7 @@ public class AppService {
 			expand.setDate(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD));
 			expand.setStartTime(DateUtils.date2Str(record.getStartTime(),DateUtils.HHMMSS));
 			expand.setEndTime(DateUtils.date2Str(record.getEndTime(),DateUtils.HHMMSS));
-			expand.setSubTitle(selectByPrimaryKey.getBiFloor()+selectByPrimaryKey.getBiName());
+			expand.setSubTitle(selectByPrimaryKey.getBiFloor()+Constants.SUB_TITLE+selectByPrimaryKey.getBiName());
 			msg.setUserCode(empIdStr.toString());
 			data.setRealtionId(srId);
 			data.setActionUser(e.getCnName());
@@ -186,7 +186,9 @@ public class AppService {
 			data.setRemindUserCode(empIdStr.toString());
 			data.setExpand(expand);
 			msg.setData(data);
-			MessageUtil.meetingInvitation(msg);
+			if(addResult > 0) {
+				MessageUtil.meetingInvitation(msg);
+			}
 			// 通知与会人
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
 				empIdStr.append(record.getEmployeeId());//会议邀请不邀请发起人
@@ -194,7 +196,7 @@ public class AppService {
 				data.setRemindUserCode(empIdStr.toString());
 				msg.setData(data);
 				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
-					MessageUtil.meetingRemind(msg);
+						MessageUtil.meetingRemind(msg);
 				}else {
 					record.setBiFloor(selectByPrimaryKey.getBiFloor());
 					record.setBiName(selectByPrimaryKey.getBiName());

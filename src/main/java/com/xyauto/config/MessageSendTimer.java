@@ -75,7 +75,6 @@ public class MessageSendTimer {
 	public void timerRate2() {
 		// 获取当前时间
 		CacheUtil.clearScheMap(mapper);
-		CacheUtil.getScheMap(mapper);
 		log.info(">> current time : " + DateUtils.now() + "  clear scheMap success ! ");
 	}
 }

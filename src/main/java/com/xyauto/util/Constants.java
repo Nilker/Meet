@@ -72,4 +72,8 @@ public interface Constants {
 	 */
 	public static final String MEETTING_REMIND = "MeetingRemind";
 	public static final String MEETTING_REM_CN = "会议提醒";
+	/**
+	 * boardroom unit : 层-
+	 */
+	public static final String SUB_TITLE = "层-";
 }

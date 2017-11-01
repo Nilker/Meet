@@ -80,20 +80,26 @@
 	</select>
 	<select id="checkBoardStatus" parameterType="map" resultType="java.lang.Integer">
 		select status from [xyauto_meet].[dbo].[boardroom_info] A
-		where A.bi_id=#{biId,jdbcType=VARCHAR}
+		where
+		A.bi_id=#{biId,jdbcType=VARCHAR}
 	</select>
 	<select id="findMeetByStartTime" parameterType="java.lang.String"
 		resultMap="ScheduledExtResultMap">
-		select A.sr_id,STUFF((select '|' + C.employee_id from
-		attendees C where A.sr_id = C.sr_id for XML path('')),1,1,'')+'|'+A.employee_id as
-		'myEmpId',
-		A.employee_id,A.employee_name,A.start_time,A.end_time,A.meeting_theme,B.bi_floor,B.bi_name
+		select A.sr_id,isnull(
+		STUFF((select '|' + C.employee_id from attendees C where A.sr_id = C.sr_id for XML path('')),1,1,'')+'|',''
+		)+A.employee_id 
+		as 'myEmpId'
+		,A.employee_id
+		,A.employee_name
+		,A.start_time
+		,A.end_time
+		,A.meeting_theme
+		,B.bi_floor
+		,B.bi_name
 		from
-		scheduled_record A
-		left join
-		boardroom_info B on A.bi_id = B.bi_id
-		where A.is_delete = 0 and 
-		CONVERT(char(10),start_time,120)=#{startTime,jdbcType=VARCHAR}
+		scheduled_record A 
+		left join boardroom_info B on A.bi_id = B.bi_id
+		where A.is_delete = 0 and CONVERT(char(10),start_time,120)=#{startTime,jdbcType=VARCHAR}
 	</select>
 	<select id="findSingleMeetBySrId" parameterType="java.lang.String"
 		resultMap="ScheduledExtResultMap">
