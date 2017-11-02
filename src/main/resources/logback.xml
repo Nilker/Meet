@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>  
+  
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">  
+    <encoder>  
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>  
+      <charset>UTF-8</charset>
+    </encoder>  
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">   
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+      <fileNamePattern>./xyauto_meet_log/xyauto_meet.%d{yyyy-MM-dd}.log</fileNamePattern>   
+      <maxHistory>30</maxHistory>    
+    </rollingPolicy>   
+    <encoder>   
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+    </encoder>   
+  </appender>  
+  
+  <logger name="org.springframework" level="warn" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+  </logger> 
+  
+  <logger name="com.xyauto" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+  </logger> 
+  
+  <root level="WARN">  
+  	<appender-ref ref="STDOUT" />  
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>  
