@@ -55,7 +55,7 @@ $(function() {
 						$(".list").append(str+listObjHead+" notbegin"+listObjBody+"未开始"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
 					}
 					if(beginTime<=currentTime&&endTime>=currentTime){
-						if(currentDay!=dayTime&&i==0){
+						if(currentDay!=dayTime||i==0){
 							str=dayHead+dayTime+" "+weekDay+dayEnd;
 						}
 						$(".list").append(str+listObjHead+" ongoing"+listObjBody+"会议中"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
