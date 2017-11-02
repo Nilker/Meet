@@ -1,8 +1,12 @@
 target/
 .mvn/
-logs/
+*_log/
 mvn*
 run.*
+
+### VS Code ###
+.vscode
+
 ### STS ###
 .apt_generated
 .classpath

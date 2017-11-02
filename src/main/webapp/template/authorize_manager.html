@@ -1,0 +1,57 @@
+<div class="type">
+    <ul>
+        <li>
+            <div class="fl">办公区:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="office_input" type="text" readonly>
+                <ul id="office_list"></ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li style="margin-top:-3px">
+            <div class="fl">员工姓名:</div>
+            <div class="type-select" name="type-select" >
+                <input id="emp_input" type="text" placeholder="" style="width:120px;" class="data_name" oninput="fuzzyMatching()">
+                <ul id="emp_list" class="nameList" style="max-height: 250px; overflow-y: auto;"></ul>
+            </div>
+        </li>
+        <li class="but_submit" style="width:75px" onclick="select(true)">查询</li>
+        <div class="clear"></div>
+    </ul>
+    <div class="addPeople" onclick="openLayer('insert')">
+        <img src="images/icon4.png">
+        <span>&nbsp;&nbsp;&nbsp;添加权限</span>
+    </div>
+    <div class="subject-table">
+        <table id="am_list" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" ></table>
+    </div>
+    <div class="count" style='text-align: center;color:#a1a1a1;display: block;'>显示&nbsp;<span id="num" class='num'></span>&nbsp;/&nbsp;<span id="count_num" class='count_num'></span>&nbsp;个结果</div>
+    <div id="load_more" class="load_more" onclick="load()">显示更多</div>
+</div>
+<!-- 添加编辑弹层 -->
+<div id="layer" class='model' style="display: none;">
+    <div class="layer">
+    <div id="layer_title" class="title"></div>
+    <div class="layer_con">
+        <div class="select_ndustry">
+            <ul>
+                <li>
+                    <div class="fl">员工编号:</div>
+                    <div class="type-select" name="type-select">
+                        <input id="layer_emp_num" type="text" placeholder="请输入员工编号" maxlength="5" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="fl">授权办公区:</div>
+                    <div id="layer_office_list" class="fr" style="height:auto;line-height: 20px;margin-top: 8px;"></div>
+                </li><div class="clear"></div>
+            </ul>
+        </div>
+        <div class="keep" style="text-align: center">
+            <span  id="submit" class="but_submit" style="width:100px">确定</span>
+        </div>
+    </div>
+    </div>
+</div>

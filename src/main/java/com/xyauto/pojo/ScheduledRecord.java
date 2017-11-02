@@ -14,7 +14,7 @@ import lombok.Data;
 public class ScheduledRecord {
 
 	private String srId;
-	private String brId;
+	private String biId;
 	private Date startTime;
 	private Date endTime;
 	private String meetingTheme;

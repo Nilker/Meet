@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:50px">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <script type="text/javascript" src='../js/jquery.1.11.3.min.js'></script>
+    <script type="text/javascript">
+        //根据屏幕大小改变根元素字体大小
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (clientWidth >= 750) {
+                    docEl.style.fontSize = '100px';
+                } else {
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                }
+            };
+            if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+   <script type="text/javascript">
+        document.writeln('<link rel="stylesheet" type="text/css" href="../app/css/style.css?r='+Math.random()+'"/>');
+        document.writeln("<s" + "cript type='text/javascript' src='../js/common.js?r=" + Math.random() + "'></scr" + "ipt>");
+        document.writeln("<s" + "cript type='text/javascript' src='../app/js/globalObj.js?r=" + Math.random() + "'></scr" + "ipt>");
+        document.writeln("<s" + "cript type='text/javascript' src='../app/js/mySchedule.js?r=" + Math.random() + "'></scr" + "ipt>");
+        document.writeln("<s" + "cript type='text/javascript' src='../app/js/urlObj.js?r=" + Math.random() + "'></scr" + "ipt>");
+    </script>
+</head>
+<body style='background: #f0f0f0;'>
+    <div class="list" style='padding-right: 0.3rem;'></div>
+<!--     弹层 -->
+    <div class='model' style="display:none;">
+        <div class="layer">
+            <div class="close"></div>
+            <div class="con"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<div class="type">
+    <ul>
+        <li>
+            <div class="fl">办公区:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="office_input" type="text" readonly>
+                <ul id="office_list"></ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li>
+            <div class="fl">状态:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="status_input" type="text" readonly>
+                <ul>
+                    <li data-value="-2">全部</li>
+                    <li data-value="1">启用</li>
+                    <li data-value="0">停用</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="but_submit" style="width:75px" onclick="select(true)">查询</li>
+        <div class="clear"></div>
+    </ul>
+    <div class="addPeople" onclick="openLayer('insert')">
+        <img src="images/icon4.png">
+        <span>&nbsp;&nbsp;添加会议室</span>
+    </div>
+    <div class="subject-table">
+        <table id="mm_list" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" ></table>
+    </div>
+    <div class="count" style='text-align: center;color:#a1a1a1;'>显示&nbsp;<span id="num" class='num'></span>&nbsp;/&nbsp;<span id="count_num" class='count_num'></span>&nbsp;个结果</div>
+    <div id="load_more" class="load_more" onclick="load()">显示更多</div>
+</div>
+<!-- 添加编辑弹层 -->
+<div id="layer" class='model' style="display: none;">
+    <div class="layer">
+    <div id="layer_title" class="title"></div>
+    <div class="layer_con">
+        <div class="select_ndustry"><ul id="layer_ul">
+            <li>
+                <div class="fl">办公区:</div>
+                <div class="type-select" name="type-select">
+                    <i id="layer_remove">&nbsp;</i>
+                    <input id="layer_office_input" type="text" placeholder="请选择办公区" readonly>
+                    <ul id="layer_office_list" style="top:21px; width: 296px;"></ul>
+                </div><div class="clear"></div>
+            </li>
+            <li>
+                <div class="fl">会议室名称:</div>
+                <div class="type-select" name="type-select">
+                    <input id="layer_bi_name" type="text" placeholder="请输入会议室名称" maxlength="10">
+                </div><div class="clear"></div>
+            </li>
+            <li>
+                <div class="fl">所在楼层:</div>
+                <div id="layer_assembly_floor" class="type-select" name="type-select">
+                    <input id="layer_bi_floor" type="text" placeholder="请输入所在楼层" style="width: 260px;" maxlength="10">
+                    <span class="fr" style="line-height:36px; margin-right: 10px;">层</span>
+                </div><div class="clear"></div>
+            </li>
+            <li>
+                <div class="fl">容纳人数:</div>
+                <div id="layer_assembly_capacity" class="type-select" name="type-select">
+                    <input id="layer_bi_capacity" type="text" value=""  placeholder="请输入人数" style="width: 260px;" maxlength="4" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    <span class="fr" style="line-height:36px; margin-right: 10px;">人</span>
+                </div><div class="clear"></div>
+            </li>
+            <li>
+                <div class="fl">可用设备:</div>
+                    <div class="fr" style="height:28px;line-height: 20px;margin-top: 8px;">
+                    <div class="fl check_con">
+                        <input class="magic-checkbox" type="checkbox" name="layout" id="c1">
+                        <label for="c1"><span>投影仪</span></label>
+                    </div>
+                    <div class="fl check_con">
+                        <input class="magic-checkbox" type="checkbox" name="layout" id="c2">
+                        <label for="c2"><span>投影幕</span></label>
+                    </div>
+                    <div class="fl check_con">
+                        <input class="magic-checkbox" type="checkbox" name="layout" id="c3">
+                        <label for="c3"><span>电视</span></label>
+                    </div>
+                    <div class="fl check_con">
+                        <input class="magic-checkbox" type="checkbox" name="layout" id="c4">
+                        <label for="c4"><span>八爪鱼</span></label>
+                    </div>
+                </div>
+            </li>
+            <div class="clear"></div>
+        </ul></div>
+        <div class="keep" style="text-align: center">
+            <span  id="submit" class="but_submit" style="width:100px">确定</span>
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,66 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xyauto.mapper.OfficeAreaAuthorityMapper">
-  <resultMap id="BaseResultMap" type="com.xyauto.pojo.OfficeAreaAuthority">
-    <id column="oaa_id" jdbcType="CHAR" property="oaaId" />
-    <result column="office_ids" jdbcType="NVARCHAR" property="officeIds" />
-    <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
-    <result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
-    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
-    <result column="department_name" jdbcType="NVARCHAR" property="departmentName" />
-    <result column="founder_id" jdbcType="VARCHAR" property="founderId" />
-    <result column="founder_name" jdbcType="NVARCHAR" property="founderName" />
-    <result column="adddate" jdbcType="TIMESTAMP" property="adddate" />
-    <result column="is_delete" jdbcType="BIT" property="isDelete" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from office_area_authority
-    where oaa_id = #{oaaId,jdbcType=CHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
-    insert into office_area_authority (oaa_id, office_ids, employee_id, 
-      employee_name, department_id, department_name, 
-      founder_id, founder_name, adddate, 
-      is_delete, create_time, create_user, 
-      update_time, update_user)
-    values (#{oaaId,jdbcType=CHAR}, #{officeIds,jdbcType=NVARCHAR}, #{employeeId,jdbcType=VARCHAR}, 
-      #{employeeName,jdbcType=NVARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{departmentName,jdbcType=NVARCHAR}, 
-      #{founderId,jdbcType=VARCHAR}, #{founderName,jdbcType=NVARCHAR}, #{adddate,jdbcType=TIMESTAMP}, 
-      #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
-    update office_area_authority
-    set office_ids = #{officeIds,jdbcType=NVARCHAR},
-      employee_id = #{employeeId,jdbcType=VARCHAR},
-      employee_name = #{employeeName,jdbcType=NVARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR},
-      department_name = #{departmentName,jdbcType=NVARCHAR},
-      founder_id = #{founderId,jdbcType=VARCHAR},
-      founder_name = #{founderName,jdbcType=NVARCHAR},
-      adddate = #{adddate,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=BIT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user = #{updateUser,jdbcType=VARCHAR}
-    where oaa_id = #{oaaId,jdbcType=CHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select oaa_id, office_ids, employee_id, employee_name, department_id, department_name, 
-    founder_id, founder_name, adddate, is_delete, create_time, create_user, update_time, 
-    update_user
-    from office_area_authority
-    where oaa_id = #{oaaId,jdbcType=CHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select oaa_id, office_ids, employee_id, employee_name, department_id, department_name, 
-    founder_id, founder_name, adddate, is_delete, create_time, create_user, update_time, 
-    update_user
-    from office_area_authority
-  </select>
+	<resultMap id="BaseResultMap" type="com.xyauto.pojo.OfficeAreaAuthority">
+		<id column="oaa_id" jdbcType="CHAR" property="oaaId" />
+		<result column="office_ids" jdbcType="NVARCHAR" property="officeIds" />
+		<result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+		<result column="employee_name" jdbcType="NVARCHAR" property="employeeName" />
+		<result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+		<result column="department_name" jdbcType="NVARCHAR" property="departmentName" />
+		<result column="founder_id" jdbcType="VARCHAR" property="founderId" />
+		<result column="founder_name" jdbcType="NVARCHAR" property="founderName" />
+		<result column="adddate" jdbcType="TIMESTAMP" property="adddate" />
+		<result column="is_delete" jdbcType="BIT" property="isDelete" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+	</resultMap>
+	<insert id="insert" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
+		insert into office_area_authority (
+			oaa_id,
+			office_ids,
+			employee_id,
+			employee_name,
+			department_id,
+			department_name,
+			founder_id,
+			founder_name,
+			adddate,
+			is_delete,
+			create_user,
+			update_time,
+			update_user)
+		values (
+			#{oaaId,jdbcType=CHAR},
+			#{officeIds,jdbcType=NVARCHAR},
+			#{employeeId,jdbcType=VARCHAR},
+			#{employeeName,jdbcType=NVARCHAR},
+			#{departmentId,jdbcType=VARCHAR},
+			#{departmentName,jdbcType=NVARCHAR},
+			#{founderId,jdbcType=VARCHAR},
+			#{founderName,jdbcType=NVARCHAR},
+			#{adddate,jdbcType=TIMESTAMP},
+			#{isDelete,jdbcType=BIT},
+			#{createUser,jdbcType=VARCHAR},
+			CURRENT_TIMESTAMP ,
+			#{updateUser,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.OfficeAreaAuthority">
+		update office_area_authority set
+		<if test="officeIds != null and officeIds != ''">
+			office_ids = #{officeIds,jdbcType=NVARCHAR},
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			employee_id = #{employeeId,jdbcType=VARCHAR},
+		</if>
+		<if test="employeeName != null and employeeName != ''">
+			employee_name = #{employeeName,jdbcType=NVARCHAR},
+		</if>
+		<if test="departmentId != null and departmentId != ''">
+			department_id = #{departmentId,jdbcType=VARCHAR},
+		</if>
+		<if test="departmentName != null and departmentName != ''">
+			department_name = #{departmentName,jdbcType=NVARCHAR},
+		</if>
+		<if test="founderId != null and founderId != ''">
+			founder_id = #{founderId,jdbcType=VARCHAR},
+		</if>
+		<if test="founderName != null and founderName != ''">
+			founder_name = #{founderName,jdbcType=NVARCHAR},
+		</if>
+		<if test="adddate != null">
+			adddate = #{adddate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="isDelete != null">
+			is_delete = #{isDelete,jdbcType=BIT},
+		</if>
+			update_time = CURRENT_TIMESTAMP ,
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		where
+			oaa_id = #{oaaId,jdbcType=CHAR}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	    	office_ids, 
+	    	employee_id
+	    from 
+	    	office_area_authority
+	    where 
+	    	is_delete = 0 and
+	    	oaa_id = #{oaaId,jdbcType=CHAR}
+  	</select>
+	<select id="countByPage" resultType="java.lang.Integer">
+		select 
+			count(1) 
+		from 
+			office_area_authority t1
+		where 
+			<if test="officeId != null">
+				exists (select 
+							1 
+						from 
+							f_split2(t1.office_ids,',') t2 
+						where 
+							t2.t_str = #{officeId}) and
+			</if>
+			t1.is_delete = 0 
+			<if test="employeeName != null and employeeName != ''">
+				and t1.employee_name like '%${ employeeName }%'
+			</if>
+	</select>
+	<select id="existsByEmployeeId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select 
+			count(1) 
+		from 
+			office_area_authority 
+		where 
+			is_delete = 0 and 
+			employee_id = #{employeeId}
+	</select>
+	<select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
+		select
+			t1.oaa_id,
+			(SELECT STUFF((
+				select 
+					distinct '、'+t2.office_name 
+				FROM 
+					office_location t2 
+				where 
+					t2.office_id in ( 
+						SELECT 
+							t_str 
+						FROM 
+							f_split2(t1.office_ids,',')) 
+						FOR XML PATH('')),1,1,'')) 
+			office_ids,
+			t1.employee_id,
+			t1.employee_name,
+			t1.department_id,
+			t1.department_name,
+			t1.founder_id,
+			t1.founder_name,
+			t1.adddate
+		from
+			office_area_authority t1
+		where 
+			<if test="officeId != null">
+				exists (select 
+							1 
+						from 
+							f_split2(t1.office_ids,',') t2 
+						where 
+							t2.t_str = #{officeId}) and
+			</if>
+			t1.is_delete = 0 
+			<if test="employeeName != null and employeeName != ''">
+				and t1.employee_name like '%${ employeeName }%'
+			</if>
+		order by t1.adddate desc
+		OFFSET #{ pageNo } ROW
+		FETCH NEXT #{ pageSize } ROW ONLY
+	</select>
+	<select id="selectRoleByEmpId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select 
+			t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+	</select>
 </mapper>

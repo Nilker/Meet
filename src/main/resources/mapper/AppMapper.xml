@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyauto.mapper.AppMapper">
+	<resultMap id="ScheduledExtResultMap" type="com.xyauto.extend.ScheduledRecordExt">
+		<result column="startEndTime" jdbcType="VARCHAR" property="startEndTime" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="bi_floor" jdbcType="VARCHAR" property="biFloor" />
+		<result column="bi_capacity" jdbcType="INTEGER" property="biCapacity" />
+		<result column="bi_name" jdbcType="VARCHAR" property="biName" />
+	</resultMap>
+	<update id="delScheduleBySrId" parameterType="java.lang.String">
+		update
+		scheduled_record set is_delete = 1 where sr_id =
+		#{srId,jdbcType=VARCHAR}
+	</update>
+	<update id="delAttendeesBySrId" parameterType="java.lang.String">
+		update attendees
+		set is_delete = 1 where sr_id = #{srId,jdbcType=VARCHAR}
+	</update>
+	<select id="findBoradSchedInfoByReq" parameterType="map"
+		resultMap="ScheduledExtResultMap">
+		select
+		A.bi_id,A.office_id,A.bi_name,A.bi_floor,A.bi_capacity,STUFF(
+		(select
+		','+CONVERT(char(5),B.start_time,108)+'-'+CONVERT(char(5),B.end_time,108)
+		from [xyauto_meet].dbo.scheduled_record as B
+		where
+		B.is_delete=0
+		and
+		convert(char(10),B.start_time,120)=#{startTime,jdbcType=VARCHAR}
+		and
+		B.office_id=#{officeId,jdbcType=INTEGER}
+		and
+		A.bi_id=B.bi_id for XML
+		path('')),1,1,''
+		) as startEndTime
+		from
+		[xyauto_meet].[dbo].[boardroom_info] as A
+		where
+		A.office_id=#{officeId,jdbcType=INTEGER}
+		and
+		A.is_delete=0
+		and A.status=1
+	</select>
+	<select id="findScheInfoByBiId" parameterType="map"
+		resultMap="com.xyauto.mapper.ScheduledRecordMapper.BaseResultMap">
+		select
+		A.sr_id,A.start_time as start_time,A.end_time as
+		end_time
+		from
+		[xyauto_meet].[dbo].[scheduled_record] A
+		where
+		A.is_delete=0
+		and
+		CONVERT(char(10),A.start_time,120)=#{startTime,jdbcType=VARCHAR}
+		and
+		A.bi_id=#{biId,jdbcType=VARCHAR}
+	</select>
+	<select id="findInfoByBiId" parameterType="map"
+		resultMap="com.xyauto.mapper.ScheduledRecordMapper.BaseResultMap">
+		select
+		A.sr_id,A.meeting_theme,A.phone,A.employee_name,A.start_time,A.end_time
+		from
+		[xyauto_meet].[dbo].[scheduled_record] A
+		where
+		A.is_delete=0
+		and
+		start_time=#{startTime,jdbcType=VARCHAR}
+		and
+		A.bi_id=#{biId,jdbcType=VARCHAR}
+	</select>
+	<select id="checkMeetTime" parameterType="map" resultType="java.lang.Integer">
+		select COUNT(*) count from [xyauto_meet].[dbo].[scheduled_record] A
+		where
+		#{startTime,jdbcType=TIMESTAMP} &lt;=a.end_time and
+		#{endTime,jdbcType=TIMESTAMP}>=a.start_time
+		and
+		A.bi_id=#{biId,jdbcType=VARCHAR}
+		and A.is_delete=0
+	</select>
+	<select id="checkBoardStatus" parameterType="map" resultType="java.lang.Integer">
+		select status from [xyauto_meet].[dbo].[boardroom_info] A
+		where
+		A.bi_id=#{biId,jdbcType=VARCHAR}
+	</select>
+	<select id="findMeetByStartTime" parameterType="java.lang.String"
+		resultMap="ScheduledExtResultMap">
+		select A.sr_id,isnull(
+		STUFF((select '|' + C.employee_id from attendees C where A.sr_id = C.sr_id for XML path('')),1,1,'')+'|',''
+		)+A.employee_id 
+		as 'myEmpId'
+		,A.employee_id
+		,A.employee_name
+		,A.start_time
+		,A.end_time
+		,A.meeting_theme
+		,B.bi_floor
+		,B.bi_name
+		from
+		scheduled_record A 
+		left join boardroom_info B on A.bi_id = B.bi_id
+		where A.is_delete = 0 and CONVERT(char(10),start_time,120)=#{startTime,jdbcType=VARCHAR}
+	</select>
+	<select id="findSingleMeetBySrId" parameterType="java.lang.String"
+		resultMap="ScheduledExtResultMap">
+		select B.*,C.bi_capacity,C.bi_floor,C.bi_name from (
+		select
+		A.sr_id,A.employee_id,A.employee_name,A.meeting_theme,A.start_time,A.end_time,A.bi_id,'发起人'
+		as type
+		from
+		scheduled_record A
+		where A.sr_id=#{srId,jdbcType=VARCHAR}
+		union all
+		select
+		A.sr_id,B.employee_id,B.employee_name,A.meeting_theme,A.start_time,A.end_time,A.bi_id,'与会人'
+		as type
+		from
+		scheduled_record A
+		left join
+		attendees B on A.sr_id=B.sr_id
+		where A.sr_id=#{srId,jdbcType=VARCHAR}
+		) B left join boardroom_info C
+		on B.bi_id=C.bi_id
+	</select>
+	<select id="findAllMeetOfSelf" parameterType="map"
+		resultMap="ScheduledExtResultMap">
+		select
+		D.sr_id,D.employee_id,D.employee_name,D.start_time,D.end_time,D.meeting_theme,D.type,D.bi_id,C.bi_floor,C.bi_name
+		from (
+		select
+		distinct
+		A.sr_id,B.employee_id,B.employee_name,B.start_time,B.end_time,B.meeting_theme,B.bi_id,'与会人'
+		as 'type'
+		from attendees A
+		left join scheduled_record B on
+		A.sr_id=B.sr_id
+		where
+		A.employee_id=#{employeeId,jdbcType=VARCHAR}
+		and
+		CONVERT(char(10),B.start_time,120)>=#{startTime,jdbcType=VARCHAR}
+		and
+		A.is_delete=0
+		union all
+		select
+		distinct
+		B.sr_id,B.employee_id,B.employee_name,B.start_time,B.end_time,B.meeting_theme,B.bi_id,'发起人'
+		as 'type'
+		from scheduled_record B
+		where
+		B.employee_id=#{employeeId,jdbcType=VARCHAR}
+		and
+		CONVERT(char(10),B.start_time,120)>=#{startTime,jdbcType=VARCHAR}
+		and
+		B.is_delete=0
+		) D
+		left join boardroom_info C on C.bi_id=D.bi_id
+		order by
+		D.start_time
+	</select>
+	<insert id="insertByBatch" parameterType="java.util.List">
+		insert into [xyauto_meet].[dbo].[attendees] (
+		sr_id,
+		employee_id,
+		employee_name,
+		is_delete,
+		create_user,
+		update_time,
+		update_user
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.srId,jdbcType=CHAR},
+			#{item.employeeId,jdbcType=VARCHAR},
+			#{item.employeeName,jdbcType=NVARCHAR},
+			#{item.isDelete,jdbcType=BIT},
+			#{item.createUser,jdbcType=VARCHAR},
+			CURRENT_TIMESTAMP,
+			#{item.updateUser,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

@@ -49,6 +49,6 @@ public class ResultUtil {
 	 * @return ResultUtils
 	 */
 	public static ResultUtil error(String msg) {
-		return new ResultUtil(-99, msg, null);
+		return new ResultUtil(99, msg, null);
 	}
 }

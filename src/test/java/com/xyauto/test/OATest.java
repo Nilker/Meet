@@ -1,5 +1,6 @@
 package com.xyauto.test;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.After;
@@ -10,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.xyauto.oa.Department;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.xyauto.oa.Employee;
 import com.xyauto.service.OAService;
 
@@ -28,20 +30,9 @@ public class OATest {
 
 	@Test
 	public void test() {
-//		List<Department> queryDepartment = oas.queryDepartment();
-//		queryDepartment = oas.queryDepartment();
-//		for (Department department : queryDepartment) {
-//			System.out.println(department.getName());
-//		}
-//		System.out.println("~~~~~~~~~~~~~~~~");
-		List<Employee> queryEmployeeByDept = oas.queryEmployeeByDept(11137);
-		queryEmployeeByDept = oas.queryEmployeeByDeptIncludeChildren(11128);
-		queryEmployeeByDept = oas.queryEmployeeByDept(11137);
-		queryEmployeeByDept = oas.queryEmployeeByDeptIncludeChildren(11128);
-//		for (Employee employee : queryEmployeeByDept) {
-//			System.out.println(employee.getCnName());
-//		}
-//		 oas.queryEmployeeByDept(11137)
+//		9846, 1180
+		Employee queryEmployeeById = oas.queryEmployeeById("9846");
+		System.out.println(queryEmployeeById.getCnName());
 	}
 
 	@After

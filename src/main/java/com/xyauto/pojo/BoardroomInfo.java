@@ -13,11 +13,11 @@ import lombok.Data;
 @Data
 public class BoardroomInfo {
 
-	private String brId;
+	private String biId;
 	private Integer officeId;
-	private String brName;
-	private String brFloor;
-	private Integer brCapacity;
+	private String biName;
+	private String biFloor;
+	private Integer biCapacity;
 	private Byte equipment;
 	private Byte status;
 	private Boolean isDelete;

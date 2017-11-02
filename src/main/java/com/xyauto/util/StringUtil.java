@@ -1,6 +1,7 @@
 package com.xyauto.util;
 
 import java.util.Random;
+import java.util.StringTokenizer;
 
 /**
  * 字符串工具类
@@ -39,5 +40,13 @@ public class StringUtil {
 		} else {
 			return null;
 		}
+	}
+
+	public static String[] convertStrToArray(String str) {
+		String[] strArray = new String[] {};
+		if (isEmpty(str))
+			return strArray;
+		strArray = str.split(",");
+		return strArray;
 	}
 }

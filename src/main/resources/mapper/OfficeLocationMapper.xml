@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xyauto.mapper.OfficeLocationMapper">
-  <resultMap id="BaseResultMap" type="com.xyauto.pojo.OfficeLocation">
-    <id column="office_id" jdbcType="INTEGER" property="officeId" />
-    <result column="office_name" jdbcType="NVARCHAR" property="officeName" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from office_location
-    where office_id = #{officeId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.xyauto.pojo.OfficeLocation">
-    insert into office_location (office_id, office_name)
-    values (#{officeId,jdbcType=INTEGER}, #{officeName,jdbcType=NVARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.OfficeLocation">
-    update office_location
-    set office_name = #{officeName,jdbcType=NVARCHAR}
-    where office_id = #{officeId,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select office_id, office_name
-    from office_location
-    where office_id = #{officeId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select office_id, office_name
-    from office_location
-  </select>
+	<resultMap id="BaseResultMap" type="com.xyauto.pojo.OfficeLocation">
+		<id column="office_id" jdbcType="INTEGER" property="officeId" />
+		<result column="office_name" jdbcType="NVARCHAR" property="officeName" />
+	</resultMap>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select office_id, office_name
+		from office_location
+		where office_id = #{officeId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByRole" parameterType="java.lang.String" resultMap="BaseResultMap">
+		 select 
+			office_id, 
+			office_name 
+		 from 
+			office_location
+		 where 
+			office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select office_id, office_name
+		from office_location
+	</select>
 </mapper>

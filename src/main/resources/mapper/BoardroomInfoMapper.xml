@@ -1,60 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xyauto.mapper.BoardroomInfoMapper">
-  <resultMap id="BaseResultMap" type="com.xyauto.pojo.BoardroomInfo">
-    <id column="br_id" jdbcType="CHAR" property="brId" />
-    <result column="office_id" jdbcType="INTEGER" property="officeId" />
-    <result column="br_name" jdbcType="NVARCHAR" property="brName" />
-    <result column="br_floor" jdbcType="NVARCHAR" property="brFloor" />
-    <result column="br_capacity" jdbcType="INTEGER" property="brCapacity" />
-    <result column="equipment" jdbcType="TINYINT" property="equipment" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="is_delete" jdbcType="BIT" property="isDelete" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from boardroom_info
-    where br_id = #{brId,jdbcType=CHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xyauto.pojo.BoardroomInfo">
-    insert into boardroom_info (br_id, office_id, br_name, 
-      br_floor, br_capacity, equipment, 
-      status, is_delete, create_time, 
-      create_user, update_time, update_user
-      )
-    values (#{brId,jdbcType=CHAR}, #{officeId,jdbcType=INTEGER}, #{brName,jdbcType=NVARCHAR}, 
-      #{brFloor,jdbcType=NVARCHAR}, #{brCapacity,jdbcType=INTEGER}, #{equipment,jdbcType=TINYINT}, 
-      #{status,jdbcType=TINYINT}, #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.BoardroomInfo">
-    update boardroom_info
-    set office_id = #{officeId,jdbcType=INTEGER},
-      br_name = #{brName,jdbcType=NVARCHAR},
-      br_floor = #{brFloor,jdbcType=NVARCHAR},
-      br_capacity = #{brCapacity,jdbcType=INTEGER},
-      equipment = #{equipment,jdbcType=TINYINT},
-      status = #{status,jdbcType=TINYINT},
-      is_delete = #{isDelete,jdbcType=BIT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user = #{updateUser,jdbcType=VARCHAR}
-    where br_id = #{brId,jdbcType=CHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select br_id, office_id, br_name, br_floor, br_capacity, equipment, status, is_delete, 
-    create_time, create_user, update_time, update_user
-    from boardroom_info
-    where br_id = #{brId,jdbcType=CHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select br_id, office_id, br_name, br_floor, br_capacity, equipment, status, is_delete, 
-    create_time, create_user, update_time, update_user
-    from boardroom_info
-  </select>
+	<resultMap id="BaseResultMap" type="com.xyauto.pojo.BoardroomInfo">
+		<id column="bi_id" jdbcType="CHAR" property="biId" />
+		<result column="office_id" jdbcType="INTEGER" property="officeId" />
+		<result column="bi_name" jdbcType="NVARCHAR" property="biName" />
+		<result column="bi_floor" jdbcType="NVARCHAR" property="biFloor" />
+		<result column="bi_capacity" jdbcType="INTEGER" property="biCapacity" />
+		<result column="equipment" jdbcType="TINYINT" property="equipment" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="is_delete" jdbcType="BIT" property="isDelete" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+	</resultMap>
+	<insert id="insert" parameterType="com.xyauto.pojo.BoardroomInfo">
+		insert into boardroom_info (
+			bi_id,
+			office_id,
+			bi_name,
+			bi_floor,
+			bi_capacity,
+			equipment,
+			status,
+			is_delete,
+			create_user,
+			update_time,
+			update_user)
+		values (
+			#{biId,jdbcType=CHAR},
+			#{officeId,jdbcType=INTEGER},
+			#{biName,jdbcType=NVARCHAR},
+			#{biFloor,jdbcType=NVARCHAR},
+			#{biCapacity,jdbcType=INTEGER},
+			#{equipment,jdbcType=TINYINT},
+			#{status,jdbcType=TINYINT},
+			#{isDelete,jdbcType=BIT},
+			#{createUser,jdbcType=VARCHAR},
+			CURRENT_TIMESTAMP,
+			#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.xyauto.pojo.BoardroomInfo">
+		update boardroom_info set
+		<if test="officeId != null">
+			office_id = #{officeId,jdbcType=INTEGER},
+		</if>
+		<if test="biName != null and biName != ''">
+			bi_name = #{biName,jdbcType=NVARCHAR},
+		</if>
+		<if test="biFloor != null and biFloor != ''">
+			bi_floor = #{biFloor,jdbcType=NVARCHAR},
+		</if>
+		<if test="biCapacity != null">
+			bi_capacity = #{biCapacity,jdbcType=INTEGER},
+		</if>
+		<if test="equipment != null">
+			equipment = #{equipment,jdbcType=TINYINT},
+		</if>
+		<if test="status != null">
+			status = #{status,jdbcType=TINYINT},
+		</if>
+		<if test="isDelete != null">
+			is_delete = #{isDelete,jdbcType=BIT},
+		</if>
+			update_time = CURRENT_TIMESTAMP,
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		where
+			bi_id = #{biId,jdbcType=CHAR}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select 
+			office_id, 
+			bi_name, 
+			bi_floor, 
+			bi_capacity, 
+			equipment,
+			status
+		from 
+			boardroom_info
+		where 
+			is_delete = 0 and
+			bi_id = #{biId,jdbcType=CHAR}
+	</select>
+	<select id="countByPage" parameterType="map" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			boardroom_info
+		where
+			is_delete = 0
+		<if test="officeId != null">
+			and office_id = #{ officeId }
+		</if>
+		<if test="officeId == null">
+			and office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+		</if>
+		<if test="status != null">
+			and status = #{ status }
+		</if>
+	</select>
+	<select id="existsByOfficeIdAndbiName" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			boardroom_info
+		where
+			is_delete = 0 and
+			office_id = #{officeId} and
+			bi_name = #{biName}
+	</select>
+	<select id="selectByOfficeId" parameterType="map" resultMap="BaseResultMap">
+		select
+			bi_id,
+			bi_name,
+			is_delete
+		from
+			boardroom_info
+		where
+			office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+		<if test="officeId != null">
+			and office_id = #{ officeId }
+		</if>
+	</select>
+	<select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
+		select
+			bi_id,
+			office_id,
+			bi_name,
+			bi_floor,
+			bi_capacity,
+			equipment,
+			status
+		from
+			boardroom_info
+		where
+			is_delete = 0 and
+			office_id in (
+				select 
+					t_str as office_role
+				from 
+					f_split2((
+						select 
+							r.office_ids 
+						from 
+							office_area_authority r 
+						where 
+							r.is_delete = 0 and 
+							r.employee_id = #{employeeId}
+					),',')
+			)
+		<if test="officeId != null">
+			and office_id = #{ officeId }
+		</if>
+		<if test="status != null">
+			and status = #{ status }
+		</if>
+		order by status desc,update_time desc
+		OFFSET #{ pageNo } ROW
+		FETCH NEXT
+			#{ pageSize } ROW ONLY
+	</select>
 </mapper>
