@@ -168,8 +168,10 @@ public class AppService {
 				attendees.setCreateUser(record.getEmployeeId());
 				attendees.setUpdateUser(record.getEmployeeId());
 				attendeesList.add(attendees);
-				empIdStr.append(eid+"|");
+				empIdStr.append(eid);
+				empIdStr.append("|");
 			}
+			empIdStr.deleteCharAt(empIdStr.length()-1);
 			addResult = appMapper.insertByBatch(attendeesList);
 		}
 		if(insert > 0) {
@@ -191,6 +193,7 @@ public class AppService {
 			}
 			// 通知与会人
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
+				empIdStr.append("|");
 				empIdStr.append(record.getEmployeeId());//会议邀请不邀请发起人
 				msg.setUserCode(empIdStr.toString());
 				data.setRemindUserCode(empIdStr.toString());

@@ -121,7 +121,7 @@ function detialMeet(meetStatus,srId){
 			if(data.msg=='success'){
 				var dataList=data.data;
 				appendStr="";
-				console.info(dataList[0]);
+//				console.info(dataList[0]);
 				var startTime=new Date(dataList[0].startTime).Format("yyyy-MM-dd hh:mm");
 				var endTime=new Date(dataList[0].endTime).Format("hh:mm");
 				var title="<div class='title'>"+dataList[0].meetingTheme+"</div>";
@@ -161,11 +161,15 @@ function detialMeet(meetStatus,srId){
 				}
 				appendStr=title+boardBody+attenStr+attenssBody+attenNameEnd+clear + "</li>" + faqiAttenStr +"</div>"+clear+attenEnd+strEnd
 				if(meetStatus=='已结束'){
-					appendStr+=mark+markNest;
+						for (var i = 0; i < dataList.length; i++) {
+							if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
+								appendStr+=mark+markNest;
+							}
+						}
 				}
 				if(meetStatus=='会议中'||meetStatus=='未开始'){
 					for (var i = 0; i < dataList.length; i++) {
-						if(dataList[i].type=='发起人'&&dataList[i].employeeId==dataList[0].myEmpId){
+						if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
 							appendStr+=cancel+markNest;
 						}
 					}
