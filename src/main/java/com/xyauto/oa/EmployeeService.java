@@ -10,7 +10,7 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
 
-import com.xyauto.util.OA;
+import com.xyauto.util.Constants;
 
 
 /**
@@ -19,7 +19,7 @@ import com.xyauto.util.OA;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "EmployeeService", targetNamespace = "http://tempuri.org/", wsdlLocation = OA.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl")
+@WebServiceClient(name = "EmployeeService", targetNamespace = "http://tempuri.org/", wsdlLocation = Constants.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl")
 public class EmployeeService
     extends Service
 {
@@ -32,7 +32,7 @@ public class EmployeeService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL(OA.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl");
+            url = new URL(Constants.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

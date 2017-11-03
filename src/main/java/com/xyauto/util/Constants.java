@@ -8,9 +8,22 @@ package com.xyauto.util;
  */
 public interface Constants {
 	/*
-	 * 一.会议室可用设备顺序列表（equipment） 投影仪、投影幕、电视、八爪鱼 二.是否删除（is_delete） 已删除：1、未删除：0
-	 * 三.会议室状态（status） 启用：1、停用：0 四.接口返回code 正常：0、异常：99
+	 * 一.会议室可用设备顺序列表（equipment） 投影仪、投影幕、电视、八爪鱼
+	 * 二.是否删除（is_delete） 已删除：1、未删除：0
+	 * 三.会议室状态（status） 启用：1、停用：0 
+	 * 四.接口返回code 正常：0、异常：99
 	 */
+	
+	// Login&oa
+	public static final String WEB_SERVICE = "http://hr.oa1.xingyuanauto.com";
+	public static final String GET_OA_CHECK = "http://oa1.xingyuanauto.com/hrwebapi/Authorize/Check";
+	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
+	public static final String OA_LOGIN_URL = "http://oa1.xingyuanauto.com/login.aspx";
+	
+//	public static final String WEB_SERVICE = "http://hr.oa.xingyuanauto.com";
+//	public static final String GET_OA_CHECK = "http://oa.xingyuanauto.com/hrwebapi/Authorize/Check";
+//	public static final String GET_OA_USER = "http://oa.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
+//	public static final String OA_LOGIN_URL = "http://oa.xingyuanauto.com/login.aspx";
 
 	public static final String COOKIE_KEY = "mmp-3244xx32234sdf";
 	public static final String SESSION_USER = "user";

@@ -2,11 +2,10 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-//var OA_URL = 'http://oa1.xingyuanauto.com/';
-//var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
-//var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com:8081/xyauto_meet/';
-var OA_URL = 'http://oa.xingyuanauto.com/';
-var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/';
+var OA_URL = 'http://oa1.xingyuanauto.com/';
+var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
+//var OA_URL = 'http://oa.xingyuanauto.com/';
+//var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/';
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";

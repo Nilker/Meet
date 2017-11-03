@@ -25,7 +25,6 @@ import com.xyauto.service.UtilsService;
 import com.xyauto.util.Constants;
 import com.xyauto.util.CookieUtil;
 import com.xyauto.util.HttpUtil;
-import com.xyauto.util.OA;
 import com.xyauto.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +82,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		}
 		log.debug(">> cookie:" + cookieValue);
 		
-		HttpGet httpCheckGet = new HttpGet(OA.GET_OA_CHECK);
+		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
 		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		CloseableHttpAsyncClient client = HttpUtil.getClient();
 		Future<HttpResponse> future = client.execute(httpCheckGet, null);
@@ -98,7 +97,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if(!isLogin)
 			return null;
 		
-		HttpGet httpUserGet = new HttpGet(OA.GET_OA_USER);
+		HttpGet httpUserGet = new HttpGet(Constants	.GET_OA_USER);
 		httpUserGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		client = HttpUtil.getClient();
 		future = client.execute(httpUserGet, null);
