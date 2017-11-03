@@ -41,6 +41,7 @@
 		and
 		A.is_delete=0
 		and A.status=1
+		order by LEN(A.bi_floor),A.bi_floor
 	</select>
 	<select id="findScheInfoByBiId" parameterType="map"
 		resultMap="com.xyauto.mapper.ScheduledRecordMapper.BaseResultMap">

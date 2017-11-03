@@ -203,7 +203,7 @@ function Trim(str)
     return str.replace(/(^\s*)|(\s*$)/g, ""); 
 }
 function getList(boardroomList) {
-	console.log(boardroomList);
+//	console.log(boardroomList);
 	var scheduleArr = [];
 	var schedIndex = [];
 	for (var i = 0; i < boardroomList.length; i++) {
