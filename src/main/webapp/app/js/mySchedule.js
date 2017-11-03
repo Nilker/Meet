@@ -152,7 +152,9 @@ function detialMeet(meetStatus,srId){
 						attenssBody += spanLabelBeg+attenPerson+"；"+spanLabelEnd;
 					}
 				}
-				
+				if(attenssBody == '<span>；</span>'){
+					attenssBody = "";
+				}
 				
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='发起人'){
