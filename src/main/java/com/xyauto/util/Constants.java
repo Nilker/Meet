@@ -12,16 +12,6 @@ public interface Constants {
 	 * 三.会议室状态（status） 启用：1、停用：0 四.接口返回code 正常：0、异常：99
 	 */
 
-	// Login&oa
-	public static final String WEB_SERVICE = "http://hr.oa1.xingyuanauto.com";
-	public static final String GET_OA_CHECK = "http://oa1.xingyuanauto.com/hrwebapi/Authorize/Check";
-	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
-	public static final String OA_LOGIN_URL = "http://oa1.xingyuanauto.com/login.aspx";
-	
-//	public static final String WEB_SERVICE = "http://hr.oa.xingyuanauto.com";
-//	public static final String GET_OA_CHECK = "http://oa.xingyuanauto.com/hrwebapi/Authorize/Check";
-//	public static final String GET_OA_USER = "http://oa.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
-//	public static final String OA_LOGIN_URL = "http://oa.xingyuanauto.com/login.aspx";
 	public static final String COOKIE_KEY = "mmp-3244xx32234sdf";
 	public static final String SESSION_USER = "user";
 	public static final String SESSION_APPUSER = "appUser";
@@ -40,10 +30,10 @@ public interface Constants {
 	public static final String ROLE_ERROR = "没有访问权限";
 	public static final String EXCEPTION = "发生异常";
 	/**
-	 *  Login Error
+	 * Login Error
 	 */
 	public static final String LOGIN_ERROR = "loginError";
-	
+
 	/**
 	 * message
 	 */
