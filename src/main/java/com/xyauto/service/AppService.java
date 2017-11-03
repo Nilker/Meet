@@ -195,11 +195,15 @@ public class AppService {
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
 				empIdStr.append("|");
 				empIdStr.append(record.getEmployeeId());//会议邀请不邀请发起人
-				msg.setUserCode(empIdStr.toString());
-				data.setRemindUserCode(empIdStr.toString());
+				String emplIdStr = empIdStr.toString();
+				if(StringUtil.removeTrim(emplIdStr).substring(0, 1).equals("|")) {
+					emplIdStr = StringUtil.removeTrim(emplIdStr).substring(1);
+				}
+				msg.setUserCode(emplIdStr);
+				data.setRemindUserCode(emplIdStr);
 				msg.setData(data);
 				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
-						MessageUtil.meetingRemind(msg);
+					MessageUtil.meetingRemind(msg);
 				}else {
 					record.setBiFloor(selectByPrimaryKey.getBiFloor());
 					record.setBiName(selectByPrimaryKey.getBiName());
