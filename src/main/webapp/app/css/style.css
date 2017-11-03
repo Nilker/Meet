@@ -297,14 +297,14 @@ a:hover {color:#2a93f5;}
 .list .peoples span{
     display: inline-block;
     color:#009bf8;
-    padding:0.06rem 0.1rem;
+    padding:0 0.1rem;
     text-align: center;
     border-radius:0.5rem;
 }
 .list .peoples.active span{
     background-color: #d4eefe;
     color:#333;
-    padding:0.06rem 0.22rem;
+    padding:0 0.22rem;
 }
 
 .but_bottom{

@@ -21,6 +21,7 @@ import com.xyauto.util.Expand;
 import com.xyauto.util.MainData;
 import com.xyauto.util.MeetingMessage;
 import com.xyauto.util.MessageUtil;
+import com.xyauto.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +45,9 @@ public class MessageSendTimer {
 			// log.debug("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 			if (DateUtils.now(DateUtils.HHMM).equals(entry.getValue().getBeginTimer())) {
 				String empIdStr = entry.getValue().getMyEmpId();
+				if(StringUtil.removeTrim(empIdStr).substring(0, 1).equals("|")) {
+					empIdStr = StringUtil.removeTrim(empIdStr).substring(1);
+				}
 				MeetingMessage msg = new MeetingMessage();
 				MainData data = new MainData();
 				Expand expand = new Expand();
