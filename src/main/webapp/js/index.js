@@ -2,10 +2,16 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var OA_URL = 'http://oa1.xingyuanauto.com/';
-var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
-//var OA_URL = 'http://oa.xingyuanauto.com/';
-//var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/';
+//var OA_URL = 'http://oa1.xingyuanauto.com/';
+//var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
+//var MEETING_MANAGER = 'SYS023MOD0001';
+//var SCHEDULED_PREVIEW = 'SYS023MOD0002';
+//var AUTHORIZE_MANAGER = 'SYS023MOD0003';
+var OA_URL = 'http://oa.xingyuanauto.com/';
+var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/';
+var MEETING_MANAGER = 'SYS024MOD0001';
+var SCHEDULED_PREVIEW = 'SYS024MOD0002';
+var AUTHORIZE_MANAGER = 'SYS024MOD0003';
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
@@ -96,17 +102,17 @@ function skipPages(id) {
     switch (id)
     {
         case "SYS023MOD0001":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0001'] + '.html?r='+Math.random(),function(){
+            $(".box_right .content").load('template/' + SUB_URL_MAP[MEETING_MANAGER] + '.html?r='+Math.random(),function(){
                 $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0001'] + '.js" type="text/javascript"></script>');
             });
             break;
         case "SYS023MOD0002":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0002'] + '.html?r='+Math.random(),function(){
+            $(".box_right .content").load('template/' + SUB_URL_MAP[SCHEDULED_PREVIEW] + '.html?r='+Math.random(),function(){
                 $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
             });
             break;
         case "SYS023MOD0003":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0003'] + '.html?r'+Math.random(),function(){
+            $(".box_right .content").load('template/' + SUB_URL_MAP[AUTHORIZE_MANAGER] + '.html?r'+Math.random(),function(){
                 $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0003'] + '.js" type="text/javascript"></script>');
             });
             break;

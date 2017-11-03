@@ -29,10 +29,15 @@ public interface Constants {
 	public static final String SESSION_USER = "user";
 	public static final String SESSION_APPUSER = "appUser";
 	// Role
-	public static final String SYSTEM_ID = "SYS023";
-	public static final String MEETING_MANAGER = "SYS023MOD0001";
-	public static final String SCHEDULED_PREVIEW = "SYS023MOD0002";
-	public static final String AUTHORIZE_MANAGER = "SYS023MOD0003";
+//	public static final String SYSTEM_ID = "SYS023";
+//	public static final String MEETING_MANAGER = "SYS023MOD0001";
+//	public static final String SCHEDULED_PREVIEW = "SYS023MOD0002";
+//	public static final String AUTHORIZE_MANAGER = "SYS023MOD0003";
+	
+	public static final String SYSTEM_ID = "SYS024";
+	public static final String MEETING_MANAGER = "SYS024MOD0001";
+	public static final String SCHEDULED_PREVIEW = "SYS024MOD0002";
+	public static final String AUTHORIZE_MANAGER = "SYS024MOD0003";
 	// Cache
 	public static final String CACHE_OA = "OACache";
 	// Error Message
