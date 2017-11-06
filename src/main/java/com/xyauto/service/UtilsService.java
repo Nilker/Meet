@@ -25,22 +25,22 @@ public class UtilsService {
 	@Autowired
 	private RolePermissionsMapper rolePermissionsMapper;
 	@Autowired
-	private OfficeLocationMapper officeLocationMapper; 
+	private OfficeLocationMapper officeLocationMapper;
 	@Autowired
 	private BoardroomInfoMapper boardroomInfoMapper;
 
-	public List<UserRole> getUserRole(Integer empId) {
-		return rolePermissionsMapper.getUserRole(empId);
+	public List<UserRole> getUserRole(String systemId, Integer empId) {
+		return rolePermissionsMapper.getUserRole(systemId, empId);
 	}
-	
+
 	public List<BoardroomInfo> getMeetingByOfficeId(Integer oid, User user) {
 		return boardroomInfoMapper.selectByOfficeId(oid, user.getEmployeeId());
 	}
-	
+
 	public List<OfficeLocation> getOfficeInfoByRole(String employeeId) {
 		return officeLocationMapper.selectByRole(employeeId);
 	}
-	
+
 	public List<OfficeLocation> getOfficeInfoAll() {
 		return officeLocationMapper.selectAll();
 	}

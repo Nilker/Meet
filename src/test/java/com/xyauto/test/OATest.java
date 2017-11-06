@@ -1,21 +1,17 @@
 package com.xyauto.test;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.xyauto.service.OAService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class OATest {
-
-	@Autowired
-	OAService oas;
 
 	@Before
 	public void before() {
@@ -23,7 +19,7 @@ public class OATest {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws IOException {
 	}
 
 	@After

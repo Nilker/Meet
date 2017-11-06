@@ -3,6 +3,7 @@ package com.xyauto.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -26,6 +27,15 @@ import io.swagger.annotations.ApiOperation;
 @Api(description = "登录信息")
 public class UtilsController {
 
+	@Value("${com.xyauto.SYSTEM_ID}")
+	private String SYSTEM_ID;
+	@Value("${com.xyauto.MEETING_MANAGER}")
+	private String MEETING_MANAGER;
+	@Value("${com.xyauto.SCHEDULED_PREVIEW}")
+	private String SCHEDULED_PREVIEW;
+	@Value("${com.xyauto.AUTHORIZE_MANAGER}")
+	private String AUTHORIZE_MANAGER;
+
 	@Autowired
 	private UtilsService utilsService;
 
@@ -40,7 +50,7 @@ public class UtilsController {
 	ResultUtil getMeetingByOfficeId(Integer oid, @SessionAttribute(Constants.SESSION_USER) User user) {
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole scheduledPreviewRole = new UserRole(Constants.SCHEDULED_PREVIEW);
+		UserRole scheduledPreviewRole = new UserRole(SYSTEM_ID + SCHEDULED_PREVIEW);
 		if (!userRole.contains(scheduledPreviewRole))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		if (-2 == oid)
@@ -53,8 +63,8 @@ public class UtilsController {
 	ResultUtil getOfficeInfoByRole(@SessionAttribute(Constants.SESSION_USER) User user) {
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole meetingManagerRole = new UserRole(Constants.MEETING_MANAGER);
-		UserRole scheduledPreviewRole = new UserRole(Constants.SCHEDULED_PREVIEW);
+		UserRole meetingManagerRole = new UserRole(SYSTEM_ID + MEETING_MANAGER);
+		UserRole scheduledPreviewRole = new UserRole(SYSTEM_ID + SCHEDULED_PREVIEW);
 		if (userRole.contains(meetingManagerRole) || userRole.contains(scheduledPreviewRole))
 			return ResultUtil.success(utilsService.getOfficeInfoByRole(user.getEmployeeId()));
 		return ResultUtil.error(Constants.ROLE_ERROR);
@@ -65,7 +75,7 @@ public class UtilsController {
 	ResultUtil getOfficeInfoAll(@SessionAttribute(Constants.SESSION_USER) User user) {
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (userRole.contains(roleCheck))
 			return ResultUtil.success(utilsService.getOfficeInfoAll());
 		return ResultUtil.error(Constants.ROLE_ERROR);

@@ -3,6 +3,7 @@ package com.xyauto.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(description = "会议室管理")
 public class MeetingManagerController {
 
+	@Value("${com.xyauto.SYSTEM_ID}")
+	private String SYSTEM_ID;
+	@Value("${com.xyauto.MEETING_MANAGER}")
+	private String MEETING_MANAGER;
+
 	@Autowired
 	private MeetingManagerService boardroomInfoService;
 
@@ -40,7 +46,7 @@ public class MeetingManagerController {
 
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 
@@ -81,7 +87,7 @@ public class MeetingManagerController {
 
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 
@@ -104,7 +110,7 @@ public class MeetingManagerController {
 
 		BoardroomInfo update = new BoardroomInfo();
 		update.setBiId(bi.getBiId());
-//		update.setOfficeId(bi.getOfficeId());
+		// update.setOfficeId(bi.getOfficeId());
 		update.setBiName(bi.getBiName());
 		update.setBiFloor(bi.getBiFloor());
 		update.setBiCapacity(bi.getBiCapacity());
@@ -127,7 +133,7 @@ public class MeetingManagerController {
 
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 
@@ -154,7 +160,7 @@ public class MeetingManagerController {
 
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 
@@ -179,7 +185,7 @@ public class MeetingManagerController {
 
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
@@ -199,7 +205,7 @@ public class MeetingManagerController {
 
 		// role 会议室管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.MEETING_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + MEETING_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		if (null == pageNo)
