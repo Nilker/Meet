@@ -3,16 +3,12 @@ package com.xyauto.oa;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
-
-import com.xyauto.util.Constants;
-import com.xyauto.util.PropertiesUtil;
 
 
 /**
@@ -21,10 +17,11 @@ import com.xyauto.util.PropertiesUtil;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "EmployeeService", targetNamespace = "http://tempuri.org/", wsdlLocation = Constants.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl")
+@WebServiceClient(name = "EmployeeService", targetNamespace = "http://tempuri.org/", wsdlLocation = "http://hr.oa1.xingyuanauto.com/webservice/EmployeeService.asmx?wsdl")
 public class EmployeeService
     extends Service
 {
+
     private final static URL EMPLOYEESERVICE_WSDL_LOCATION;
     private final static WebServiceException EMPLOYEESERVICE_EXCEPTION;
     private final static QName EMPLOYEESERVICE_QNAME = new QName("http://tempuri.org/", "EmployeeService");
@@ -33,8 +30,7 @@ public class EmployeeService
         URL url = null;
         WebServiceException e = null;
         try {
-//            url = new URL(PropertiesUtil.getPropertiesByKey("WEB_SERVICE") + "/webservice/EmployeeService.asmx?wsdl");
-        	url = new URL(Constants.WEB_SERVICE + "/webservice/EmployeeService.asmx?wsdl");
+            url = new URL("http://hr.oa1.xingyuanauto.com/webservice/EmployeeService.asmx?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

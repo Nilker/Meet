@@ -6,30 +6,32 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class PropertiesUtil {
+public class PropertiesUtil extends Properties {
 
-	private final static String WEB_SERVICE = "com.xyauto.WEB_SERVICE";
+	private static final long serialVersionUID = 1L;
 	private final static String GET_OA_CHECK = "com.xyauto.GET_OA_CHECK";
 	private final static String GET_OA_USER = "com.xyauto.GET_OA_USER";
+	private final static String MESSAGE_API_URL = "com.xyauto.MESSAGE_API_URL";
 	private static ConcurrentMap<String, String> oaProperties = null;
+	private static PropertiesUtil instance = null;
 	
-	static {
-		InputStream in = ClassLoader.getSystemResourceAsStream("application.properties"); 
-		Properties prop = new Properties();  
+	private PropertiesUtil(){
+		InputStream in = ClassLoader.getSystemResourceAsStream("application.properties");
 		try {
-			prop.load(in);
+			this.load(in);
 			oaProperties = new ConcurrentHashMap<>();
-			oaProperties.put("WEB_SERVICE", prop.getProperty(WEB_SERVICE));
-			oaProperties.put("GET_OA_CHECK", prop.getProperty(GET_OA_CHECK));
-			oaProperties.put("GET_OA_USER", prop.getProperty(GET_OA_USER));
+			oaProperties.put("GET_OA_CHECK", this.getProperty(GET_OA_CHECK));
+			oaProperties.put("GET_OA_USER", this.getProperty(GET_OA_USER));
+			oaProperties.put("MESSAGE_API_URL", this.getProperty(MESSAGE_API_URL));
 		} catch (IOException e) {
 			System.err.println(e.toString());
-		} 
+		}
+		
+	};
+	
+	public static synchronized String getPropertiesByKey(String key){
+		if(null == instance)
+			instance = new PropertiesUtil();
+		return PropertiesUtil.oaProperties.get(key);
 	}
-	
-	private PropertiesUtil(){};
-	
-//	public static synchronized String getPropertiesByKey(String key){
-//		return PropertiesUtil.oaProperties.get(key);
-//	}
 }

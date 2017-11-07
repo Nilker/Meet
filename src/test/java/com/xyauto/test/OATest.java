@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.xyauto.util.PropertiesUtil;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class OATest {
@@ -20,6 +22,7 @@ public class OATest {
 
 	@Test
 	public void test() throws IOException {
+		System.out.println(PropertiesUtil.getPropertiesByKey("MESSAGE_API_URL"));
 	}
 
 	@After

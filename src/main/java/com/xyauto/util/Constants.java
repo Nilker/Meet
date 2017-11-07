@@ -14,13 +14,11 @@ public interface Constants {
 	 * 四.接口返回code 正常：0、异常：99
 	 */
 
-	public static final String WEB_SERVICE = "http://hr.oa1.xingyuanauto.com";
-	public static final String GET_OA_CHECK = "http://oa1.xingyuanauto.com/hrwebapi/Authorize/Check";
-	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
-	public static final String MESSAGE_API_URL = "http://192.168.3.51:8002/PushMessage.ashx?mode=general";
+//	public static final String GET_OA_CHECK = "http://oa1.xingyuanauto.com/hrwebapi/Authorize/Check";
+//	public static final String GET_OA_USER = "http://oa1.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
+//	public static final String MESSAGE_API_URL = "http://192.168.3.51:8002/PushMessage.ashx?mode=general";
 
 	// oa
-//	public static final String WEB_SERVICE = "http://hr.oa.xingyuanauto.com";
 //	public static final String GET_OA_CHECK = "http://oa.xingyuanauto.com/hrwebapi/Authorize/Check";
 //	public static final String GET_OA_USER = "http://oa.xingyuanauto.com/hrwebapi/EmployeeForPortal/GetEmpForPortal";
 //	public static final String MESSAGE_API_URL = "http://api.bluebird.xingyuanauto.com/PushMessage.ashx?mode=general";
