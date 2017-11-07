@@ -2,19 +2,10 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var OA_URL = 'http://oa1.xingyuanauto.com/';
-var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
-var ROLE_PAGE = 'http://meet.xingyuanauto.com/xyauto_meet/role.html';
-var MEETING_MANAGER = 'SYS023MOD0001';
-var SCHEDULED_PREVIEW = 'SYS023MOD0002';
-var AUTHORIZE_MANAGER = 'SYS023MOD0003';
-//var OA_URL = 'http://oa.xingyuanauto.com/';
-//var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/xyauto_meet/';
-//var ROLE_PAGE = 'http://meet.oa.xingyuanauto.com/xyauto_meet/role.html';
-//var MEETING_MANAGER = 'SYS024MOD0001';
-//var SCHEDULED_PREVIEW = 'SYS024MOD0002';
-//var AUTHORIZE_MANAGER = 'SYS024MOD0003';
-
+//模块变量与HTML同步
+var MEETING_MANAGER = 'MOD0001';
+var SCHEDULED_PREVIEW = 'MOD0002';
+var AUTHORIZE_MANAGER = 'MOD0003';
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
@@ -75,12 +66,13 @@ $(function(){
                 data.employeeName + '</a>');
                 // 菜单权限
                 $.each(data.roleList,function(i,item){
-                    SUB_URL_MAP[item.moduleId] = item.url;
+                	var temp = item.moduleId.slice(-7);
+                    SUB_URL_MAP[temp] = item.url;
                     if(i == 0){
-                        $("#" + item.moduleId).attr("class","current");
-                        skipPages(item.moduleId);
+                        $("#" + temp).attr("class","current");
+                        skipPages(temp);
                     }
-        　　　　    $("#" + item.moduleId).show();
+        　　　　   			 $("#" + temp).show();
                 });
 
                 // 缓存所有员工信息
