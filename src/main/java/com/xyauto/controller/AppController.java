@@ -32,11 +32,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AppController {
 	@Autowired
 	private AppService appService;
-
+	@Autowired
+	private AppLoginInterceptor appLoginInterceptor;
+	
 	@RequestMapping(value = "scheduled/delScheduleBySrId", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> delScheduleBySrId(HttpServletRequest request, String srId) throws Exception {
 		log.info(">> srId {} " + srId);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			return ResponseEntity.ok(ResultUtil.success(appService.delScheduleBySrId(srId)));
 		} else {
 
@@ -47,7 +49,7 @@ public class AppController {
 	@RequestMapping(value = "scheduled/findBoardByPrimaryKey", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> findBoardByPrimaryKey(HttpServletRequest request, String biId) throws Exception {
 		log.info(">> biId {} " + biId);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			// System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findBoardByPrimaryKey(biId)));
 		} else {
@@ -59,7 +61,7 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findInfoByOfficeId(HttpServletRequest request, int officeId, String startTime)
 			throws Exception {
 		log.info(">> officeId {} " + officeId + " startTime {} " + startTime);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			// System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findInfoByOfficeId(officeId, startTime)));
 		} else {
@@ -71,7 +73,7 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findInfoByBiId(HttpServletRequest request, String biId, String startTime)
 			throws Exception {
 		log.info(">> biId {} " + biId + " startTime {} " + startTime);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			// System.out.println(request.getSession().getAttribute(Constants.SESSION_APPUSER));
 			return ResponseEntity.ok(ResultUtil.success(appService.findInfoByBiId(biId, startTime)));
 		} else {
@@ -84,7 +86,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "scheduled/findAllMeetOfSelf", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> findAllMeetOfSelf(HttpServletRequest request) throws Exception {
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			log.debug(">> employeeId {} " + user.getEmployeeId());
 			return ResponseEntity.ok(ResultUtil.success(appService.findAllMeetOfSelf(user.getEmployeeId())));
@@ -96,7 +98,7 @@ public class AppController {
 	@RequestMapping(value = "scheduled/findSingleMeetBySrId", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> findSingleMeetBySrId(HttpServletRequest request, String srId) throws Exception {
 		log.info(">> srId {} " + srId);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			List<ScheduledRecordExt> findSingleMeetBySrId = appService.findSingleMeetBySrId(srId);
 			findSingleMeetBySrId.get(0).setMyEmpId(user.getEmployeeId());
@@ -110,7 +112,7 @@ public class AppController {
 	public ResponseEntity<ResultUtil> findSingleInfoByBiId(HttpServletRequest request, String biId, String startTime)
 			throws Exception {
 		log.info(">> biId {} " + biId + " >> startTime {} " + startTime);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			return ResponseEntity.ok(ResultUtil.success(appService.findSingleInfoByBiId(biId, startTime)));
 		} else {
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
@@ -121,7 +123,7 @@ public class AppController {
 	public ResponseEntity<ResultUtil> insertSchedule(HttpServletRequest request,
 			@RequestBody ScheduledRecordExt schedule) throws Exception {
 		log.info(">> obj {} " + schedule);
-		if (AppLoginInterceptor.checkLogin(request)) {// 登陆验证
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
 			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			schedule.setEmployeeId(user.getEmployeeId());
 			return ResponseEntity.ok(ResultUtil.success(appService.insertSchedule(schedule)));
