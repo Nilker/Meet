@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.xyauto.mapper.AppMapper;
 import com.xyauto.util.CacheUtil;
+import com.xyauto.util.PropertiesUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
