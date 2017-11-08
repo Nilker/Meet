@@ -29,11 +29,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author 作者 E-mail:
  * @version 创建时间：2017年10月10日 下午12:01:10 类说明
  */
-@Component
 @Slf4j
+@Component
 public class MessageSendTimer {
 	@Autowired
 	private AppMapper mapper;
+	@Autowired
+	private MessageUtil messageUtil;
 
 	/* 每100秒执行一次 */
 	@Scheduled(cron = "0/100 * * * * *")
@@ -45,7 +47,7 @@ public class MessageSendTimer {
 			// log.debug("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 			if (DateUtils.now(DateUtils.HHMM).equals(entry.getValue().getBeginTimer())) {
 				String empIdStr = entry.getValue().getMyEmpId();
-				if(StringUtil.removeTrim(empIdStr).substring(0, 1).equals("|")) {
+				if (StringUtil.removeTrim(empIdStr).substring(0, 1).equals("|")) {
 					empIdStr = StringUtil.removeTrim(empIdStr).substring(1);
 				}
 				MeetingMessage msg = new MeetingMessage();
@@ -64,7 +66,7 @@ public class MessageSendTimer {
 				data.setExpand(expand);
 				msg.setData(data);
 				// 提醒与会人
-				MessageUtil.meetingRemind(msg);
+				messageUtil.meetingRemind(msg);
 				log.info(">> meetingRemind msg {}" + msg);
 			}
 			log.info(">> current time : " + DateUtils.now(DateUtils.HHMM) + " srId : " + entry.getValue().getSrId()

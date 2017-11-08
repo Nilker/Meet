@@ -44,6 +44,8 @@ public class AppService {
 	private AppMapper appMapper;
 	@Autowired
 	private OAService oAService;
+	@Autowired
+	private MessageUtil messageUtil;
 
 	public List<ScheduledRecordExt> findInfoByOfficeId(Integer officeId, String startTime) {
 		List<ScheduledRecordExt> findBoradSchedInfoByReq = appMapper.findBoradSchedInfoByReq(officeId, startTime);
@@ -88,7 +90,7 @@ public class AppService {
 			data.setRemindUserCode(empIdStr.toString());
 			data.setExpand(expand);
 			msg.setData(data);
-			MessageUtil.meetingCancel(msg);
+			messageUtil.meetingCancel(msg);
 			CacheUtil.delScheMap(srId, appMapper);
 			System.out.println("删除后-->"+CacheUtil.getScheMap(appMapper));
 		}
@@ -189,7 +191,7 @@ public class AppService {
 			data.setExpand(expand);
 			msg.setData(data);
 			if(addResult > 0) {
-				MessageUtil.meetingInvitation(msg);
+				messageUtil.meetingInvitation(msg);
 			}
 			// 通知与会人
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
@@ -203,7 +205,7 @@ public class AppService {
 				data.setRemindUserCode(emplIdStr);
 				msg.setData(data);
 				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
-					MessageUtil.meetingRemind(msg);
+					messageUtil.meetingRemind(msg);
 				}else {
 					record.setBiFloor(selectByPrimaryKey.getBiFloor());
 					record.setBiName(selectByPrimaryKey.getBiName());
