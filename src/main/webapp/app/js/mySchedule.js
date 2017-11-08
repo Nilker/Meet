@@ -25,7 +25,6 @@ $(function() {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
 					var endTime=new Date(boardroomList[i].endTime).Format('yyyyMMddhhmm');
 					var currentTime=new Date().Format('yyyyMMddhhmm');
-//					alert(XY.dateCompare(boardroomList[i].startTime,boardroomList[i].endTime));
 					var scheBeginTime=new Date(boardroomList[i].startTime).Format('hh:mm');
 					var scheEndTime=new Date(boardroomList[i].endTime).Format('hh:mm');
 					var meetingTheme=boardroomList[i].meetingTheme;

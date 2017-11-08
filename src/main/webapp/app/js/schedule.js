@@ -1,9 +1,7 @@
 //3秒定时器
 $(function() {
 	var mesTimeOut;
-	var biId = getQueryString("biId");
-	startDay = getQueryString("startTime");// 用户选择
-	scheduleInitial(biId, startDay);
+	scheduleInitial(getQueryString("biId"), getQueryString("startTime"));
 });
 
 function getQueryString(name)
@@ -32,7 +30,7 @@ function noClick(param){
 // 添加与会人
 function addAttendee(employeeIds) {
 //	alert("员工ID串 ：" + employeeIds);
-//	employeeIds = "1079|李梦茹,90018|孟然";
+//	employeeIds = "1192|李晓寒";
 //	10003, 10009, 10012, 10011
 	if(employeeIds.length == 0 || employeeIds == null){
 		return;
@@ -133,7 +131,8 @@ $.ajax({
 				contentType : 'application/json',
 				success : function(data) {
 					if (data.msg == 'loginError') {
-						loginauthorizefailed();
+//						loginauthorizefailed();
+						appFunction('loginauthorizefailed','','');
 						return;
 					}
 					
@@ -190,15 +189,16 @@ function scheduleInitial(biId, startDay) {
 					startTime : startDay
 				},
 				success : function(data) {
+//					alert(data);
 					if (data.msg == 'loginError') {
-						loginauthorizefailed();
+//						loginauthorizefailed();
+						appFunction('loginauthorizefailed','','');
 						return;
 					}
 					if (data.msg == 'success') {
 						var beforeStr = "";
 						var boardroomList = data.data.boardroomList;
 						var scheduleList = data.data.scheduleList;
-						var strartDay = startDay;
 						var headStr = "<div class='title'><h2> "
 								+ boardroomList.biFloor
 								+ "层-"
@@ -239,7 +239,7 @@ function scheduleInitial(biId, startDay) {
 							}
 						}
 						var body = "<ul><li class='list_name'>会议主题</li><li class='list_text'><input type='text' maxlength='10' placeholder='必填'></li></ul><ul><li class='list_name'>会议日期</li><li class='list_text'>"
-								+ strartDay
+								+ startDay
 								+ "</li></ul>" 
 								+ "<ul><li class='list_name'>会议时间</li><li class='list_text'><span id='start' style='color:#aaa;'>必填</span></li>"
 								+"<div class='clear'></div><li class='table'><ol><li id='0' value='0900'>09</li><li id='1' value='0930'></li><li id='2' value='1000'>10</li><li id='3' value='1030'></li>"
@@ -421,18 +421,7 @@ function scheduleInitial(biId, startDay) {
 				}
 			});
 }
-function loginauthorizefailed(){
-	var u = navigator.userAgent;
-	 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-	 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
-	 if(isAndroid){
-		 console.log('loginauthorizefailed'); 
-	 }else if(isiOS){
-	        window.location.href='bluebird://loginauthorizefailed';
-	 }
-}
 function appFunction(functionName,paramName,param){
-//	alert(param);
 	var u = navigator.userAgent;
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端is
