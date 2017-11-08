@@ -25,7 +25,6 @@ $(function() {
 					var beginTime=new Date(boardroomList[i].startTime).Format('yyyyMMddhhmm');
 					var endTime=new Date(boardroomList[i].endTime).Format('yyyyMMddhhmm');
 					var currentTime=new Date().Format('yyyyMMddhhmm');
-//					alert(XY.dateCompare(boardroomList[i].startTime,boardroomList[i].endTime));
 					var scheBeginTime=new Date(boardroomList[i].startTime).Format('hh:mm');
 					var scheEndTime=new Date(boardroomList[i].endTime).Format('hh:mm');
 					var meetingTheme=boardroomList[i].meetingTheme;
@@ -55,7 +54,7 @@ $(function() {
 						$(".list").append(str+listObjHead+" notbegin"+listObjBody+"未开始"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
 					}
 					if(beginTime<=currentTime&&endTime>=currentTime){
-						if(currentDay!=dayTime&&i==0){
+						if(currentDay!=dayTime||i==0){
 							str=dayHead+dayTime+" "+weekDay+dayEnd;
 						}
 						$(".list").append(str+listObjHead+" ongoing"+listObjBody+"会议中"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
@@ -121,14 +120,15 @@ function detialMeet(meetStatus,srId){
 			if(data.msg=='success'){
 				var dataList=data.data;
 				appendStr="";
-				console.info(dataList[0]);
+//				console.info(dataList[0]);
 				var startTime=new Date(dataList[0].startTime).Format("yyyy-MM-dd hh:mm");
 				var endTime=new Date(dataList[0].endTime).Format("hh:mm");
 				var title="<div class='title'>"+dataList[0].meetingTheme+"</div>";
 				var boardBody="<ul><li><div class='list_name'>时间 :</div><div class='list_text'> "+startTime+" - "+endTime+"</div><div class='clear'></div></li><li><div class='list_name'>地点:</div><div class='list_text'> "+dataList[0].biFloor+"-"+dataList[0].biName+"</div><div class='clear'></div></li>";
 				var attenBodyHead="<li><div class='list_name'>";
 				var attenBodyEnd=":</div>";
-				var attenNameHead="<div class='list_text'>";
+				var attenNameHead="<div class='list_text meets_num'>";
+				var faqiNameHead="<div class='list_text'>";
 				var spanLabelBeg="<span>";
 				var spanLabelEnd="</span>";
 				var attenNameEnd="</div>";
@@ -140,7 +140,7 @@ function detialMeet(meetStatus,srId){
 				var end="<div class='clear'></div></div>";
 				var clear = "<div class='clear'></div>";
 				var attenStr=attenBodyHead+"与会人"+attenBodyEnd+attenNameHead;
-				var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+attenNameHead;
+				var faqiAttenStr=attenBodyHead+"发起人"+attenBodyEnd+faqiNameHead;
 				var attenssBody = "";
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='与会人'){
@@ -148,22 +148,29 @@ function detialMeet(meetStatus,srId){
 						if(attenPerson == null){
 							attenPerson = "";
 						}
-						attenssBody += spanLabelBeg+attenPerson+"  "+spanLabelEnd;
+						attenssBody += spanLabelBeg+attenPerson+"；"+spanLabelEnd;
 					}
+				}
+				if(attenssBody == '<span>；</span>'){
+					attenssBody = "";
 				}
 				
 				for (var i = 0; i < dataList.length; i++) {
 					if(dataList[i].type=='发起人'){
-						faqiAttenStr += attenNameHead+dataList[i].employeeName + attenNameEnd ;
+						faqiAttenStr += faqiNameHead+dataList[i].employeeName + attenNameEnd ;
 					}
 				}
 				appendStr=title+boardBody+attenStr+attenssBody+attenNameEnd+clear + "</li>" + faqiAttenStr +"</div>"+clear+attenEnd+strEnd
 				if(meetStatus=='已结束'){
-					appendStr+=mark+markNest;
+						for (var i = 0; i < dataList.length; i++) {
+							if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
+								appendStr+=mark+markNest;
+							}
+						}
 				}
 				if(meetStatus=='会议中'||meetStatus=='未开始'){
 					for (var i = 0; i < dataList.length; i++) {
-						if(dataList[i].type=='发起人'&&dataList[i].employeeId==dataList[0].myEmpId){
+						if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
 							appendStr+=cancel+markNest;
 						}
 					}
@@ -171,6 +178,11 @@ function detialMeet(meetStatus,srId){
 				appendStr+=end;
 				console.info("append"+appendStr);
 				$(".con").append(appendStr);
+				var span_h = $('.meets_num span').length*0.65;
+		        if(span_h>2.9){
+		            console.log('溢出隐藏了')
+		            $('.meets_num').append('<em>...</em>');
+		        }
 				$(".model").show();
 				$(".btn_layer").on("click",function(e){//取消会议
 					e.stopPropagation();

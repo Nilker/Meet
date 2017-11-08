@@ -1,13 +1,11 @@
 package com.xyauto.config;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +39,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
+	@Value("${com.xyauto.SYSTEM_ID}")
+	private String SYSTEM_ID;
+	@Value("${com.xyauto.GET_OA_CHECK}")
+	private String GET_OA_CHECK;
+	@Value("${com.xyauto.GET_OA_USER}")
+	private String GET_OA_USER;
+
 	@Autowired
 	private UtilsService loginInfoService;
 
@@ -49,10 +55,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		String url = request.getRequestURL().toString();
 		log.debug(">> " + url);
 		if (url.endsWith("/app/scheduled/delScheduleBySrId") || url.endsWith("/app/scheduled/insertSchedule")
-				|| url.endsWith("/app/scheduled/delScheduleBySrId") 
+				|| url.endsWith("/app/scheduled/delScheduleBySrId")
 				|| url.endsWith("/app/scheduled/findBoardByPrimaryKey")
-				|| url.endsWith("/app/scheduled/getInfoByOfficeId")
-				|| url.endsWith("/app/scheduled/findInfoByBiId")
+				|| url.endsWith("/app/scheduled/getInfoByOfficeId") || url.endsWith("/app/scheduled/findInfoByBiId")
 				|| url.endsWith("/app/scheduled/findAllMeetOfSelf")
 				|| url.endsWith("/app/scheduled/findSingleInfoByBiId")
 				|| url.endsWith("/app/scheduled/findSingleMeetBySrId")) {
@@ -63,7 +68,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		User user = getLoginUser(request);
 		if (null == user) {
 			session.invalidate();
-			response.sendRedirect("/");
+			response.sendRedirect("/xyauto_meet");
 			return false;
 		} else {
 			session.setAttribute(Constants.SESSION_USER, user);
@@ -83,28 +88,28 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return null;
 		}
 		log.debug(">> cookie:" + cookieValue);
-		
-		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
+
+		HttpGet httpCheckGet = new HttpGet(GET_OA_CHECK);
 		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		CloseableHttpAsyncClient client = HttpUtil.getClient();
 		Future<HttpResponse> future = client.execute(httpCheckGet, null);
 		HttpResponse httpResponse = future.get();
-		
+
 		String res = EntityUtils.toString(httpResponse.getEntity());
-		log.debug(">> login check:" + res.replace("\r\n",""));
+		log.debug(">> login check:" + res.replace("\r\n", ""));
 		ObjectMapper objectMapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> checkMap = objectMapper.readValue(res, HashMap.class);
-		Boolean isLogin = (boolean)checkMap.get("Result");
-		if(!isLogin)
+		Boolean isLogin = (boolean) checkMap.get("Result");
+		if (!isLogin)
 			return null;
-		
-		HttpGet httpUserGet = new HttpGet(Constants.GET_OA_USER);
+
+		HttpGet httpUserGet = new HttpGet(GET_OA_USER);
 		httpUserGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		client = HttpUtil.getClient();
 		future = client.execute(httpUserGet, null);
 		httpResponse = future.get();
-		
+
 		res = EntityUtils.toString(httpResponse.getEntity());
 		log.debug(">> user json:" + res);
 		if (res.indexOf("{\"Status\":401") == 0)
@@ -122,10 +127,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		user.setDepartmentName((String) dataMap.get("DepartmentName"));
 		user.setIcon((String) dataMap.get("Icon"));
 		user.setIsLogin(true);
-		
-		List<UserRole> usreRole = loginInfoService.getUserRole(user.getUserId());
+
+		List<UserRole> usreRole = loginInfoService.getUserRole(SYSTEM_ID, user.getUserId());
 		user.setRoleList(usreRole);
-		
+
 		return user;
 	}
 }

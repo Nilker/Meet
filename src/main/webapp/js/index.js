@@ -2,11 +2,10 @@
  * @author qiaom@xingyuanauto.com
  * @version 创建时间：2017年10月10日 下午2:40:49
  */
-var OA_URL = 'http://oa1.xingyuanauto.com/';
-var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com/xyauto_meet/';
-//var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com:8081/xyauto_meet/';
-// var OA_URL = 'http://oa.xingyuanauto.com/';
-// var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyuanauto.com:8081/xyauto_meet/';
+//模块变量与HTML同步
+var MEETING_MANAGER = 'MOD0001';
+var SCHEDULED_PREVIEW = 'MOD0002';
+var AUTHORIZE_MANAGER = 'MOD0003';
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
@@ -56,32 +55,38 @@ $(function(){
     $.get("getLoginInfo", function(rec){
         if(rec.code == 0){
             var data = rec.data;
-            // 用户头像与名称
-            $("#user_info").html('<a href="javascript:void(0)"><span class="portrait"><img src="' + 
+            if(data.roleList.length == 0){
+                $("body").remove();
+                window.location.href=ROLE_PAGE;
+            }else{
+                // 用户头像与名称
+                $("#user_info").html('<a href="javascript:void(0)"><span class="portrait"><img src="' + 
                 OA_URL + 
                 data.icon + '"></span>' + 
                 data.employeeName + '</a>');
-            // 菜单权限
-            $.each(data.roleList,function(i,item){
-                SUB_URL_MAP[item.moduleId] = item.url;
-                if(i == 0){
-                    $("#" + item.moduleId).attr("class","current");
-                    skipPages(item.moduleId);
-                }
-    　　　　    $("#" + item.moduleId).show();
-            });
+                // 菜单权限
+                $.each(data.roleList,function(i,item){
+                	var temp = item.moduleId.slice(-7);
+                    SUB_URL_MAP[temp] = item.url;
+                    if(i == 0){
+                        $("#" + temp).attr("class","current");
+                        skipPages(temp);
+                    }
+        　　　　   			 $("#" + temp).show();
+                });
 
-            // 缓存所有员工信息
-            $.get("oa/queryAllEmployee", function(rec){
-                if(rec.code == 0){
-                    ALL_EMPLOYEE = rec.data;
-                }else{
-                    if(null == rec.msg || undefined == rec.msg)
-                        layer.msg(ERROR_MSG);
-                    else
-                        layer.msg(rec.msg);
-                }
-            });
+                // 缓存所有员工信息
+                $.get("oa/queryAllEmployee", function(rec){
+                    if(rec.code == 0){
+                        ALL_EMPLOYEE = rec.data;
+                    }else{
+                        if(null == rec.msg || undefined == rec.msg)
+                            layer.msg(ERROR_MSG);
+                        else
+                            layer.msg(rec.msg);
+                    }
+                });
+            }
         }else{
             if(null == rec.msg || undefined == rec.msg)
                 window.location.href=OA_LOGIN;
@@ -89,6 +94,7 @@ $(function(){
                 layer.msg(rec.msg);
         }
     });
+    
 });
 
 //菜单加载
@@ -96,19 +102,19 @@ function skipPages(id) {
     $('#' + id).addClass("current").siblings().removeClass("current");
     switch (id)
     {
-        case "SYS023MOD0001":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0001'] + '.html?r='+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0001'] + '.js" type="text/javascript"></script>');
+        case MEETING_MANAGER:
+            $(".box_right .content").load('template/' + SUB_URL_MAP[MEETING_MANAGER] + '.html?r='+Math.random(),function(){
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP[MEETING_MANAGER] + '.js" type="text/javascript"></script>');
             });
             break;
-        case "SYS023MOD0002":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0002'] + '.html?r='+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0002'] + '.js" type="text/javascript"></script>');
+        case SCHEDULED_PREVIEW:
+            $(".box_right .content").load('template/' + SUB_URL_MAP[SCHEDULED_PREVIEW] + '.html?r='+Math.random(),function(){
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP[SCHEDULED_PREVIEW] + '.js" type="text/javascript"></script>');
             });
             break;
-        case "SYS023MOD0003":
-            $(".box_right .content").load('template/' + SUB_URL_MAP['SYS023MOD0003'] + '.html?r'+Math.random(),function(){
-                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP['SYS023MOD0003'] + '.js" type="text/javascript"></script>');
+        case AUTHORIZE_MANAGER:
+            $(".box_right .content").load('template/' + SUB_URL_MAP[AUTHORIZE_MANAGER] + '.html?r'+Math.random(),function(){
+                $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP[AUTHORIZE_MANAGER] + '.js" type="text/javascript"></script>');
             });
             break;
     }

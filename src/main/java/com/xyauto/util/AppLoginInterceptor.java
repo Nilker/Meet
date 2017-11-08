@@ -13,6 +13,8 @@ import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xyauto.pojo.User;
@@ -25,9 +27,15 @@ import lombok.extern.slf4j.Slf4j;
  * @author xusy
  */
 @Slf4j
+@Component
 public class AppLoginInterceptor {
+	
+	@Value("${com.xyauto.GET_OA_CHECK}")
+	private String GET_OA_CHECK;
+	@Value("${com.xyauto.GET_OA_USER}")
+	private String GET_OA_USER;
 
-	public static boolean checkLogin(HttpServletRequest request) throws Exception {
+	public boolean checkLogin(HttpServletRequest request) throws Exception {
 		String url = request.getRequestURL().toString();
 		log.debug(url);
 		HttpSession session = request.getSession();
@@ -44,7 +52,7 @@ public class AppLoginInterceptor {
 		return true;
 	}
 
-	private static User getLoginUser(HttpServletRequest request)
+	private User getLoginUser(HttpServletRequest request)
 			throws InterruptedException, ExecutionException, ParseException, IOException {
 
 		String cookieValue = CookieUtil.getCookieValue(request, Constants.COOKIE_KEY);
@@ -54,7 +62,7 @@ public class AppLoginInterceptor {
 		}
 		log.debug(">> cookie:" + cookieValue);
 
-		HttpGet httpCheckGet = new HttpGet(Constants.GET_OA_CHECK);
+		HttpGet httpCheckGet = new HttpGet(GET_OA_CHECK);
 		httpCheckGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		CloseableHttpAsyncClient client = HttpUtil.getClient();
 		Future<HttpResponse> future = client.execute(httpCheckGet, null);
@@ -69,7 +77,7 @@ public class AppLoginInterceptor {
 		if (!isLogin)
 			return null;
 
-		HttpGet httpUserGet = new HttpGet(Constants.GET_OA_USER);
+		HttpGet httpUserGet = new HttpGet(GET_OA_USER);
 		httpUserGet.addHeader("Cookie", Constants.COOKIE_KEY + "=" + cookieValue);
 		client = HttpUtil.getClient();
 		future = client.execute(httpUserGet, null);

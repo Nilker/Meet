@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(description = "权限管理")
 public class AuthorizeManagerController {
 
+	@Value("${com.xyauto.SYSTEM_ID}")
+	private String SYSTEM_ID;
+	@Value("${com.xyauto.AUTHORIZE_MANAGER}")
+	private String AUTHORIZE_MANAGER;
+
 	@Autowired
 	private OAService oas;
 	@Autowired
@@ -44,7 +50,7 @@ public class AuthorizeManagerController {
 	ResultUtil insert(OfficeAreaAuthority oaa, @SessionAttribute(Constants.SESSION_USER) User user) {
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
@@ -90,7 +96,7 @@ public class AuthorizeManagerController {
 
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
@@ -121,7 +127,7 @@ public class AuthorizeManagerController {
 
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 
@@ -141,7 +147,7 @@ public class AuthorizeManagerController {
 
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		// check
@@ -161,7 +167,7 @@ public class AuthorizeManagerController {
 
 		// role 权限管理
 		List<UserRole> userRole = user.getRoleList();
-		UserRole roleCheck = new UserRole(Constants.AUTHORIZE_MANAGER);
+		UserRole roleCheck = new UserRole(SYSTEM_ID + AUTHORIZE_MANAGER);
 		if (!userRole.contains(roleCheck))
 			return ResultUtil.error(Constants.ROLE_ERROR);
 		if (null == pageNo)

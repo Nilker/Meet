@@ -1,9 +1,12 @@
 package com.xyauto.service;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAService {
 
+	@Value("${com.xyauto.WEB_SERVICE}")
+	private String WEB_SERVICE;
 	// @Resource
 	// private CacheManager cacheManager;
 
@@ -125,17 +130,26 @@ public class OAService {
 
 	@Cacheable(value = Constants.CACHE_OA, key = "'employee_'+#id")
 	public Employee queryEmployeeById(String id) {
-		EmployeeService employeeService = new EmployeeService();
-		EmployeeServiceSoap employeeServiceSoap = employeeService.getEmployeeServiceSoap();
-		Employee employee = employeeServiceSoap.getEmployeeByEmployeeNumber(id);
-		log.debug(">> 人员信息 未命中缓存 <<");
+		URL url = null;
+		Employee employee = null;
+		try {
+			url = new URL(WEB_SERVICE);
+			EmployeeService employeeService = new EmployeeService(url);
+			EmployeeServiceSoap employeeServiceSoap = employeeService.getEmployeeServiceSoap();
+			employee = employeeServiceSoap.getEmployeeByEmployeeNumber(id);
+			log.debug(">> 人员信息 未命中缓存 <<");
+		} catch (MalformedURLException e) {
+			log.debug(">> web service url error:" + e.toString());
+			log.debug(">> 人员信息调取失败 <<");
+		}
 		return employee;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Cacheable(value = Constants.CACHE_OA, key = "'employee_list'")
 	public List<HashMap<String, String>> queryAllEmployee() throws JsonParseException, JsonMappingException, IOException {
-		EmployeeService employeeService = new EmployeeService();
+		URL url = new URL(WEB_SERVICE);
+		EmployeeService employeeService = new EmployeeService(url);
 		EmployeeServiceSoap employeeServiceSoap = employeeService.getEmployeeServiceSoap();
 		String res = employeeServiceSoap.getAllEmployeeInfo(false);
 		ObjectMapper objectMapper = new ObjectMapper();

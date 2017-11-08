@@ -1,7 +1,5 @@
 $(function() {
-	var officeId = getQueryString("officeId");;
-	var startDay = getQueryString("startTime");;
-	loadBoardList(officeId, startDay);
+	loadBoardList(getQueryString("officeId"), getQueryString("startTime"));
 });
 function getQueryString(name)
 {
@@ -9,7 +7,7 @@ function getQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
-//预定页面
+
 function toSchedule(biId){
 //	alert(biId);
 	 var u = navigator.userAgent;
@@ -48,9 +46,21 @@ function loadBoardList(officeId, startTime) {
 						'click',
 						function(e) {
 							e.stopPropagation();
+							
+							var classArr = [];
+							classArr = $(this).attr("class").split(" ");
+//							alert(classArr);
+							for (var i = 0; i < classArr.length; i++) {
+								if(classArr[i] == 'clicked'){
+//									alert(classArr[i]);
+//									$(this).find('li').removeClass('active');
+//									alert($(this).attr("booked-click"));
+									$("[booked-click=" + $(this).attr("booked-click") + "]").removeClass("clicked");
+									$('.layer_booked').css('height', '0rem');
+									return;
+								}
+							}
 							$(this).siblings().removeClass("clicked");
-//							$(this).parent('ul').parent('table_item').siblings().children('ul').find('li').removeClass('clicked');
-//							console.info($(this).parent('ul').parent('table_item').siblings().children('ul'));
 							$("[booked-click="+$(this).attr('booked-click')+"]").addClass("clicked");
 							var startTimes = $(this).children().text();
 							startTimes = startTime + " "
@@ -65,11 +75,22 @@ function loadBoardList(officeId, startTime) {
 							$(this).parent().parent().siblings('.table_item')
 							.children('ul').find('li').removeClass(
 									'clicked');
-						});
+				});
 				$('.table_item ul').on(
 						'click',
 						function(e) {
 							e.stopPropagation();
+							var classArr = [];
+							classArr = $(this).children("li").attr("class").split(" ");
+							for (var i = 0; i < classArr.length; i++) {
+								if(classArr[i] == 'active'){
+//									alert(classArr[i]);
+									$(this).find('li').removeClass('active');
+									$('.layer_toBook').css('height', '0rem');
+									return;
+								}
+							}
+//							alert($(this).children("li").attr("class"));
 							$(this).parents('.table_item').siblings(
 									'.table_item').find('li').removeClass(
 									'clicked');
@@ -180,7 +201,7 @@ function Trim(str)
     return str.replace(/(^\s*)|(\s*$)/g, ""); 
 }
 function getList(boardroomList) {
-	console.log(boardroomList);
+//	console.log(boardroomList);
 	var scheduleArr = [];
 	var schedIndex = [];
 	for (var i = 0; i < boardroomList.length; i++) {

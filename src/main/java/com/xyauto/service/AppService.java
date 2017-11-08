@@ -44,6 +44,8 @@ public class AppService {
 	private AppMapper appMapper;
 	@Autowired
 	private OAService oAService;
+	@Autowired
+	private MessageUtil messageUtil;
 
 	public List<ScheduledRecordExt> findInfoByOfficeId(Integer officeId, String startTime) {
 		List<ScheduledRecordExt> findBoradSchedInfoByReq = appMapper.findBoradSchedInfoByReq(officeId, startTime);
@@ -88,7 +90,7 @@ public class AppService {
 			data.setRemindUserCode(empIdStr.toString());
 			data.setExpand(expand);
 			msg.setData(data);
-			MessageUtil.meetingCancel(msg);
+			messageUtil.meetingCancel(msg);
 			CacheUtil.delScheMap(srId, appMapper);
 			System.out.println("删除后-->"+CacheUtil.getScheMap(appMapper));
 		}
@@ -168,8 +170,10 @@ public class AppService {
 				attendees.setCreateUser(record.getEmployeeId());
 				attendees.setUpdateUser(record.getEmployeeId());
 				attendeesList.add(attendees);
-				empIdStr.append(eid+"|");
+				empIdStr.append(eid);
+				empIdStr.append("|");
 			}
+			empIdStr.deleteCharAt(empIdStr.length()-1);
 			addResult = appMapper.insertByBatch(attendeesList);
 		}
 		if(insert > 0) {
@@ -187,16 +191,21 @@ public class AppService {
 			data.setExpand(expand);
 			msg.setData(data);
 			if(addResult > 0) {
-				MessageUtil.meetingInvitation(msg);
+				messageUtil.meetingInvitation(msg);
 			}
 			// 通知与会人
 			if(DateUtils.now(DateUtils.YMD).equals(DateUtils.date2Str(record.getStartTime(),DateUtils.YMD))) {
+				empIdStr.append("|");
 				empIdStr.append(record.getEmployeeId());//会议邀请不邀请发起人
-				msg.setUserCode(empIdStr.toString());
-				data.setRemindUserCode(empIdStr.toString());
+				String emplIdStr = empIdStr.toString();
+				if(StringUtil.removeTrim(emplIdStr).substring(0, 1).equals("|")) {
+					emplIdStr = StringUtil.removeTrim(emplIdStr).substring(1);
+				}
+				msg.setUserCode(emplIdStr);
+				data.setRemindUserCode(emplIdStr);
 				msg.setData(data);
 				if(DateUtils.str2Date(DateUtils.dateCompute(record.getStartTime()), DateUtils.HHMM).getTime() <= DateUtils.str2Date(DateUtils.now(DateUtils.HHMM), DateUtils.HHMM).getTime()) {
-						MessageUtil.meetingRemind(msg);
+					messageUtil.meetingRemind(msg);
 				}else {
 					record.setBiFloor(selectByPrimaryKey.getBiFloor());
 					record.setBiName(selectByPrimaryKey.getBiName());

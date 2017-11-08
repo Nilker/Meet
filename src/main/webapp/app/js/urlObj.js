@@ -1,5 +1,4 @@
-﻿var domain="http://meet.xingyuanauto.com/xyauto_meet/app/scheduled/";
-urlPrefix="../app/images/";
+﻿urlPrefix="../app/images/";
 var urlObj={
 		//会议室区域列表
 		scheduleOffice : domain + 'getInfoByOfficeId',

@@ -1,4 +1,4 @@
-/*--------box--------*/
+﻿/*--------box--------*/
 .box{
     width:100%;
     position: relative;
@@ -1264,12 +1264,28 @@
     width: 18px;
     height: 16px;
 }
-.type-select input{display: block;width:180px;height: 34px;line-height: 36px \9;/*border:1px solid #fff;*/outline: 0;background: none;color: #333; cursor: pointer;position: absolute;top:0;}
+.type-select input{
+    display: block;
+    width:141px;
+    height: 34px;
+    line-height: 36px \9;
+    /*border:1px solid #fff;*/
+    outline: 0;
+    background: none;
+    color: #333; 
+    cursor: pointer;
+    position: absolute;
+    top:0;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
 .type-select input:hover {
     /*border:1px solid #fff;*/
 }
 .type-select ul{
     width:190px;
+    max-height:250px; 
     padding: 0;
     display: none;
     position: absolute;
@@ -1283,8 +1299,22 @@
     box-shadow: 0 0 3px #d9dee0;
     z-index: 9999;
 }
-.type-select ul li{height: 36px;line-height: 36px;width:180px;padding: 0 5px;overflow: hidden;cursor: pointer;}
-.type-select ul li.on{background-color: #3399ff;color:#fff;width:180px;padding: 0 5px;}
+.type-select ul li{
+    height: 36px;
+    line-height: 36px;
+    width:152px;
+    padding: 0 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+.type-select ul li.on{
+    background-color: #3399ff;
+    color:#fff;
+    width:152px;
+    padding: 0 5px;
+}
 
 /*---------------------table*/
 .table {
@@ -1360,7 +1390,7 @@ table a:hover{
 .subject-table td.color02{
     color:#24cab0;
 }
-.subject-table td.color05{
+.subject-table td.color06{
     color:#f55353;
 }
 .subject-table th {

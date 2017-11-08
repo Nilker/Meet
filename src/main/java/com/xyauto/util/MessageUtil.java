@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.http.ParseException;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,8 +18,11 @@ import lombok.extern.slf4j.Slf4j;
  * 类说明 会议通知
  */
 @Slf4j
+@Component
 public class MessageUtil {
-	public static void meetingInvitation(MeetingMessage meetingMessage)
+	@Value("${com.xyauto.MESSAGE_API_URL}")
+	private String MESSAGE_API_URL;
+	public void meetingInvitation(MeetingMessage meetingMessage)
 			throws ParseException, IOException, InterruptedException, ExecutionException {
 		meetingMessage.setType(Constants.MEETTING_INVITATION);
 		meetingMessage.getData().setEntityType(Constants.MEETTING_INVITATION);
@@ -28,10 +33,10 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingInvitation-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
+		log.debug("send meetingInvitation-->" + HttpUtil.httpForm(MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
-	public static void meetingCancel(MeetingMessage meetingMessage)
+	public void meetingCancel(MeetingMessage meetingMessage)
 			throws ParseException, IOException, InterruptedException, ExecutionException {
 		meetingMessage.setType(Constants.MEETTING_CANCEL);
 		meetingMessage.getData().setEntityType(Constants.MEETTING_CANCEL);
@@ -42,10 +47,10 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingCancel-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
+		log.debug("send meetingCancel-->" + HttpUtil.httpForm(MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
-	public static synchronized void meetingRemind(MeetingMessage meetingMessage)
+	public synchronized void meetingRemind(MeetingMessage meetingMessage)
 			throws ParseException, IOException, InterruptedException, ExecutionException {
 		meetingMessage.setType(Constants.MEETTING_REMIND);
 		meetingMessage.getData().setEntityType(Constants.MEETTING_REMIND);
@@ -56,7 +61,7 @@ public class MessageUtil {
 		Map<String, String> map = new HashMap<>();
 		map.put("secretkey", secretkey);
 		map.put("content", meetingMessage.toString());
-		log.debug("send meetingRemind-->" + HttpUtil.httpForm(Constants.MESSAGE_API_URL,map) + " obj {}-->" + map);
+		log.debug("send meetingRemind-->" + HttpUtil.httpForm(MESSAGE_API_URL,map) + " obj {}-->" + map);
 	}
 
 }

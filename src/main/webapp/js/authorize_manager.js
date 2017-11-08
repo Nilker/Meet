@@ -15,29 +15,22 @@ $(function(){
 
 // 办公区下拉框列表
 function dropDdownList(){
-    $.ajax({
-        type: "get",
-        url: "getOfficeInfoAll",
-        dataType: "json",
-        cache: true,
-        async: false,
-        success:function(rec){
-            if(rec.code == 0){
-                OFFICE_INFO_LIST = rec.data;
-                $('#office_list').empty();
-                $('#office_list').append('<li data-value="-2">全部</li>');
-                $.each(rec.data,function(i,item){
-                    $('#office_list').append('<li data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
-                });
-                $('#office_input').val("全部");
-                $('#office_input').attr("key",-2);
-                select(true);
-            }else{
-                if(null == rec.msg || undefined == rec.msg)
-                    layer.msg(ERROR_MSG);
-                else
-                    layer.msg(rec.msg);
-            }
+    $.get("getOfficeInfoAll",function(rec){
+        if(rec.code == 0){
+            OFFICE_INFO_LIST = rec.data;
+            $('#office_list').empty();
+            $('#office_list').append('<li data-value="-2">全部</li>');
+            $.each(rec.data,function(i,item){
+                $('#office_list').append('<li data-value="'+ item.officeId +'">'+ item.officeName +'</li>');
+            });
+            $('#office_input').val("全部");
+            $('#office_input').attr("key",-2);
+            select(true);
+        }else{
+            if(null == rec.msg || undefined == rec.msg)
+                layer.msg(ERROR_MSG);
+            else
+                layer.msg(rec.msg);
         }
     });
 }
