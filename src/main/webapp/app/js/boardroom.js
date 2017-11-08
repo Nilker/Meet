@@ -1,7 +1,5 @@
 $(function() {
-	var officeId = getQueryString("officeId");;
-	var startDay = getQueryString("startTime");;
-	loadBoardList(officeId, startDay);
+	loadBoardList(getQueryString("officeId"), getQueryString("startTime"));
 });
 function getQueryString(name)
 {
