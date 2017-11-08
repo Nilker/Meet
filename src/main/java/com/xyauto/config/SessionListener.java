@@ -3,8 +3,6 @@ package com.xyauto.config;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import com.xyauto.util.PropertiesUtil;
-
 /**
  * session 管理器
  * 
