@@ -136,10 +136,14 @@ function openLayer(flag,oaaId){
 
     var offcieHTML = '';
     $.each(OFFICE_INFO_LIST,function(index, el) {
-        offcieHTML += '<div class="check_con">';
-        offcieHTML += '<input class="magic-checkbox" type="checkbox" name="layout" id="'+ el.officeId +'">';
-        offcieHTML += '<label for="'+ el.officeId +'"><span>'+ el.officeName +'</span></label></div>';
+        // offcieHTML += '<div class="check_con">';
+        // offcieHTML += '<input class="magic-checkbox" type="checkbox" name="layout" id="'+ el.officeId +'">';
+        // offcieHTML += '<label for="'+ el.officeId +'"><span>'+ el.officeName +'</span></label></div>';
+        offcieHTML += '<li><div class="check_con">';
+        offcieHTML += '<input id="'+ el.officeId +'" class="magic-checkbox" type="checkbox"><label for="'+ el.officeId +'" title="'+ el.officeName +'">'+ el.officeName +'</label>';
+        offcieHTML += '</div></li>';
     });
+    offcieHTML += '<div class="clear"></div>';
     if("insert" == flag){
         $("#layer_title").empty();
         $("#layer_title").html('添加权限'+
@@ -147,10 +151,13 @@ function openLayer(flag,oaaId){
             '<div class="clear"></div>');
         $("#layer_office_list").html(offcieHTML);
 
+        $("#layer_emp_num").val('');
+        $('#layer_emp_num').attr("readonly",false);
+
         $("#submit").unbind("click");
         $("#submit").click(function(event) {
             
-            var checkedList = $(".fr input:checked");
+            var checkedList = $(".areaList input:checked");
             var tempId ='';
             $.each(checkedList,function (i,item) {
                 if(i != 0)
@@ -220,7 +227,7 @@ function openLayer(flag,oaaId){
                 $("#submit").unbind("click");
                 $("#submit").click(function(event) {
                     
-                    var checkedList = $(".fr input:checked");
+                    var checkedList = $(".areaList input:checked");
                     var tempId ='';
                     $.each(checkedList,function (i,item) {
                         if(i != 0)

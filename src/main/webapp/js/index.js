@@ -72,7 +72,7 @@ $(function(){
                         $("#" + temp).attr("class","current");
                         skipPages(temp);
                     }
-        　　　　   			 $("#" + temp).show();
+        　　　　   	 $("#" + temp).show();
                 });
 
                 // 缓存所有员工信息

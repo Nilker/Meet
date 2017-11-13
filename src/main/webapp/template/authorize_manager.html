@@ -33,7 +33,26 @@
 <div id="layer" class='model' style="display: none;">
     <div class="layer">
     <div id="layer_title" class="title"></div>
+    <!-- 新弹层 -->
     <div class="layer_con">
+        <div class="mb10" style='margin:15px 20px;'>
+            员工编号：
+            <input id="layer_emp_num" type="text" style="width:260px;border:1px solid #e4e4e4; " placeholder="请输入员工编号" maxlength="5" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+        </div>
+        <div class="layer_con">
+            <div class="select_ndustry">
+                <span>授权办公区：</span>
+                <ul id="layer_office_list" class='areaList'></ul>
+            </div>
+        </div>
+        <div class="keep-button">
+        <!--<span class="but_hold3" style="width:100px">取消</span>
+            <span class="but_submit search" style="width:100px;">提交</span>-->
+            <span id="submit" class="but_submit search" style="width:100px;">确定</span>
+        </div>
+    </div>
+    <!-- 旧弹层 -->
+<!--<div class="layer_con">
         <div class="select_ndustry">
             <ul>
                 <li>
@@ -52,6 +71,8 @@
         <div class="keep" style="text-align: center">
             <span  id="submit" class="but_submit" style="width:100px">确定</span>
         </div>
-    </div>
+    </div>-->
     </div>
 </div>
+
+
