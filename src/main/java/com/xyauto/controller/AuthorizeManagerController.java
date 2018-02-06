@@ -34,7 +34,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("am")
 @Api(description = "权限管理")
 public class AuthorizeManagerController {
-
 	@Value("${com.xyauto.SYSTEM_ID}")
 	private String SYSTEM_ID;
 	@Value("${com.xyauto.AUTHORIZE_MANAGER}")

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.experimental.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -127,6 +128,22 @@ public class AppController {
 			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
 			schedule.setEmployeeId(user.getEmployeeId());
 			return ResponseEntity.ok(ResultUtil.success(appService.insertSchedule(schedule)));
+		} else {
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
+		}
+	}
+
+	@RequestMapping(value = "scheduled/updateStatusByQr", method = RequestMethod.GET)
+	public ResponseEntity<ResultUtil> updateStatusByQr(HttpServletRequest request, String biId,String employeeId) throws Exception{
+		log.info(">> biId {} " + biId + " >> employeeId {} " + employeeId);
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
+		  Integer num= appService.updateStatusByQr(biId,employeeId);
+		  if (num>=1){
+			  return ResponseEntity.ok(ResultUtil.success());
+		  }
+		  else {
+		  	return ResponseEntity.ok(ResultUtil.error("亲，您的会议时间还没有到!!"));
+		  }
 		} else {
 			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}

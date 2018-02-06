@@ -59,14 +59,15 @@ public class AppTest {
 	@Test
 	public void insertScheduleTest() throws ParseException, IOException, InterruptedException, ExecutionException {
 		ScheduledRecordExt schedule = new ScheduledRecordExt();
-		String[] eids = { "0214", "0216", "0213" };
-		schedule.setBiId("7fe2c0686999418da098cf89b6e327c7");
-		schedule.setEmployeeId("0289");
+		String[] eids = { "9806", "1102", "1192" };
+		schedule.setBiId("1b2249f4922945e88ff3822d5f14b5de");
+		schedule.setEmployeeId("1192");
 		schedule.setEmployeeIds(eids);
-		schedule.setStartTime(DateUtils.str2Date("2017-10-18 10:30:59"));// 开始时间只能为59秒
-		schedule.setEndTime(DateUtils.str2Date("2017-10-18 11:00:00"));// 结束时间只能为00秒
+		schedule.setStartTime(DateUtils.str2Date("2018-2-10 10:30:59"));// 开始时间只能为59秒
+		schedule.setEndTime(DateUtils.str2Date("2018-2-10 11:00:00"));// 结束时间只能为00秒
 		schedule.setMeetingTheme("主题1");
 		schedule.setOfficeId(33);
+		schedule.setStatus(-1);
 		appService.insertSchedule(schedule);
 	}
 
