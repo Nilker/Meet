@@ -3,6 +3,8 @@ var OA_LOGIN = 'http://oa1.xingyuanauto.com/Login.aspx?gourl=http://meet.xingyua
 var ROLE_PAGE = 'http://meet.xingyuanauto.com/xyauto_meet/role.html';
 var SYSTEM_ID = 'SYS023'
 var domain="http://meet.xingyuanauto.com/xyauto_meet/app/scheduled/";
+//var domain="http://localhost:8064/app/scheduled/";
+
 //正式服
 //var OA_URL = 'http://oa.xingyuanauto.com/';
 //var OA_LOGIN = 'http://oa.xingyuanauto.com/Login.aspx?gourl=http://meet.oa.xingyuanauto.com/xyauto_meet/';

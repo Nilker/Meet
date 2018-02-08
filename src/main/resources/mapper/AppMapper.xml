@@ -25,7 +25,7 @@
 		','+CONVERT(char(5),B.start_time,108)+'-'+CONVERT(char(5),B.end_time,108)
 		from [xyauto_meet].dbo.scheduled_record as B
 		where
-		B.is_delete=0
+		B.is_delete=0 And (B.status=-1 or B.status=0)
 		and
 		convert(char(10),B.start_time,120)=#{startTime,jdbcType=VARCHAR}
 		and
@@ -51,7 +51,7 @@
 		from
 		[xyauto_meet].[dbo].[scheduled_record] A
 		where
-		A.is_delete=0
+		A.is_delete=0 AND (A.status=-1 or A.status=0)
 		and
 		CONVERT(char(10),A.start_time,120)=#{startTime,jdbcType=VARCHAR}
 		and
@@ -77,7 +77,7 @@
 		#{endTime,jdbcType=TIMESTAMP}>=a.start_time
 		and
 		A.bi_id=#{biId,jdbcType=VARCHAR}
-		and A.is_delete=0
+		and A.is_delete=0 and (A.status=-1 or A.status=0)
 	</select>
 	<select id="checkBoardStatus" parameterType="map" resultType="java.lang.Integer">
 		select status from [xyauto_meet].[dbo].[boardroom_info] A
@@ -125,38 +125,61 @@
 	</select>
 	<select id="findAllMeetOfSelf" parameterType="map"
 		resultMap="ScheduledExtResultMap">
-		select
-		D.sr_id,D.employee_id,D.employee_name,D.start_time,D.end_time,D.meeting_theme,D.type,D.bi_id,C.bi_floor,C.bi_name
-		from (
-		select
-		distinct
-		A.sr_id,B.employee_id,B.employee_name,B.start_time,B.end_time,B.meeting_theme,B.bi_id,'与会人'
-		as 'type'
-		from attendees A
-		left join scheduled_record B on
-		A.sr_id=B.sr_id
-		where
-		A.employee_id=#{employeeId,jdbcType=VARCHAR}
-		and
-		CONVERT(char(10),B.start_time,120)>=#{startTime,jdbcType=VARCHAR}
-		and
-		A.is_delete=0
-		union all
-		select
-		distinct
-		B.sr_id,B.employee_id,B.employee_name,B.start_time,B.end_time,B.meeting_theme,B.bi_id,'发起人'
-		as 'type'
-		from scheduled_record B
-		where
-		B.employee_id=#{employeeId,jdbcType=VARCHAR}
-		and
-		CONVERT(char(10),B.start_time,120)>=#{startTime,jdbcType=VARCHAR}
-		and
-		B.is_delete=0
-		) D
-		left join boardroom_info C on C.bi_id=D.bi_id
-		order by
-		D.start_time
+		SELECT
+	D.sr_id,
+	D.employee_id,
+	D.employee_name,
+	D.start_time,
+	D.end_time,
+	D.meeting_theme,
+	D.type,
+	D.bi_id,
+	C.bi_floor,
+	C.bi_name ,
+	D.status
+FROM
+	(
+SELECT DISTINCT
+	A.sr_id,
+	B.employee_id,
+	B.employee_name,
+	B.start_time,
+	B.end_time,
+	B.meeting_theme,
+	B.bi_id,
+	'与会人' AS 'type' ,
+	B.status
+FROM
+	attendees A
+	LEFT JOIN scheduled_record B ON A.sr_id= B.sr_id
+WHERE
+	A.employee_id=#{ employeeId,
+	jdbcType = VARCHAR }
+	AND CONVERT ( CHAR ( 10 ), B.start_time, 120 ) >=#{ startTime,
+	jdbcType = VARCHAR }
+	AND A.is_delete= 0 UNION ALL
+SELECT DISTINCT
+	B.sr_id,
+	B.employee_id,
+	B.employee_name,
+	B.start_time,
+	B.end_time,
+	B.meeting_theme,
+	B.bi_id,
+	'发起人' AS 'type',
+	B.status
+FROM
+	scheduled_record B
+WHERE
+	B.employee_id=#{ employeeId,
+	jdbcType = VARCHAR }
+	AND CONVERT ( CHAR ( 10 ), B.start_time, 120 ) >=#{ startTime,
+	jdbcType = VARCHAR }
+	AND B.is_delete= 0
+	) D
+	LEFT JOIN boardroom_info C ON C.bi_id= D.bi_id
+ORDER BY
+	D.start_time
 	</select>
 	<insert id="insertByBatch" parameterType="java.util.List">
 		insert into [xyauto_meet].[dbo].[attendees] (

@@ -32,6 +32,7 @@ public class ScheduledRecord {
 	/*-1：未开始
 	   0：会议中
 	   1：已结束
+	   2:
 	* */
 	private Integer status;
 }

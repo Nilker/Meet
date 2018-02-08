@@ -15,5 +15,7 @@ var urlObj={
 		//删除预定
 		delScheduleBySrId : domain + 'delScheduleBySrId',
 		//会议室信息
-		findBoardByPrimaryKey : domain + 'findBoardByPrimaryKey'
+		findBoardByPrimaryKey : domain + 'findBoardByPrimaryKey',
+		//更新会议室状态
+    	updateStatusBySrId:domain +'updateStatusBySrId'
 }

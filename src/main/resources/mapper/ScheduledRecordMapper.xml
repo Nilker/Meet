@@ -160,14 +160,8 @@
 		<if test="biId != null and biId != ''">
 			and bi_id = #{ biId }
 		</if>
-		<if test="conferenceStatus != null and conferenceStatus == -1">
-			and status=-1
-		</if>
-		<if test="conferenceStatus != null and conferenceStatus == 0">
-			and status=0
-		</if>
-		<if test="conferenceStatus != null and conferenceStatus == 1">
-			and status=1
+		<if test="conferenceStatus != null ">
+			and status=#{conferenceStatus}
 		</if>
 		<if test="employeeName != null and employeeName != ''">
 			and employee_name like '%${ employeeName }%'
@@ -211,14 +205,8 @@
 		<if test="biId != null and biId != ''">
 			and bi_id = #{ biId }
 		</if>
-		<if test="conferenceStatus != null and conferenceStatus == -1">
-			and status=-1
-		</if>
-		<if test="conferenceStatus != null and conferenceStatus == 0">
-			and status=0
-		</if>
-		<if test="conferenceStatus != null and conferenceStatus == 1">
-			and status=1
+		<if test="conferenceStatus != null ">
+			and status=#{conferenceStatus}
 		</if>
 		<if test="employeeName != null and employeeName != ''">
 			and employee_name like '%${ employeeName }%'
@@ -231,5 +219,8 @@
 	<update id="updateStatusByQr">
 		UPDATE scheduled_record SET status=0,update_time = CURRENT_TIMESTAMP WHERE bi_id=#{ biId } and employee_id = #{ employeeId } AND status=-1 AND is_delete=0
 			AND start_time  between DATEADD( MINUTE,- 15, GETDATE()) and DATEADD( MINUTE,+ 15, GETDATE())
+	</update>
+	<update id="updateStatusBySrId">
+		UPDATE scheduled_record SET status=#{ status },update_time = CURRENT_TIMESTAMP,update_user=#{employeeId} WHERE sr_id=#{ srId } AND status=-1 AND is_delete=0
 	</update>
 </mapper>

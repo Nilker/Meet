@@ -73,6 +73,6 @@ $(function () {
     //十进制转换二进制
     XY.dec2bin = function (num){
         if(isNaN(num))return;
-        return (Array(4).join(0) + parseInt(num,10).toString(2)).slice(-4);
+        return (Array(5).join(0) + parseInt(num,10).toString(2)).slice(-5);
     }
 });
