@@ -6,6 +6,8 @@
 var MEETING_MANAGER = 'MOD0001';
 var SCHEDULED_PREVIEW = 'MOD0002';
 var AUTHORIZE_MANAGER = 'MOD0003';
+var MY_MEETS = 'MOD0004';
+
 var SUB_URL_MAP = {};
 var ALL_EMPLOYEE = [];
 var ERROR_MSG = "你的登录信息可能失效，请尝试重新登录后再操作";
@@ -115,6 +117,11 @@ function skipPages(id) {
         case AUTHORIZE_MANAGER:
             $(".box_right .content").load('template/' + SUB_URL_MAP[AUTHORIZE_MANAGER] + '.html?r'+Math.random(),function(){
                 $(".box_right .content").append('<script language="javascript" src="js/' + SUB_URL_MAP[AUTHORIZE_MANAGER] + '.js" type="text/javascript"></script>');
+            });
+            break;
+        case MY_MEETS:
+            $(".box_right .content").load('template/my_meet.html?r'+Math.random(),function(){
+                $(".box_right .content").append('<script language="javascript" src="js/my_meet.js" type="text/javascript"></script>');
             });
             break;
     }

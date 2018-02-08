@@ -156,6 +156,7 @@ public class AppService {
 		record.setIsDelete(false);
 		record.setCreateUser(record.getEmployeeId());
 		record.setUpdateUser(record.getEmployeeId());
+		record.setStatus(-1);
 		int insert = scheduledRecordMapper.insert(record);
 		// 插入与会人
 		if(!record.getEmployeeIds()[0].equals("") && record.getEmployeeIds() != null) {
@@ -218,4 +219,11 @@ public class AppService {
 		return 0;
 	}
 
+	public Integer updateStatusByQr(String bi_id,String employeeId){
+		return   scheduledRecordMapper.updateStatusByQr(bi_id,employeeId);
+	}
+
+	public Integer updateStatusBySrId(String srId,String employeeId,Integer status){
+		return  scheduledRecordMapper.updateStatusBySrId( srId, employeeId, status);
+	}
 }

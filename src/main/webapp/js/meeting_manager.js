@@ -176,7 +176,6 @@ function openLayer(flag,biId){
 
         $("#submit").unbind("click");
         $("#submit").click(function(event) {
-            
             var equipment ='';
             $.each(checkboxList,function (i,item) {
                 if($(item).prop("checked") == true){
@@ -356,15 +355,15 @@ function closeLayer(){
 }
 
 function decimalToBinaryArray(decimal){
-    return (Array(4).join('0') + decimal.toString(2)).slice(-4).split("");
+    return (Array(5).join('0') + decimal.toString(2)).slice(-5).split("");
 }
 
 function equipmentConvert(equipment){
     var resutl = '';
-    var EQUIPMENT_CONSTANTS = ["投影仪","投影幕","电视","八爪鱼"];
+    var EQUIPMENT_CONSTANTS = ["白板","投影仪","投影幕","电视","八爪鱼"];
     var equipmentArray = decimalToBinaryArray(equipment);
-    if(4 == EQUIPMENT_CONSTANTS.length && 4 == equipmentArray.length){
-        for(var i=0;i<4;i++)
+    if(5 == EQUIPMENT_CONSTANTS.length && 5 == equipmentArray.length){
+        for(var i=0;i<5;i++)
             if(1 == equipmentArray[i]){
                 if(resutl != '')
                     resutl += '、';

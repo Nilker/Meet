@@ -47,24 +47,37 @@ $(function() {
 					if(dayTime == ymdDate){
 						weekDay = '今天';
 					}
-					if(beginTime>currentTime){
-						if(currentDay!=dayTime||i==0){
-							str=dayHead+dayTime+" "+weekDay+dayEnd;
-						}
-						$(".list").append(str+listObjHead+" notbegin"+listObjBody+"未开始"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
-					}
-					if(beginTime<=currentTime&&endTime>=currentTime){
-						if(currentDay!=dayTime||i==0){
-							str=dayHead+dayTime+" "+weekDay+dayEnd;
-						}
-						$(".list").append(str+listObjHead+" ongoing"+listObjBody+"会议中"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
-					}
-					if(endTime<currentTime){
-						if(currentDay!=dayTime||i==0){
-							str=dayHead+dayTime+" "+weekDay+dayEnd;
-						}
-						$(".list").append(str+listObjHead+" over"+listObjBody+"已结束"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
-					}
+
+
+
+                    var status=boardroomList[i].status;
+                    var str="";
+                    if(status==-1){str=" notbegin"+listObjBody+"未开始"}
+                    if(status==0){str=" ongoing"+listObjBody+"会议中"}
+                    if(status==1){str=" over"+listObjBody+"已结束"}
+                    if(status==2){str=" over"+listObjBody+"已取消"}
+
+                    var strTime=dayHead+dayTime+" "+weekDay+dayEnd;
+                    $(".list").append(strTime+listObjHead+str+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
+
+                    // if(beginTime>currentTime){
+					// 	if(currentDay!=dayTime||i==0){
+					// 		str=dayHead+dayTime+" "+weekDay+dayEnd;
+					// 	}
+                    //
+					// }
+					// if(beginTime<=currentTime&&endTime>=currentTime){
+					// 	if(currentDay!=dayTime||i==0){
+					// 		str=dayHead+dayTime+" "+weekDay+dayEnd;
+					// 	}
+					// 	$(".list").append(str+listObjHead+" ongoing"+listObjBody+"会议中"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
+					// }
+					// if(endTime<currentTime){
+					// 	if(currentDay!=dayTime||i==0){
+					// 		str=dayHead+dayTime+" "+weekDay+dayEnd;
+					// 	}
+					// 	$(".list").append(str+listObjHead+" over"+listObjBody+"已结束"+"<span style='display:none;'>"+boardroomList[i].srId+"</span>"+listObjEnd);
+					// }
 					currentDay=dayTime;
 //					alert(currentDay);
 				}
@@ -161,14 +174,14 @@ function detialMeet(meetStatus,srId){
 					}
 				}
 				appendStr=title+boardBody+attenStr+attenssBody+attenNameEnd+clear + "</li>" + faqiAttenStr +"</div>"+clear+attenEnd+strEnd
-				if(meetStatus=='已结束'){
-						for (var i = 0; i < dataList.length; i++) {
-							if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
-								appendStr+=mark+markNest;
-							}
-						}
-				}
-				if(meetStatus=='会议中'||meetStatus=='未开始'){
+				// if(meetStatus=='已结束'){
+				// 		for (var i = 0; i < dataList.length; i++) {
+				// 			if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
+				// 				appendStr+=mark+markNest;
+				// 			}
+				// 		}
+				// }
+				if(meetStatus=='未开始'){
 					for (var i = 0; i < dataList.length; i++) {
 						if(dataList[i].type=='发起人' && dataList[i].employeeId==dataList[0].myEmpId){
 							appendStr+=cancel+markNest;
@@ -205,9 +218,10 @@ function cancelMeet(srId){
 	$(".but_ok").on("click",function(e){
 		 $.ajax({
 		        type:"GET",
-		        url:urlObj.delScheduleBySrId,
+		        url:urlObj.updateStatusBySrId,
 		        data:{
-		        	srId : srId
+		        	srId : srId,
+					status:2
 		        },
 		        dataType : "json",
 				contentType : 'application/json',

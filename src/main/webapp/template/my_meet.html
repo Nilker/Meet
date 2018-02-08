@@ -1,0 +1,51 @@
+<div class="type">
+    <ul>
+        <li>
+            <div class="fl">办公区:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="office_input" type="text" placeholder="请选择办公区" readonly>
+                <ul id="office_list"></ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li>
+            <div class="fl">会议室:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="meeting_input" type="text" placeholder="请选择会议室">
+                <ul id="meeting_list"></ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li>
+            <div class="fl">会议状态:</div>
+            <div class="type-select" name="type-select">
+                <i>&nbsp;</i>
+                <input id="status_input" type="text" placeholder="请选择状态">
+                <ul>
+                    <li data-value="-2">全部</li>
+                    <li data-value="-1">未开始</li>
+                    <li data-value="0">会议中</li>
+                    <li data-value="1">已结束</li>
+                    <li data-value="2">已取消</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li style="margin-top:-3px;display: none">
+            <div class="fl">预订者:</div>
+            <div class="type-select" name="type-select" >
+                <input id="emp_input" class="data_name" type="text" style="width:120px;" oninput="fuzzyMatching()">
+                <ul id="emp_list" class="nameList" style="max-height: 250px; overflow-y: auto;"></ul>
+            </div>
+        </li>
+        <li class="but_submit" style="width:75px" onclick="select(true)">查询</li>
+        <div class="clear"></div>
+    </ul>
+    <div class="subject-table">
+        <table id="sp_list" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ddd" ></table>
+    </div>
+    <div class="count" style='text-align: center;color:#a1a1a1;display: block;'>显示&nbsp;<span id="num" class='num'></span>&nbsp;/&nbsp;<span id="count_num" class='count_num'></span>&nbsp;个结果</div>
+    <div id="load_more" class="load_more" style='display: block;' onclick="load()">显示更多</div>
+</div>

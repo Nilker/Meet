@@ -99,6 +99,7 @@ function checkSche(scheduleExt) {
 };
 // 立即预定
 function scheduleBoard() {
+	debugger;
 	var scheduleExt = {};
 	var ids = [];
 	var startTime = "";

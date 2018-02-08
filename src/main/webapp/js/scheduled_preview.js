@@ -90,11 +90,12 @@ function select(pageInti){
                                     '<th width="12%" style="padding-left: 30px;">会议室</th>'+
                                     '<th width="18%">预定时间</th>'+
                                     '<th width="14%">会议主题</th>'+
-                                    '<th width="8%">预订者</th>'+
+                                    '<th width="6%">预订者</th>'+
                                     '<th width="15%">预订者部门</th>'+
-                                    '<th width="10%">联系电话</th>'+
+                                    '<th width="6%">联系电话</th>'+
                                     '<th width="15%">办公区</th>'+
                                     '<th width="8%">会议状态</th>'+
+                                    '<th width="8%">操作</th> '+
                                 '</tr>');
             $.each(rec.data.data,function(i,item){
                 $('#sp_list').append('<tr>'+
@@ -105,7 +106,8 @@ function select(pageInti){
                     '<td class="td_con" title="'+ item.departmentName +'">'+ item.departmentName +'</td>'+
                     '<td>'+ item.phone +'</td>'+
                     '<td>'+ OFFICE_INFO_MAP[item.officeId] +'</td>'+
-                    statusConvert(item.startTime,item.endTime)+
+                    statusConvert(item.status,item.srId)+
+
                 '</tr>');
             });
             // 当查询结果小于期望条数时 修正实际查询结果
@@ -135,13 +137,31 @@ function load(){
 	select(false);
 }
 
-function statusConvert(startTime, endTime){
+function statusConvert(status,srId){
     var now = new Date().getTime();
-    if(now < startTime){
-        return '<td class="color01">未开始</td>';
+    if(status==-1){
+        return '<td class="color01">未开始</td>  <td><a><span onclick=funCancleMeet("'+srId+'")>取消预定</span></a> </td>';
     }
-    if(now > endTime){
-        return '<td class="color02">已结束</td>';
+    if(status==1||status==null){
+        return '<td class="color02">已结束</td>  <td> </td>';
     }
-    return '<td class="color05">进行中</td>';
+    if(status==2){
+        return '<td class="color02">已取消</td>  <td> </td>';
+    }
+    if(status==0) {
+        return '<td class="color05">进行中</td>  <td> </td>';
+    }
+    else{
+        return '<td class="color05"></td> <td> </td>';
+    }
+}
+
+
+function funCancleMeet(srId) {
+    $.get("app/scheduled/updateStatusBySrId?srId="+srId+"&status=2",function (data) {
+        if(data.code==0){
+            alert("取消成功")
+            select(true);
+        }
+    })
 }
