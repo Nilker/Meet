@@ -154,20 +154,17 @@ public class AppController {
 	 * status: 状态
 	 * */
 	@RequestMapping(value = "scheduled/updateStatusBySrId", method = RequestMethod.GET)
-	public ResponseEntity<ResultUtil> updateStatusBySrId(HttpServletRequest request, String srId,Integer status ) throws Exception{
+	public ResponseEntity<ResultUtil> updateStatusBySrId(HttpServletRequest request, String srId,String employeeId, Integer status ) throws Exception{
 		log.info(">> srId {} " + srId +">> status {}"+status );
-		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
-			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
-			Integer num= appService.updateStatusBySrId(srId,user.getEmployeeId(),status);
-			if (num>=1){
-				return ResponseEntity.ok(ResultUtil.success());
-			}
-			else {
-				return ResponseEntity.ok(ResultUtil.error("操作失败"));
-			}
-		} else {
-			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
+
+		Integer num= appService.updateStatusBySrId(srId,employeeId,status);
+		if (num>=1){
+			return ResponseEntity.ok(ResultUtil.success());
 		}
+		else {
+			return ResponseEntity.ok(ResultUtil.error("操作失败"));
+		}
+
 	}
 
 	/**
