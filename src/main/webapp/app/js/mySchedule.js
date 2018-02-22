@@ -149,6 +149,16 @@ function detialMeet(meetStatus,srId){
 				var strEnd="<div class='clear'></div></ul><div class='clear'></div>";
 				var mark="<p class='mark'>会议时间已过，不能取消</p>";
 				var cancel="<div class='btn_con'><div class='btn_layer'>取消会议</div><p><span class='but_ok'>确定</span><span class='but_cancel'>取消</span></p></div>";
+                var hasQr="<div class='btn_con'><div class='' style='    float: left;\n" +
+                    "    width: 5.26rem;\n" +
+                    "    height: 0.86rem;\n" +
+                    "    line-height: 0.86rem;\n" +
+                    "    text-align: center;\n" +
+                    "    /* background: #1f97f4; */\n" +
+                    "    color: #41a8fa;\n" +
+                    "    margin: auto;\n" +
+                    "    margin: 0.14rem 0.3rem 0.3rem;\n" +
+                    "    border-radius: 5px;'>扫码成功，会议已开启</div></div>";
 				var markNest = "<div style='height:0.2rem;background: transparent;'></div>";
 				var end="<div class='clear'></div></div>";
 				var clear = "<div class='clear'></div>";
@@ -187,6 +197,9 @@ function detialMeet(meetStatus,srId){
 							appendStr+=cancel+markNest;
 						}
 					}
+				}
+				if(meetStatus=='已开始'){
+                    appendStr+=hasQr+markNest;
 				}
 				appendStr+=end;
 				console.info("append"+appendStr);

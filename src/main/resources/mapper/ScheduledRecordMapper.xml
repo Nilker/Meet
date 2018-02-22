@@ -216,10 +216,12 @@
 		FETCH NEXT
 			#{ pageSize } ROW ONLY
 	</select>
-	<update id="updateStatusByQr">
-		UPDATE scheduled_record SET status=0,update_time = CURRENT_TIMESTAMP WHERE bi_id=#{ biId } and employee_id = #{ employeeId } AND status=-1 AND is_delete=0
-			AND start_time  between DATEADD( MINUTE,- 15, GETDATE()) and DATEADD( MINUTE,+ 15, GETDATE())
-	</update>
+	<select id="updateStatusByQr" resultType="java.lang.String">
+	    declare  @srId VARCHAR(200) ;
+		UPDATE scheduled_record SET @srId=sr_id, status=0,update_time = CURRENT_TIMESTAMP WHERE bi_id=#{ biId } and employee_id = #{ employeeId } AND status=-1 AND is_delete=0
+			AND start_time  between DATEADD( MINUTE,- 15, GETDATE()) and DATEADD( MINUTE,+ 15, GETDATE());
+	  	SELECT @srId;
+	</select>
 	<update id="updateStatusBySrId">
 		UPDATE scheduled_record SET status=#{ status },update_time = CURRENT_TIMESTAMP,update_user=#{employeeId} WHERE sr_id=#{ srId } AND status=-1 AND is_delete=0
 	</update>

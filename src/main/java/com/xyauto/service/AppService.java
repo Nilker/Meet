@@ -219,7 +219,7 @@ public class AppService {
 		return 0;
 	}
 
-	public Integer updateStatusByQr(String bi_id,String employeeId){
+	public String updateStatusByQr(String bi_id,String employeeId){
 		return   scheduledRecordMapper.updateStatusByQr(bi_id,employeeId);
 	}
 

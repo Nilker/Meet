@@ -133,20 +133,20 @@ public class AppController {
 		}
 	}
 
+	/**扫码修改会议室状态接口
+	 * biId ：会议室Id
+	 * employeeId：预订人员工Id
+	* */
 	@RequestMapping(value = "scheduled/updateStatusByQr", method = RequestMethod.GET)
 	public ResponseEntity<ResultUtil> updateStatusByQr(HttpServletRequest request, String biId,String employeeId) throws Exception{
 		log.info(">> biId {} " + biId + " >> employeeId {} " + employeeId);
-		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
-		  Integer num= appService.updateStatusByQr(biId,employeeId);
-		  if (num>=1){
-			  return ResponseEntity.ok(ResultUtil.success());
+		  String num= appService.updateStatusByQr(biId,employeeId);
+		  if (num!=null){
+			  return ResponseEntity.ok(ResultUtil.success(num));
 		  }
 		  else {
-		  	return ResponseEntity.ok(ResultUtil.error("亲，您的会议时间还没有到!!"));
+			return ResponseEntity.ok(ResultUtil.error("亲，您的会议时间还没有到!!"));
 		  }
-		} else {
-			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
-		}
 	}
 
 	/**修改会议室状态
@@ -154,17 +154,20 @@ public class AppController {
 	 * status: 状态
 	 * */
 	@RequestMapping(value = "scheduled/updateStatusBySrId", method = RequestMethod.GET)
-	public ResponseEntity<ResultUtil> updateStatusBySrId(HttpServletRequest request, String srId,String employeeId, Integer status ) throws Exception{
+	public ResponseEntity<ResultUtil> updateStatusBySrId(HttpServletRequest request, String srId,Integer status ) throws Exception{
 		log.info(">> srId {} " + srId +">> status {}"+status );
-
-		Integer num= appService.updateStatusBySrId(srId,employeeId,status);
-		if (num>=1){
-			return ResponseEntity.ok(ResultUtil.success());
+		if (appLoginInterceptor.checkLogin(request)) {// 登陆验证
+			User user = (User) request.getSession().getAttribute(Constants.SESSION_APPUSER);
+			Integer num= appService.updateStatusBySrId(srId,user.getEmployeeId(),status);
+			if (num>=1){
+				return ResponseEntity.ok(ResultUtil.success());
+			}
+			else {
+				return ResponseEntity.ok(ResultUtil.error("操作失败"));
+			}
+		} else {
+			return ResponseEntity.ok(ResultUtil.error(Constants.LOGIN_ERROR));
 		}
-		else {
-			return ResponseEntity.ok(ResultUtil.error("操作失败"));
-		}
-
 	}
 
 	/**

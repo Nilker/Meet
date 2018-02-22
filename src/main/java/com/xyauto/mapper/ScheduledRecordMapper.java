@@ -36,6 +36,6 @@ public interface ScheduledRecordMapper {
     		@Param("conferenceStatus") String conferenceStatus,
     		@Param("employeeName") String employeeName,
     		@Param("employeeId") String employeeId);
-    int updateStatusByQr(@Param("biId") String biId,@Param("employeeId") String employeeId);
+    String updateStatusByQr(@Param("biId") String biId,@Param("employeeId") String employeeId);
 	int updateStatusBySrId(@Param("srId") String srId,@Param("employeeId") String employeeId,@Param("status") Integer status);
 }
