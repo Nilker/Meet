@@ -88,7 +88,7 @@ function select(pageInti){
             $('#sp_list').empty();
             $('#sp_list').append('<tr>'+
                                     '<th width="12%" style="padding-left: 30px;">会议室</th>'+
-                                    '<th width="18%">预定时间</th>'+
+                                    '<th width="16%">预定时间</th>'+
                                     '<th width="14%">会议主题</th>'+
                                     '<th width="6%">预订者</th>'+
                                     '<th width="15%">预订者部门</th>'+

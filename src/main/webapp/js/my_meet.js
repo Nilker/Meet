@@ -98,8 +98,8 @@ function select(pageInti){
                                     '<th width="15%">预订者部门</th>'+
                                     '<th width="6%">联系电话</th>'+
                                     '<th width="15%">办公区</th>'+
-                                    '<th width="8%">会议状态</th>'+
-                                    '<th width="8%">操作</th> '+
+                                    '<th width="7%">会议状态</th>'+
+                                    '<th width="9%">操作</th> '+
                                 '</tr>');
             $.each(rec.data.data,function(i,item){
                 $('#sp_list').append('<tr>'+
