@@ -99,6 +99,11 @@ public class AppTest {
 		System.out.println(findAllMeetOfSelf.size());
 	}
 
+	@Test
+	public void Qr(){
+	 String str=	appService.updateStatusByQr("1ea84699d27e4a6db9dded4a100abb1b","9806");
+	}
+
 	@After
 	public void after() {
 		System.out.println(">>  测试结束  <<");

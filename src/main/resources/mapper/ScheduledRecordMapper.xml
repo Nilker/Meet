@@ -217,36 +217,37 @@
 			#{ pageSize } ROW ONLY
 	</select>
 	<select id="updateStatusByQr" resultType="java.lang.String">
-	   DECLARE @srId VARCHAR ( 200 );
-UPDATE scheduled_record
-SET @srId = sr_id,
-STATUS = 0,
-update_time = CURRENT_TIMESTAMP
-WHERE
-	bi_id = #{ biId }
-
-	AND (
-	employee_id = #{ employeeId } or  employee_id in (SELECT
-att.employee_id
-FROM
-scheduled_record sr
-LEFT JOIN attendees att ON att.sr_id = sr.sr_id
-WHERE
-sr.bi_id = #{ biId }
-
-AND sr.STATUS =- 1
-AND sr.is_delete = 0
-AND sr.start_time BETWEEN DATEADD ( MINUTE,- 15, GETDATE ( ) )
-	AND DATEADD ( MINUTE,+ 15, GETDATE ( ) );
-
-)
-)
-AND STATUS =- 1
-AND is_delete = 0
-AND start_time BETWEEN DATEADD ( MINUTE,- 15, GETDATE ( ) )
-AND DATEADD ( MINUTE,+ 15, GETDATE ( ) );
-SELECT
-@srId;
+DECLARE @srId VARCHAR(200);
+SET @srId =
+(
+    SELECT sr_id
+    FROM scheduled_record
+    WHERE bi_id = #{ biId }
+          AND employee_id = #{ employeeId }
+          AND status = -1
+          AND is_delete = 0
+          AND start_time
+          BETWEEN DATEADD(MINUTE, -15, GETDATE()) AND DATEADD(MINUTE, +15, GETDATE())
+    UNION
+    SELECT DISTINCT
+        sr.sr_id
+    FROM scheduled_record sr
+        LEFT JOIN attendees att
+            ON att.sr_id = sr.sr_id
+    WHERE sr.bi_id = #{ biId }
+          AND sr.status = -1
+          AND sr.is_delete = 0
+          AND sr.start_time
+          BETWEEN DATEADD(MINUTE, -15, GETDATE()) AND DATEADD(MINUTE, +15, GETDATE())
+          AND att.employee_id = #{ employeeId }
+);
+IF (@srId IS NOT NULL)
+    UPDATE dbo.scheduled_record
+    SET update_user = #{ employeeId } ,
+        status = 0,
+        update_time = CURRENT_TIMESTAMP
+    WHERE sr_id = @srId;
+SELECT @srId;
 	</select>
 	<update id="updateStatusBySrId">
 		UPDATE scheduled_record SET status=#{ status },update_time = CURRENT_TIMESTAMP,update_user=#{employeeId} WHERE sr_id=#{ srId } AND status=-1 AND is_delete=0
