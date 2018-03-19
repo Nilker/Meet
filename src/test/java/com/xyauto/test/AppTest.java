@@ -60,7 +60,7 @@ public class AppTest {
 	public void insertScheduleTest() throws ParseException, IOException, InterruptedException, ExecutionException {
 		ScheduledRecordExt schedule = new ScheduledRecordExt();
 		String[] eids = { "9806", "1102", "1192" };
-		schedule.setBiId("1b2249f4922945e88ff3822d5f14b5de");
+		schedule.setBiId("1ea84699d27e4a6db9dded4a100abb1b");
 		schedule.setEmployeeId("1192");
 		schedule.setEmployeeIds(eids);
 		schedule.setStartTime(DateUtils.str2Date("2018-2-10 10:30:59"));// 开始时间只能为59秒
