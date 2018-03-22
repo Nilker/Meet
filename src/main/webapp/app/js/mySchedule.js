@@ -52,7 +52,7 @@ $(function() {
 
                     var status=boardroomList[i].status;
                     var str="";
-                    if(status==-1){str=" notbegin"+listObjBody+"未开始"}
+                    if(status==-1||status==null){str=" notbegin"+listObjBody+"未开始"}
                     if(status==0){str=" ongoing"+listObjBody+"会议中"}
                     if(status==1){str=" over"+listObjBody+"已结束"}
                     if(status==2){str=" over"+listObjBody+"已取消"}
